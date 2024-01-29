@@ -23,7 +23,7 @@ For more information about the web application, please consult the [wiki](../../
 | Sebastian Reinhardt |                 |                    |
 | Yuri Sorice         |                 |                    |
 
-Project Report:
+Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-1#requirements-model) will bring you to the report for deliverable 1.
 ### Deliverable 2
 | Name                |Team Member Role | Individual efforts |
 | ------------------- | --------------- | -------------------|
