@@ -10,8 +10,6 @@ Tasked by the sports center owner, our goal is to create a user-friendly platfor
 As a devoted team, we will gather requirements, design a multi-tier software solution, implement the system, and establish a release pipeline for automated software delivery. Together, we are poised to redefine the sports center's operations.
 
 ## Scope of the project :calling:
-Project Scope:
-
 The scope of our project is to design, develop, and deliver a comprehensive web application for a local sports center, catering to the needs of multiple stakeholders: the owner, instructors, and customers. The primary objectives include:
 
 - Allow the owner and instructors to manage different types of classes
