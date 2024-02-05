@@ -1,6 +1,6 @@
 # Group 2
 
-## Team introduction :bust_in_silhouette:
+## Team introduction :star2:
 Hello from Group 2!
 
 We are a dynamic and aspiring group of six student engineers diving into the world of software and computer engineering. For our ECSE 321: Introduction to Software Engineering course we are assigned to design, develop, and deliver a cutting-edge web app for a local sports center.
@@ -23,7 +23,7 @@ By the final deliverable, our team will deliver a robust, functional, and user-f
 
 For more information about the web application, please consult the [wiki](../../wiki).
 
-## Meet the team members!
+## Meet the team members :busts_in_silhouette:!
 | Name                | GitHub username | Year |
 | ------------------- | --------------- |------|
 | Aurelia Bouliane    | Goldrelia       | U2   |
@@ -33,14 +33,14 @@ For more information about the web application, please consult the [wiki](../../
 | Sebastian Reinhardt | SReinhardt283   | U2   |
 | Yuri Sorice         | YuriSorice      | U2   |
 ### Deliverable 1
-| Name                |Team Member Role | Individual efforts |
-| ------------------- | --------------- | -------------------|
-| Aurelia Bouliane    |                 |                    |
-| Pei Yan Geng        |                 |                    |
-| Alice Godbout       |                 |                    |
-| Behrad Rezaie       |                 |                    |
-| Sebastian Reinhardt |                 |                    |
-| Yuri Sorice         |                 |                    |
+| Name                |Team Member Role         | Individual efforts |
+| ------------------- | ------------------------| -------------------|
+| Aurelia Bouliane    | Modeling                |                    |
+| Pei Yan Geng        | Modeling                |                    |
+| Alice Godbout       | Modeling                |                    |
+| Behrad Rezaie       | Modeling                |                    |
+| Sebastian Reinhardt | Modeling                |                    |
+| Yuri Sorice         | Modeling                |                    |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-1#requirements-model) will bring you to the report for deliverable 1.
 ### Deliverable 2
