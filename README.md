@@ -34,7 +34,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 | Sebastian Reinhardt |                 |                    |
 | Yuri Sorice         |                 |                    |
 
-Project Report:
+Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-2) will bring you to the report for deliverable 2.
 ### Deliverable 3
 | Name                |Team Member Role | Individual efforts |
 | ------------------- | --------------- | -------------------|
@@ -45,4 +45,4 @@ Project Report:
 | Sebastian Reinhardt |                 |                    |
 | Yuri Sorice         |                 |                    |
 
-Project Report:
+Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-3) will bring you to the report for deliverable 3.
