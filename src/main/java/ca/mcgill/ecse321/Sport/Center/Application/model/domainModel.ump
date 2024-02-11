@@ -1,0 +1,60 @@
+class Class
+{
+   classType;
+  1 <- * Session;
+}
+
+class Role
+{
+  abstract;
+   Integer id;
+  password;
+  email;
+  name;
+  
+}
+class User
+{
+ 
+    1 <- 0..2 Role;
+}
+
+class Instructor
+{
+  isA Staff;
+  1 <- * SessionRegistration;
+}
+class Staff{
+  abstract;
+  isA Role;
+  String employeeId;
+}
+class Customer
+{
+  isA Role;
+}
+class SessionRegistration{
+	* -> 1 Session;
+  	* -> 1 Customer;
+}
+class Session
+{
+  Time startTime;
+	Time endTime;
+	dayOfWeek;
+  boolean isRepeating;
+	//is necessary???
+}
+
+class Schedule {
+  	1<-* Session;
+  	Date startDate;
+  	Date endDate;
+}
+
+class Owner
+{
+  isA Staff;
+}
+
+
