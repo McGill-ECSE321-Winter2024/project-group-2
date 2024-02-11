@@ -7,7 +7,7 @@ class ClassType
 class Role
 {
   abstract;
-   Integer id;
+  Integer id;
   password;
   email;
   name;
@@ -15,7 +15,6 @@ class Role
 }
 class User
 {
- 
     1 <- 0..2 Role;
 }
 
@@ -34,16 +33,18 @@ class Customer
   isA Role;
 }
 class SessionRegistration{
+  	int identifier;
 	* -> 1 Session;
   	* -> 1 Customer;
 }
 class Session
 {
+  int id;
   Time startTime;
-	Time endTime;
-	dayOfWeek;
+  Time endTime;
+  dayOfWeek;
   boolean isRepeating;
-	//is necessary???
+
 }
 
 class Schedule {

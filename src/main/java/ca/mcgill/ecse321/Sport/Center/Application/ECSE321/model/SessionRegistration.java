@@ -4,13 +4,16 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 36 "domainModel.ump"
+// line 35 "domainModel.ump"
 public class SessionRegistration
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  //SessionRegistration Attributes
+  private int identifier;
 
   //SessionRegistration Associations
   private Session session;
@@ -21,8 +24,9 @@ public class SessionRegistration
   // CONSTRUCTOR
   //------------------------
 
-  public SessionRegistration(Session aSession, Customer aCustomer, Instructor aInstructor)
+  public SessionRegistration(int aIdentifier, Session aSession, Customer aCustomer, Instructor aInstructor)
   {
+    identifier = aIdentifier;
     if (!setSession(aSession))
     {
       throw new RuntimeException("Unable to create SessionRegistration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
@@ -40,6 +44,19 @@ public class SessionRegistration
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setIdentifier(int aIdentifier)
+  {
+    boolean wasSet = false;
+    identifier = aIdentifier;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getIdentifier()
+  {
+    return identifier;
+  }
   /* Code from template association_GetOne */
   public Session getSession()
   {
@@ -96,4 +113,13 @@ public class SessionRegistration
     instructor = null;
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "identifier" + ":" + getIdentifier()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "session = "+(getSession()!=null?Integer.toHexString(System.identityHashCode(getSession())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "instructor = "+(getInstructor()!=null?Integer.toHexString(System.identityHashCode(getInstructor())):"null");
+  }
 }

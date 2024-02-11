@@ -5,7 +5,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 import java.sql.Date;
 
-// line 49 "domainModel.ump"
+// line 50 "domainModel.ump"
 public class Schedule
 {
 

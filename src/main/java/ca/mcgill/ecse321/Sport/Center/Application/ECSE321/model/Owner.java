@@ -4,7 +4,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 55 "domainModel.ump"
+// line 56 "domainModel.ump"
 public class Owner extends Staff
 {
 

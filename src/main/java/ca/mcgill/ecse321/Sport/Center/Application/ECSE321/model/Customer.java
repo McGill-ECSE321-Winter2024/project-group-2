@@ -4,7 +4,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 32 "domainModel.ump"
+// line 31 "domainModel.ump"
 public class Customer extends Role
 {
 

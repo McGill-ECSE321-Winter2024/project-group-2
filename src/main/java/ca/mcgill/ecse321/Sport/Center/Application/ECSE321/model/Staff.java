@@ -4,7 +4,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 27 "domainModel.ump"
+// line 26 "domainModel.ump"
 public abstract class Staff extends Role
 {
 

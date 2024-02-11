@@ -14,6 +14,7 @@ public class Session
   //------------------------
 
   //Session Attributes
+  private int id;
   private Time startTime;
   private Time endTime;
   private String dayOfWeek;
@@ -27,8 +28,9 @@ public class Session
   // CONSTRUCTOR
   //------------------------
 
-  public Session(Time aStartTime, Time aEndTime, String aDayOfWeek, boolean aIsRepeating, ClassType aClassType, Schedule aSchedule)
+  public Session(int aId, Time aStartTime, Time aEndTime, String aDayOfWeek, boolean aIsRepeating, ClassType aClassType, Schedule aSchedule)
   {
+    id = aId;
     startTime = aStartTime;
     endTime = aEndTime;
     dayOfWeek = aDayOfWeek;
@@ -46,6 +48,14 @@ public class Session
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setId(int aId)
+  {
+    boolean wasSet = false;
+    id = aId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setStartTime(Time aStartTime)
   {
@@ -77,6 +87,11 @@ public class Session
     isRepeating = aIsRepeating;
     wasSet = true;
     return wasSet;
+  }
+
+  public int getId()
+  {
+    return id;
   }
 
   public Time getStartTime()
@@ -141,6 +156,7 @@ public class Session
   public String toString()
   {
     return super.toString() + "["+
+            "id" + ":" + getId()+ "," +
             "dayOfWeek" + ":" + getDayOfWeek()+ "," +
             "isRepeating" + ":" + getIsRepeating()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +

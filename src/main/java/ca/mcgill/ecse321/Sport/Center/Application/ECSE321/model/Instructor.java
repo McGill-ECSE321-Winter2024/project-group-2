@@ -4,7 +4,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 22 "domainModel.ump"
+// line 21 "domainModel.ump"
 public class Instructor extends Staff
 {
 
