@@ -20,22 +20,22 @@ public class Session
   private boolean isRepeating;
 
   //Session Associations
-  private Class class;
+  private ClassType classType;
   private Schedule schedule;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Session(Time aStartTime, Time aEndTime, String aDayOfWeek, boolean aIsRepeating, Class aClass, Schedule aSchedule)
+  public Session(Time aStartTime, Time aEndTime, String aDayOfWeek, boolean aIsRepeating, ClassType aClassType, Schedule aSchedule)
   {
     startTime = aStartTime;
     endTime = aEndTime;
     dayOfWeek = aDayOfWeek;
     isRepeating = aIsRepeating;
-    if (!setClass(aClass))
+    if (!setClassType(aClassType))
     {
-      throw new RuntimeException("Unable to create Session due to aClass. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Session due to aClassType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     if (!setSchedule(aSchedule))
     {
@@ -99,9 +99,9 @@ public class Session
     return isRepeating;
   }
   /* Code from template association_GetOne */
-  public Class getClass()
+  public ClassType getClassType()
   {
-    return class;
+    return classType;
   }
   /* Code from template association_GetOne */
   public Schedule getSchedule()
@@ -109,12 +109,12 @@ public class Session
     return schedule;
   }
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setClass(Class aNewClass)
+  public boolean setClassType(ClassType aNewClassType)
   {
     boolean wasSet = false;
-    if (aNewClass != null)
+    if (aNewClassType != null)
     {
-      class = aNewClass;
+      classType = aNewClassType;
       wasSet = true;
     }
     return wasSet;
@@ -133,7 +133,7 @@ public class Session
 
   public void delete()
   {
-    class = null;
+    classType = null;
     schedule = null;
   }
 
@@ -145,7 +145,7 @@ public class Session
             "isRepeating" + ":" + getIsRepeating()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "class = "+(getClass()!=null?Integer.toHexString(System.identityHashCode(getClass())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "classType = "+(getClassType()!=null?Integer.toHexString(System.identityHashCode(getClassType())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "schedule = "+(getSchedule()!=null?Integer.toHexString(System.identityHashCode(getSchedule())):"null");
   }
 }

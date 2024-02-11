@@ -5,21 +5,21 @@ package ca.mcgill.ecse321.Sport.Center.Application.model;
 
 
 // line 1 "domainModel.ump"
-public class Class
+public class ClassType
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Class Attributes
+  //ClassType Attributes
   private String classType;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Class(String aClassType)
+  public ClassType(String aClassType)
   {
     classType = aClassType;
   }
