@@ -11,5 +11,6 @@ public interface StaffRepository extends CrudRepository<Staff, Integer>{
     Staff findByEmail(String email);
 
     //other queries
+
     boolean existsByEmail(String email);
 }

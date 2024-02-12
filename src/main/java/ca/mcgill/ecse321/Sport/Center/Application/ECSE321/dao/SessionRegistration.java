@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
@@ -11,11 +12,18 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 public interface SessionRegistration extends CrudRepository<SessionRegistration, Integer>{
     //this will return only 1 registration if there is only 1 instructor max per registration
     //otherwise might bug
-    SessionRegistration findByCustomerAndSession(Customer customer, Session session);
+    @Query("SELECT sr FROM SessionRegistration sr WHERE sr.customer.id = ?1 AND sr.session.id = ?2")
+    SessionRegistration findByCustomerAndSession(String customerId, String sessionId);
     
-    List<SessionRegistration> findBySession(Session session);
-    List<SessionRegistration> findByCustomer(Customer customer);
-    List<SessionRegistration> findByInstructor(Instructor instructor);
+    @Query("SELECT sr FROM SessionRegistration sr WHERE sr.sessionId = ?1")
+    List<SessionRegistration> findBySession(String sessionId);
+    
+    @Query("SELECT sr FROM SessionRegistration sr WHERE sr.customer.id = ?1")
+    List<SessionRegistration> findByCustomer(String customerId);
+    
+    @Query("SELECT sr FROM SessionRegistration sr WHERE sr.instructor.id = ?1")
+    List<SessionRegistration> findByInstructor(String instructorId);
 
-    List<SessionRegistration> findByInstructorAndSession(Instructor instructor, Session session);
+    @Query("SELECT sr FROM SessionRegistration sr WHERE sr.instructor.id = ?1 AND sr.session.id = ?2")
+    List<SessionRegistration> findByInstructorAndSession(String instructorId, String sessionId);
 }
