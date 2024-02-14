@@ -20,6 +20,9 @@ public interface SessionRepository extends CrudRepository<Session, Integer>{
     @Query("SELECT s FROM Session s WHERE s.schedule.startDate = ?1")
     List<Session> findByScheduleStartDate(String startDate);
 
+    @Query("SELECT s FROM Session s WHERE s.schedule.classType.classType = ?1") //not sure about capitalization
+    List<Session> findByClassType(String classType);
+
     List<Session> findByStartDate(String startDate);  //automatic
 
     
