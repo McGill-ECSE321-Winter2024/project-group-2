@@ -1,5 +1,7 @@
 # Group 2
 
+[![backend: spring boot](https://img.shields.io/badge/backend-spring%20boot-green?style=for-the-badge&logo=springboot)](https://spring.io/)
+
 ## Team introduction :star2:
 Hello from Group 2!
 
@@ -30,18 +32,29 @@ For more information about the web application, please consult the [wiki](../../
 | Behrad Rezaie       | behradrez       | U2   |
 | Sebastian Reinhardt | SReinhardt283   | U2   |
 | Yuri Sorice         | YuriSorice      | U2   |
-### Deliverable 1
-| Name                |Team Member Role         | Individual efforts |
-| ------------------- | ------------------------| -------------------|
-| Aurelia Bouliane    | Modeling                |                    |
-| Pei Yan Geng        | Modeling                |                    |
-| Alice Godbout       | Modeling                |                    |
-| Behrad Rezaie       | Modeling                |                    |
-| Sebastian Reinhardt | Modeling                |                    |
-| Yuri Sorice         | Modeling                |                    |
+## Deliverable 1
+| Name                |Team Member Role                              | Individual efforts |
+| ------------------- | ---------------------------------------------| -------------------|
+| Aurelia Bouliane    | Managing, Modeling, Documentation & Testing  |                    |
+| Pei Yan Geng        | Modeling & Testing                           |                    |
+| Alice Godbout       | Modeling, Documentation & Testing            |                    |
+| Behrad Rezaie       | Modeling & Testing                           |                    |
+| Sebastian Reinhardt | Modeling, Documentation & Testing            |                    |
+| Yuri Sorice         | Modeling, Documentation & Testing            |                    |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-1#requirements-model) will bring you to the report for deliverable 1.
-### Deliverable 2
+
+### Tasks completed by each member:
+
+* **Aurelia**: Wrote and updated the README.md, write here.
+* **Pei Yan**: Write here.
+* **Alice**: Write here.
+* **Behrad**: Write here.
+* **Sebastian**: Write here.
+* **Yuri**: Write here.
+
+
+## Deliverable 2
 | Name                |Team Member Role | Individual efforts |
 | ------------------- | --------------- | -------------------|
 | Aurelia Bouliane    |                 |                    |
@@ -52,7 +65,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 | Yuri Sorice         |                 |                    |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-2) will bring you to the report for deliverable 2.
-### Deliverable 3
+## Deliverable 3
 | Name                |Team Member Role | Individual efforts |
 | ------------------- | --------------- | -------------------|
 | Aurelia Bouliane    |                 |                    |
