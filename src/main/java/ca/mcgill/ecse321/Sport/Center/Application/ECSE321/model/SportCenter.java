@@ -6,6 +6,8 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 import java.util.*;
 import java.sql.Time;
 import java.sql.Date;
+
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -19,6 +21,9 @@ public class SportCenter
   //------------------------
   // MEMBER VARIABLES
   //------------------------
+
+  @Id
+  private long id;
 
   //SportCenter Associations
   @OneToOne(optional=false)
@@ -56,6 +61,9 @@ public class SportCenter
     instructors = new ArrayList<Instructor>();
     customers = new ArrayList<Customer>();
     sessionRegistrations = new ArrayList<SessionRegistration>();
+  }
+
+  protected SportCenter() {
   }
 
   //------------------------
