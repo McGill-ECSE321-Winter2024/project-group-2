@@ -12,18 +12,18 @@ public class Owner extends Staff {
   // ------------------------
 
   // Owner Associations
-  private User user;
+  private Person Person;
   private SportCenter sportCenter;
 
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
 
-  public Owner(int aEmployeeId, User aUser, SportCenter aSportCenter) {
+  public Owner(int aEmployeeId, Person aPerson, SportCenter aSportCenter) {
     super(aEmployeeId);
-    if (!setUser(aUser)) {
+    if (!setPerson(aPerson)) {
       throw new RuntimeException(
-          "Unable to create Owner due to aUser. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+          "Unable to create Owner due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddSportCenter = setSportCenter(aSportCenter);
     if (!didAddSportCenter) {
@@ -36,8 +36,8 @@ public class Owner extends Staff {
   // INTERFACE
   // ------------------------
   /* Code from template association_GetOne */
-  public User getUser() {
-    return user;
+  public Person getPerson() {
+    return Person;
   }
 
   /* Code from template association_GetOne */
@@ -46,10 +46,10 @@ public class Owner extends Staff {
   }
 
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setUser(User aNewUser) {
+  public boolean setPerson(Person aNewPerson) {
     boolean wasSet = false;
-    if (aNewUser != null) {
-      user = aNewUser;
+    if (aNewPerson != null) {
+      Person = aNewPerson;
       wasSet = true;
     }
     return wasSet;
@@ -83,7 +83,7 @@ public class Owner extends Staff {
   }
 
   public void delete() {
-    user = null;
+    Person = null;
     SportCenter existingSportCenter = sportCenter;
     sportCenter = null;
     if (existingSportCenter != null) {

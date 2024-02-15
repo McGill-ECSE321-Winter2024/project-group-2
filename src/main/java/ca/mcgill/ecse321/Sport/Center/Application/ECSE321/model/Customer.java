@@ -13,18 +13,18 @@ public class Customer extends Role {
   // ------------------------
 
   // Customer Associations
-  private User user;
+  private Person Person;
   private SportCenter sportCenter;
 
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
 
-  public Customer(Person aUser, SportCenter aSportCenter) {
+  public Customer(Person aPerson, SportCenter aSportCenter) {
     super();
-    if (!setUser(aUser)) {
+    if (!setPerson(aPerson)) {
       throw new RuntimeException(
-          "Unable to create Customer due to aUser. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+          "Unable to create Customer due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddSportCenter = setSportCenter(aSportCenter);
     if (!didAddSportCenter) {
@@ -37,8 +37,8 @@ public class Customer extends Role {
   // INTERFACE
   // ------------------------
   /* Code from template association_GetOne */
-  public User getUser() {
-    return user;
+  public Person getPerson() {
+    return Person;
   }
 
   /* Code from template association_GetOne */
@@ -47,10 +47,10 @@ public class Customer extends Role {
   }
 
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setUser(User aNewUser) {
+  public boolean setPerson(Person aNewPerson) {
     boolean wasSet = false;
-    if (aNewUser != null) {
-      user = aNewUser;
+    if (aNewPerson != null) {
+      Person = aNewPerson;
       wasSet = true;
     }
     return wasSet;
@@ -74,7 +74,7 @@ public class Customer extends Role {
   }
 
   public void delete() {
-    user = null;
+    Person = null;
     SportCenter placeholderSportCenter = sportCenter;
     this.sportCenter = null;
     if (placeholderSportCenter != null) {
