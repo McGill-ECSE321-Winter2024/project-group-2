@@ -1,11 +1,15 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
-
+import jakarta.persistence.Entity;
 /*PLEASE DO NOT EDIT THIS CODE*/
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.GeneratedValue;
 
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 // line 21 "model.ump"
-// line 83 "model.ump"
+@Entity
 public class Instructor extends Staff {
 
   // ------------------------
@@ -13,18 +17,20 @@ public class Instructor extends Staff {
   // ------------------------
 
   // Instructor Associations
-  private User user;
+  @OneToOne
+  private Person Person;
+  @ManyToOne
   private SportCenter sportCenter;
 
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
-
-  public Instructor(int aEmployeeId, User aUser, SportCenter aSportCenter) {
+  
+  public Instructor(int aEmployeeId, Person aPerson, SportCenter aSportCenter) {
     super(aEmployeeId);
-    if (!setUser(aUser)) {
+    if (!setPerson(aPerson)) {
       throw new RuntimeException(
-          "Unable to create Instructor due to aUser. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+          "Unable to create Instructor due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddSportCenter = setSportCenter(aSportCenter);
     if (!didAddSportCenter) {
@@ -37,8 +43,8 @@ public class Instructor extends Staff {
   // INTERFACE
   // ------------------------
   /* Code from template association_GetOne */
-  public User getUser() {
-    return user;
+  public Person getPerson() {
+    return Person;
   }
 
   /* Code from template association_GetOne */
@@ -47,10 +53,10 @@ public class Instructor extends Staff {
   }
 
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setUser(User aNewUser) {
+  public boolean setPerson(Person aNewPerson) {
     boolean wasSet = false;
-    if (aNewUser != null) {
-      user = aNewUser;
+    if (aNewPerson != null) {
+      Person = aNewPerson;
       wasSet = true;
     }
     return wasSet;
@@ -74,7 +80,7 @@ public class Instructor extends Staff {
   }
 
   public void delete() {
-    user = null;
+    Person = null;
     SportCenter placeholderSportCenter = sportCenter;
     this.sportCenter = null;
     if (placeholderSportCenter != null) {
