@@ -4,7 +4,8 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 35 "domainModel.ump"
+// line 37 "model.ump"
+// line 108 "model.ump"
 public class SessionRegistration
 {
 
@@ -13,20 +14,20 @@ public class SessionRegistration
   //------------------------
 
   //SessionRegistration Attributes
-  private int identifier;
+  private int id;
 
   //SessionRegistration Associations
   private Session session;
   private Customer customer;
-  private Instructor instructor;
+  private SportCenter sportCenter;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public SessionRegistration(int aIdentifier, Session aSession, Customer aCustomer, Instructor aInstructor)
+  public SessionRegistration(int aId, Session aSession, Customer aCustomer, SportCenter aSportCenter)
   {
-    identifier = aIdentifier;
+    id = aId;
     if (!setSession(aSession))
     {
       throw new RuntimeException("Unable to create SessionRegistration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
@@ -35,9 +36,10 @@ public class SessionRegistration
     {
       throw new RuntimeException("Unable to create SessionRegistration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (!setInstructor(aInstructor))
+    boolean didAddSportCenter = setSportCenter(aSportCenter);
+    if (!didAddSportCenter)
     {
-      throw new RuntimeException("Unable to create SessionRegistration due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create sessionRegistration due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -45,17 +47,17 @@ public class SessionRegistration
   // INTERFACE
   //------------------------
 
-  public boolean setIdentifier(int aIdentifier)
+  public boolean setId(int aId)
   {
     boolean wasSet = false;
-    identifier = aIdentifier;
+    id = aId;
     wasSet = true;
     return wasSet;
   }
 
-  public int getIdentifier()
+  public int getId()
   {
-    return identifier;
+    return id;
   }
   /* Code from template association_GetOne */
   public Session getSession()
@@ -68,9 +70,9 @@ public class SessionRegistration
     return customer;
   }
   /* Code from template association_GetOne */
-  public Instructor getInstructor()
+  public SportCenter getSportCenter()
   {
-    return instructor;
+    return sportCenter;
   }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setSession(Session aNewSession)
@@ -94,15 +96,23 @@ public class SessionRegistration
     }
     return wasSet;
   }
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setInstructor(Instructor aNewInstructor)
+  /* Code from template association_SetOneToMany */
+  public boolean setSportCenter(SportCenter aSportCenter)
   {
     boolean wasSet = false;
-    if (aNewInstructor != null)
+    if (aSportCenter == null)
     {
-      instructor = aNewInstructor;
-      wasSet = true;
+      return wasSet;
     }
+
+    SportCenter existingSportCenter = sportCenter;
+    sportCenter = aSportCenter;
+    if (existingSportCenter != null && !existingSportCenter.equals(aSportCenter))
+    {
+      existingSportCenter.removeSessionRegistration(this);
+    }
+    sportCenter.addSessionRegistration(this);
+    wasSet = true;
     return wasSet;
   }
 
@@ -110,16 +120,21 @@ public class SessionRegistration
   {
     session = null;
     customer = null;
-    instructor = null;
+    SportCenter placeholderSportCenter = sportCenter;
+    this.sportCenter = null;
+    if(placeholderSportCenter != null)
+    {
+      placeholderSportCenter.removeSessionRegistration(this);
+    }
   }
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "identifier" + ":" + getIdentifier()+ "]" + System.getProperties().getProperty("line.separator") +
+            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "session = "+(getSession()!=null?Integer.toHexString(System.identityHashCode(getSession())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "instructor = "+(getInstructor()!=null?Integer.toHexString(System.identityHashCode(getInstructor())):"null");
+            "  " + "sportCenter = "+(getSportCenter()!=null?Integer.toHexString(System.identityHashCode(getSportCenter())):"null");
   }
 }

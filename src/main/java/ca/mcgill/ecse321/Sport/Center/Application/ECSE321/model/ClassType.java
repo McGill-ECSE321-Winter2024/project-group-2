@@ -4,7 +4,8 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 1 "domainModel.ump"
+// line 2 "model.ump"
+// line 120 "model.ump"
 public class ClassType
 {
 

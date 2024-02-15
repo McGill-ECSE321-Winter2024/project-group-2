@@ -5,7 +5,8 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 import java.sql.Time;
 
-// line 40 "domainModel.ump"
+// line 42 "model.ump"
+// line 97 "model.ump"
 public class Session
 {
 
@@ -15,6 +16,7 @@ public class Session
 
   //Session Attributes
   private int id;
+  private int length;
   private Time startTime;
   private Time endTime;
   private String dayOfWeek;
@@ -22,15 +24,17 @@ public class Session
 
   //Session Associations
   private ClassType classType;
-  private Schedule schedule;
+  private Instructor instructor;
+  private SportCenter sportCenter;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Session(int aId, Time aStartTime, Time aEndTime, String aDayOfWeek, boolean aIsRepeating, ClassType aClassType, Schedule aSchedule)
+  public Session(int aId, int aLength, Time aStartTime, Time aEndTime, String aDayOfWeek, boolean aIsRepeating, ClassType aClassType, Instructor aInstructor, SportCenter aSportCenter)
   {
     id = aId;
+    length = aLength;
     startTime = aStartTime;
     endTime = aEndTime;
     dayOfWeek = aDayOfWeek;
@@ -39,9 +43,14 @@ public class Session
     {
       throw new RuntimeException("Unable to create Session due to aClassType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (!setSchedule(aSchedule))
+    if (!setInstructor(aInstructor))
     {
-      throw new RuntimeException("Unable to create Session due to aSchedule. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    boolean didAddSportCenter = setSportCenter(aSportCenter);
+    if (!didAddSportCenter)
+    {
+      throw new RuntimeException("Unable to create session due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -53,6 +62,14 @@ public class Session
   {
     boolean wasSet = false;
     id = aId;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setLength(int aLength)
+  {
+    boolean wasSet = false;
+    length = aLength;
     wasSet = true;
     return wasSet;
   }
@@ -94,6 +111,11 @@ public class Session
     return id;
   }
 
+  public int getLength()
+  {
+    return length;
+  }
+
   public Time getStartTime()
   {
     return startTime;
@@ -119,9 +141,14 @@ public class Session
     return classType;
   }
   /* Code from template association_GetOne */
-  public Schedule getSchedule()
+  public Instructor getInstructor()
   {
-    return schedule;
+    return instructor;
+  }
+  /* Code from template association_GetOne */
+  public SportCenter getSportCenter()
+  {
+    return sportCenter;
   }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setClassType(ClassType aNewClassType)
@@ -135,21 +162,46 @@ public class Session
     return wasSet;
   }
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setSchedule(Schedule aNewSchedule)
+  public boolean setInstructor(Instructor aNewInstructor)
   {
     boolean wasSet = false;
-    if (aNewSchedule != null)
+    if (aNewInstructor != null)
     {
-      schedule = aNewSchedule;
+      instructor = aNewInstructor;
       wasSet = true;
     }
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setSportCenter(SportCenter aSportCenter)
+  {
+    boolean wasSet = false;
+    if (aSportCenter == null)
+    {
+      return wasSet;
+    }
+
+    SportCenter existingSportCenter = sportCenter;
+    sportCenter = aSportCenter;
+    if (existingSportCenter != null && !existingSportCenter.equals(aSportCenter))
+    {
+      existingSportCenter.removeSession(this);
+    }
+    sportCenter.addSession(this);
+    wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
     classType = null;
-    schedule = null;
+    instructor = null;
+    SportCenter placeholderSportCenter = sportCenter;
+    this.sportCenter = null;
+    if(placeholderSportCenter != null)
+    {
+      placeholderSportCenter.removeSession(this);
+    }
   }
 
 
@@ -157,11 +209,13 @@ public class Session
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "," +
+            "length" + ":" + getLength()+ "," +
             "dayOfWeek" + ":" + getDayOfWeek()+ "," +
             "isRepeating" + ":" + getIsRepeating()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "classType = "+(getClassType()!=null?Integer.toHexString(System.identityHashCode(getClassType())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "schedule = "+(getSchedule()!=null?Integer.toHexString(System.identityHashCode(getSchedule())):"null");
+            "  " + "instructor = "+(getInstructor()!=null?Integer.toHexString(System.identityHashCode(getInstructor())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "sportCenter = "+(getSportCenter()!=null?Integer.toHexString(System.identityHashCode(getSportCenter())):"null");
   }
 }

@@ -4,7 +4,8 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
-// line 26 "domainModel.ump"
+// line 27 "model.ump"
+// line 115 "model.ump"
 public abstract class Staff extends Role
 {
 
@@ -13,15 +14,15 @@ public abstract class Staff extends Role
   //------------------------
 
   //Staff Attributes
-  private String employeeId;
+  private int employeeId;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Staff(int aId, String aPassword, String aEmail, String aName, User aUser, String aEmployeeId)
+  public Staff(int aEmployeeId)
   {
-    super(aId, aPassword, aEmail, aName, aUser);
+    super();
     employeeId = aEmployeeId;
   }
 
@@ -29,7 +30,7 @@ public abstract class Staff extends Role
   // INTERFACE
   //------------------------
 
-  public boolean setEmployeeId(String aEmployeeId)
+  public boolean setEmployeeId(int aEmployeeId)
   {
     boolean wasSet = false;
     employeeId = aEmployeeId;
@@ -37,7 +38,7 @@ public abstract class Staff extends Role
     return wasSet;
   }
 
-  public String getEmployeeId()
+  public int getEmployeeId()
   {
     return employeeId;
   }
