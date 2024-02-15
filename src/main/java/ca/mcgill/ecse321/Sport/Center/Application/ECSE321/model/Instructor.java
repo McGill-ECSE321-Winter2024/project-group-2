@@ -13,14 +13,14 @@ public class Instructor extends Staff {
   // ------------------------
 
   // Instructor Associations
-  private User user;
+  private Person user;
   private SportCenter sportCenter;
 
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
 
-  public Instructor(int aEmployeeId, User aUser, SportCenter aSportCenter) {
+  public Instructor(int aEmployeeId, Person aUser, SportCenter aSportCenter) {
     super(aEmployeeId);
     if (!setUser(aUser)) {
       throw new RuntimeException(
@@ -37,7 +37,7 @@ public class Instructor extends Staff {
   // INTERFACE
   // ------------------------
   /* Code from template association_GetOne */
-  public User getUser() {
+  public Person getUser() {
     return user;
   }
 
@@ -47,7 +47,7 @@ public class Instructor extends Staff {
   }
 
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setUser(User aNewUser) {
+  public boolean setUser(Person aNewUser) {
     boolean wasSet = false;
     if (aNewUser != null) {
       user = aNewUser;

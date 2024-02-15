@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
+import jakarta.persistence.*;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
@@ -9,17 +11,32 @@ import java.sql.Date;
 
 // line 61 "model.ump"
 // line 127 "model.ump"
+
+@Entity
 public class SportCenter {
 
   // ------------------------
   // MEMBER VARIABLES
   // ------------------------
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
   // SportCenter Associations
+  @OneToOne(mappedBy = "SportCenter", cascade = CascadeType.ALL)
   private Owner owner;
+
+  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
   private List<Session> sessions;
+
+  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
   private List<Instructor> instructors;
+
+  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
   private List<Customer> customers;
+
+  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
   private List<SessionRegistration> sessionRegistrations;
 
   // ------------------------
@@ -252,7 +269,7 @@ public class SportCenter {
   }
 
   /* Code from template association_AddManyToOne */
-  public Instructor addInstructor(int aEmployeeId, User aUser) {
+  public Instructor addInstructor(int aEmployeeId, Person aUser) {
     return new Instructor(aEmployeeId, aUser, this);
   }
 
@@ -323,7 +340,7 @@ public class SportCenter {
   }
 
   /* Code from template association_AddManyToOne */
-  public Customer addCustomer(User aUser) {
+  public Customer addCustomer(Person aUser) {
     return new Customer(aUser, this);
   }
 
