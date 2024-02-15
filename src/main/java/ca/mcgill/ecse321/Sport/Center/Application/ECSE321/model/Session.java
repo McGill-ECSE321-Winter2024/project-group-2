@@ -8,7 +8,7 @@ import java.sql.Time;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GeneratedValue;
 
 import java.sql.Date;
@@ -35,8 +35,11 @@ public class Session {
   private int maxParticipants;
 
   // Session Associations
+  @ManyToOne
   private ClassType classType;
+  @ManyToOne
   private Instructor instructor;
+  @ManyToOne
   private SportCenter sportCenter;
 
   // ------------------------

@@ -16,9 +16,9 @@ public class Owner extends Staff {
   // ------------------------
 
   // Owner Associations
-  @OneToOne(optional=true)
-  private Person Person;
   @OneToOne
+  private Person Person;
+  @OneToOne(optional=false)
   private SportCenter sportCenter;
 
   // ------------------------
