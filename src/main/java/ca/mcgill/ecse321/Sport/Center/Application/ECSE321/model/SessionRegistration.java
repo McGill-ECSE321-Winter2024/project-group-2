@@ -1,30 +1,40 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
+import java.io.Serializable;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 // line 37 "model.ump"
 // line 109 "model.ump"
-public class SessionRegistration {
+@Entity
+public class SessionRegistration implements Serializable {
 
   // ------------------------
   // MEMBER VARIABLES
   // ------------------------
-
+  @Id
   // SessionRegistration Attributes
   private int id;
 
   // SessionRegistration Associations
+  @ManyToOne
   private Session session;
+  @ManyToOne
   private Customer customer;
+  @ManyToOne
   private SportCenter sportCenter;
 
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
 
-  public SessionRegistration(int aId, Session aSession, Customer aCustomer, SportCenter aSportCenter) {
+  public SessionRegistration (int aId, Session aSession, Customer aCustomer, SportCenter aSportCenter) {
     id = aId;
     if (!setSession(aSession)) {
       throw new RuntimeException(
