@@ -7,8 +7,8 @@ class ClassType
 class Role
 {
   abstract;
-  
 }
+
 class Person
 {
   Integer id;
@@ -58,7 +58,7 @@ class Owner
 
 
 class SportCenter{
-	1 <@>- 0..1 Owner;
+	1 <@>- 1 Owner;
     1 <@>- * Session;
   	1 <@>- * Instructor;
   	1 <@>- * Customer;
