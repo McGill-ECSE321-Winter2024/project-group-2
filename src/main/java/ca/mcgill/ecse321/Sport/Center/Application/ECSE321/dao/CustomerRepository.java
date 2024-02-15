@@ -9,8 +9,13 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Role;
 public interface CustomerRepository extends CrudRepository<Customer, Integer>{
     //finding by unique identifiers
 
-    Customer findById(int id);
-    
-    Customer findByEmail(String email);
+
+    Customer findByUserId(int id);
+
+
+    Customer findByUserEmail(String email);
+
+
+    boolean existsByUserEmail(String email);
 
 }
