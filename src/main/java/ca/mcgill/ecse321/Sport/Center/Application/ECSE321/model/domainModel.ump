@@ -9,7 +9,7 @@ class Role
   abstract;
   
 }
-class User
+class Person
 {
   Integer id;
   password;
@@ -21,7 +21,7 @@ class Instructor
 {
   isA Staff;
   1 <- * Session;
-  0..1 -> 1 User;
+  0..1 -> 1 Person;
 }
 class Staff{
   abstract;
@@ -31,7 +31,7 @@ class Staff{
 class Customer
 {
   isA Role;
-  0..1 -> 1 User;
+  0..1 -> 1 Person;
 }
 class SessionRegistration{
   	Integer id;
@@ -44,15 +44,16 @@ class Session
   Integer length;
   Time startTime;
   Time endTime;
-  dayOfWeek;
+  Date date;
   boolean isRepeating;
+  Integer maxParticipants;
 
 }
 
 class Owner
 {
   isA Staff;
-  0..1 -> 1 User;
+  0..1 -> 1 Person;
 }
 
 

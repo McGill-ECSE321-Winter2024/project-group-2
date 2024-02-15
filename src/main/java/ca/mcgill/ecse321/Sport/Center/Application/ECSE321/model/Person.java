@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 // line 77 "model.ump"
 
 @Entity
-public class User {
+public class Person {
 
   // ------------------------
   // MEMBER VARIABLES
@@ -33,10 +33,10 @@ public class User {
 
   // Hibernate needs a default constructor, but it doesn't need to be public
   @SuppressWarnings("unused")
-  private User() {
+  private Person() {
   }
 
-  public User(String aPassword, String aEmail, String aName) {
+  public Person(String aPassword, String aEmail, String aName) {
     password = aPassword;
     email = aEmail;
     name = aName;
