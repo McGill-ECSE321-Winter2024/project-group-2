@@ -1,11 +1,16 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 // line 32 "model.ump"
 // line 91 "model.ump"
+
+@Entity
 public class Customer extends Role {
 
   // ------------------------
@@ -13,14 +18,14 @@ public class Customer extends Role {
   // ------------------------
 
   // Customer Associations
-  private User user;
+  private Person user;
   private SportCenter sportCenter;
 
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
 
-  public Customer(User aUser, SportCenter aSportCenter) {
+  public Customer(Person aUser, SportCenter aSportCenter) {
     super();
     if (!setUser(aUser)) {
       throw new RuntimeException(
@@ -37,7 +42,7 @@ public class Customer extends Role {
   // INTERFACE
   // ------------------------
   /* Code from template association_GetOne */
-  public User getUser() {
+  public Person getUser() {
     return user;
   }
 
@@ -47,7 +52,7 @@ public class Customer extends Role {
   }
 
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setUser(User aNewUser) {
+  public boolean setUser(Person aNewUser) {
     boolean wasSet = false;
     if (aNewUser != null) {
       user = aNewUser;
