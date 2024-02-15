@@ -5,10 +5,18 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 import java.sql.Time;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+import jakarta.persistence.GeneratedValue;
+
 import java.sql.Date;
 
 // line 42 "model.ump"
 // line 98 "model.ump"
+
+@Entity
 public class Session {
 
   // ------------------------
@@ -16,6 +24,8 @@ public class Session {
   // ------------------------
 
   // Session Attributes
+  @Id
+  @GeneratedValue
   private int id;
   private int length;
   private Time startTime;
