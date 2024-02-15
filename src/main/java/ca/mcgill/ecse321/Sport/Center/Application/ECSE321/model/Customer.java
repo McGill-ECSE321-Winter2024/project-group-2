@@ -1,11 +1,16 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 // line 32 "model.ump"
 // line 91 "model.ump"
+@Entity
 public class Customer extends Role {
 
   // ------------------------
@@ -13,7 +18,9 @@ public class Customer extends Role {
   // ------------------------
 
   // Customer Associations
+  @OneToOne(optional=true)
   private Person Person;
+  @ManyToOne(optional=true)
   private SportCenter sportCenter;
 
   // ------------------------
