@@ -25,7 +25,6 @@ public class Instructor extends Staff {
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
-  
   public Instructor(int aEmployeeId, Person aPerson, SportCenter aSportCenter) {
     super(aEmployeeId);
     if (!setPerson(aPerson)) {
