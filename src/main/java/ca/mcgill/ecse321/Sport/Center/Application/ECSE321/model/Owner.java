@@ -6,8 +6,9 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 // line 53 "model.ump"
 // line 102 "model.ump"
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
+@Entity
 public class Owner extends Staff {
 
   // ------------------------
@@ -15,8 +16,14 @@ public class Owner extends Staff {
   // ------------------------
 
   // Owner Associations
+  @OneToOne
   private Person user;
+
+  @OneToOne
   private SportCenter sportCenter;
+
+  @Id
+  private Long id;
 
   // ------------------------
   // CONSTRUCTOR
@@ -33,6 +40,10 @@ public class Owner extends Staff {
       throw new RuntimeException(
           "Unable to create owner due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+  }
+
+  protected Owner() {
+    super(0);
   }
 
   // ------------------------
@@ -94,5 +105,4 @@ public class Owner extends Staff {
     }
     super.delete();
   }
-
 }
