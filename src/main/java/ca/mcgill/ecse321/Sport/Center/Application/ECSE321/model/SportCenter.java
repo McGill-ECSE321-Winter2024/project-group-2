@@ -15,15 +15,11 @@ import jakarta.persistence.OneToMany;
 // line 61 "model.ump"
 // line 124 "model.ump"
 @Entity
-public class SportCenter
-{
+public class SportCenter {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
-  @Id
-  private long id;
 
   //SportCenter Associations
   @OneToOne(optional=false)
@@ -61,9 +57,6 @@ public class SportCenter
     instructors = new ArrayList<Instructor>();
     customers = new ArrayList<Customer>();
     sessionRegistrations = new ArrayList<SessionRegistration>();
-  }
-
-  protected SportCenter() {
   }
 
   //------------------------
