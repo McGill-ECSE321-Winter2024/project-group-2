@@ -24,19 +24,19 @@ public class SportCenter {
   private Long id;
 
   // SportCenter Associations
-  @OneToOne(mappedBy = "SportCenter", cascade = CascadeType.ALL)
+  @OneToOne
   private Owner owner;
 
-  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
+  @OneToMany
   private List<Session> sessions;
 
-  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
+  @OneToMany
   private List<Instructor> instructors;
 
-  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
+  @OneToMany
   private List<Customer> customers;
 
-  @OneToMany(mappedBy = "sportCenter", cascade = CascadeType.ALL)
+  @OneToMany
   private List<SessionRegistration> sessionRegistrations;
 
   // ------------------------
