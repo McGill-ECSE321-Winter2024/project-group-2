@@ -25,75 +25,64 @@ public class Owner extends Staff {
   // CONSTRUCTOR
   // ------------------------
 
-  public Owner(int aEmployeeId, Person aPerson, SportCenter aSportCenter) {
+  public Owner(int aEmployeeId, Person aPerson, SportCenter aSportCenter)
+  {
     super(aEmployeeId);
-    if (!setPerson(aPerson)) {
-      throw new RuntimeException(
-          "Unable to create Owner due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!setPerson(aPerson))
+    {
+      throw new RuntimeException("Unable to create Owner due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    boolean didAddSportCenter = setSportCenter(aSportCenter);
-    if (!didAddSportCenter) {
-      throw new RuntimeException(
-          "Unable to create owner due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (aSportCenter == null || aSportCenter.getOwner() != null)
+    {
+      throw new RuntimeException("Unable to create Owner due to aSportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
+    sportCenter = aSportCenter;
   }
 
-  // ------------------------
+  public Owner(int aEmployeeId, Person aPerson)
+  {
+    super(aEmployeeId);
+    boolean didAddPerson = setPerson(aPerson);
+    if (!didAddPerson)
+    {
+      throw new RuntimeException("Unable to create owner due to person. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
+    sportCenter = new SportCenter(this);
+  }
+
+  //------------------------
   // INTERFACE
-  // ------------------------
+  //------------------------
   /* Code from template association_GetOne */
-  public Person getPerson() {
+  public Person getPerson()
+  {
     return Person;
   }
-
   /* Code from template association_GetOne */
-  public SportCenter getSportCenter() {
+  public SportCenter getSportCenter()
+  {
     return sportCenter;
   }
-
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setPerson(Person aNewPerson) {
+  public boolean setPerson(Person aNewPerson)
+  {
     boolean wasSet = false;
-    if (aNewPerson != null) {
+    if (aNewPerson != null)
+    {
       Person = aNewPerson;
       wasSet = true;
     }
     return wasSet;
   }
 
-  /* Code from template association_SetOneToOptionalOne */
-  public boolean setSportCenter(SportCenter aNewSportCenter) {
-    boolean wasSet = false;
-    if (aNewSportCenter == null) {
-      // Unable to setSportCenter to null, as owner must always be associated to a
-      // sportCenter
-      return wasSet;
-    }
-
-    Owner existingOwner = aNewSportCenter.getOwner();
-    if (existingOwner != null && !equals(existingOwner)) {
-      // Unable to setSportCenter, the current sportCenter already has a owner, which
-      // would be orphaned if it were re-assigned
-      return wasSet;
-    }
-
-    SportCenter anOldSportCenter = sportCenter;
-    sportCenter = aNewSportCenter;
-    sportCenter.setOwner(this);
-
-    if (anOldSportCenter != null) {
-      anOldSportCenter.setOwner(null);
-    }
-    wasSet = true;
-    return wasSet;
-  }
-
-  public void delete() {
+  public void delete()
+  {
     Person = null;
     SportCenter existingSportCenter = sportCenter;
     sportCenter = null;
-    if (existingSportCenter != null) {
-      existingSportCenter.setOwner(null);
+    if (existingSportCenter != null)
+    {
+      existingSportCenter.delete();
     }
     super.delete();
   }
