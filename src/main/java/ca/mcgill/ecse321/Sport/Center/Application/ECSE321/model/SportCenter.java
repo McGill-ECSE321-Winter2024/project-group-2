@@ -252,7 +252,7 @@ public class SportCenter {
   }
 
   /* Code from template association_AddManyToOne */
-  public Instructor addInstructor(int aEmployeeId, User aUser) {
+  public Instructor addInstructor(int aEmployeeId, Person aUser) {
     return new Instructor(aEmployeeId, aUser, this);
   }
 
@@ -323,7 +323,7 @@ public class SportCenter {
   }
 
   /* Code from template association_AddManyToOne */
-  public Customer addCustomer(User aUser) {
+  public Customer addCustomer(Person aUser) {
     return new Customer(aUser, this);
   }
 

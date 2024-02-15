@@ -20,7 +20,7 @@ public class Customer extends Role {
   // CONSTRUCTOR
   // ------------------------
 
-  public Customer(User aUser, SportCenter aSportCenter) {
+  public Customer(Person aUser, SportCenter aSportCenter) {
     super();
     if (!setUser(aUser)) {
       throw new RuntimeException(
