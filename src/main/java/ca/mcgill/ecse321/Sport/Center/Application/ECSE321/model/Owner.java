@@ -1,10 +1,14 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
+
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 // line 53 "model.ump"
 // line 102 "model.ump"
+@Entity
 public class Owner extends Staff {
 
   // ------------------------
@@ -12,7 +16,9 @@ public class Owner extends Staff {
   // ------------------------
 
   // Owner Associations
+  @OneToOne(optional=true)
   private Person Person;
+  @OneToOne
   private SportCenter sportCenter;
 
   // ------------------------
