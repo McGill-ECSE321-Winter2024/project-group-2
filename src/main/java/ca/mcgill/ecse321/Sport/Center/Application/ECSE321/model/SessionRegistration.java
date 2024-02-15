@@ -1,11 +1,20 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
+import java.io.Serializable;
+import java.util.Objects;
+
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+
 /*PLEASE DO NOT EDIT THIS CODE*/
 
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
 // line 37 "model.ump"
 // line 109 "model.ump"
+@Entity
 public class SessionRegistration {
 
   // ------------------------
@@ -16,8 +25,11 @@ public class SessionRegistration {
   private int id;
 
   // SessionRegistration Associations
+  @ManyToOne
   private Session session;
+  @ManyToOne
   private Customer customer;
+  @ManyToOne
   private SportCenter sportCenter;
 
   // ------------------------
