@@ -5,6 +5,9 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 // line 53 "model.ump"
 // line 102 "model.ump"
+
+import jakarta.persistence.Entity;
+
 public class Owner extends Staff {
 
   // ------------------------

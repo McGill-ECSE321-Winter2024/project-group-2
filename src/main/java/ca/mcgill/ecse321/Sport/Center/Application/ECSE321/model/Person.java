@@ -33,7 +33,7 @@ public class Person {
 
   // Hibernate needs a default constructor, but it doesn't need to be public
   @SuppressWarnings("unused")
-  private Person() {
+  protected Person() {
   }
 
   public Person(String aPassword, String aEmail, String aName) {
