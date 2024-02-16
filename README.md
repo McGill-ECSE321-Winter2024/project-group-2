@@ -33,18 +33,18 @@ For more information about the web application, please consult the [wiki](../../
 | Sebastian Reinhardt | SReinhardt283   | U2   |
 | Yuri Sorice         | YuriSorice      | U2   |
 ## Deliverable 1
-| Name                |Team Member Role                              | Individual efforts |
-| ------------------- | ---------------------------------------------| -------------------|
-| Aurelia Bouliane    | Managing, Modeling, Documentation & Testing  |                    |
-| Pei Yan Geng        | Modeling & Testing                           |                    |
-| Alice Godbout       | Modeling, Documentation & Testing            |                    |
-| Behrad Rezaie       | Modeling & Testing                           |                    |
-| Sebastian Reinhardt | Modeling, Documentation & Testing            |                    |
-| Yuri Sorice         | Modeling, Documentation & Testing            |                    |
+| Name                | Individual efforts |
+| ------------------- | -------------------|
+| Aurelia Bouliane    |                    |
+| Pei Yan Geng        |                    |
+| Alice Godbout       |                    |
+| Behrad Rezaie       |                    |
+| Sebastian Reinhardt |                    |
+| Yuri Sorice         |                    |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-1#requirements-model) will bring you to the report for deliverable 1.
 
-### Tasks completed by each member:
+### Detailed view of individual roles of the team for deliverable 1:
 
 * **Aurelia**: Wrote and updated the README.md, write here.
 * **Pei Yan**: Write here.
@@ -55,24 +55,43 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 
 
 ## Deliverable 2
-| Name                |Team Member Role | Individual efforts |
-| ------------------- | --------------- | -------------------|
-| Aurelia Bouliane    |                 |                    |
-| Pei Yan Geng        |                 |                    |
-| Alice Godbout       |                 |                    |
-| Behrad Rezaie       |                 |                    |
-| Sebastian Reinhardt |                 |                    |
-| Yuri Sorice         |                 |                    |
+| Name                | Individual efforts |
+| ------------------- | -------------------|
+| Aurelia Bouliane    |                    |
+| Pei Yan Geng        |                    |
+| Alice Godbout       |                    |
+| Behrad Rezaie       |                    |
+| Sebastian Reinhardt |                    |
+| Yuri Sorice         |                    |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-2) will bring you to the report for deliverable 2.
+
+### Detailed view of individual roles of the team for deliverable 2:
+
+* **Aurelia**: Write here.
+* **Pei Yan**: Write here.
+* **Alice**: Write here.
+* **Behrad**: Write here.
+* **Sebastian**: Write here.
+* **Yuri**: Write here.
+
 ## Deliverable 3
-| Name                |Team Member Role | Individual efforts |
-| ------------------- | --------------- | -------------------|
-| Aurelia Bouliane    |                 |                    |
-| Pei Yan Geng        |                 |                    |
-| Alice Godbout       |                 |                    |
-| Behrad Rezaie       |                 |                    |
-| Sebastian Reinhardt |                 |                    |
-| Yuri Sorice         |                 |                    |
+| Name                | Individual efforts |
+| ------------------- | -------------------|
+| Aurelia Bouliane    |                    |
+| Pei Yan Geng        |                    |
+| Alice Godbout       |                    |
+| Behrad Rezaie       |                    |
+| Sebastian Reinhardt |                    |
+| Yuri Sorice         |                    |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-3) will bring you to the report for deliverable 3.
+
+### Detailed view of individual roles of the team for deliverable 3:
+
+* **Aurelia**: Write here.
+* **Pei Yan**: Write here.
+* **Alice**: Write here.
+* **Behrad**: Write here.
+* **Sebastian**: Write here.
+* **Yuri**: Write here.
