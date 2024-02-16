@@ -7,7 +7,8 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
 public interface PersonRepository extends CrudRepository<Person, Integer>{
     
-    Customer findById(int id);
-    Customer findByEmail(String email);
+    Person findById(int id);
+    
+    Person findByEmail(String email);
 
 }
