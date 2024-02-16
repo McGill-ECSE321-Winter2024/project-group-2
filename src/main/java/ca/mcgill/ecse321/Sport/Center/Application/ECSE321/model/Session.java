@@ -34,7 +34,9 @@ public class Session
   private int maxParticipants;
 
   //Session Associations
+  @ManyToOne
   private ClassType classType;
+  @ManyToOne
   private Instructor instructor;
 
   //------------------------
