@@ -26,7 +26,6 @@ public class Person
   private String name;
 
   //Person Associations
-  @OneToOne
   private Role role;
 
   //------------------------

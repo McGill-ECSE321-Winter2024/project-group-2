@@ -27,13 +27,12 @@ public class SessionRegistration
   private Session session;
   @ManyToOne
   private Customer customer;
-  private SportCenter sportCenter;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public SessionRegistration(int aId, Session aSession, Customer aCustomer, SportCenter aSportCenter)
+  public SessionRegistration(int aId, Session aSession, Customer aCustomer)
   {
     id = aId;
     if (!setSession(aSession))
@@ -43,11 +42,6 @@ public class SessionRegistration
     if (!setCustomer(aCustomer))
     {
       throw new RuntimeException("Unable to create SessionRegistration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    boolean didAddSportCenter = setSportCenter(aSportCenter);
-    if (!didAddSportCenter)
-    {
-      throw new RuntimeException("Unable to create sessionRegistration due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -77,11 +71,6 @@ public class SessionRegistration
   {
     return customer;
   }
-  /* Code from template association_GetOne */
-  public SportCenter getSportCenter()
-  {
-    return sportCenter;
-  }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setSession(Session aNewSession)
   {
@@ -104,36 +93,11 @@ public class SessionRegistration
     }
     return wasSet;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setSportCenter(SportCenter aSportCenter)
-  {
-    boolean wasSet = false;
-    if (aSportCenter == null)
-    {
-      return wasSet;
-    }
-
-    SportCenter existingSportCenter = sportCenter;
-    sportCenter = aSportCenter;
-    if (existingSportCenter != null && !existingSportCenter.equals(aSportCenter))
-    {
-      existingSportCenter.removeSessionRegistration(this);
-    }
-    sportCenter.addSessionRegistration(this);
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
     session = null;
     customer = null;
-    SportCenter placeholderSportCenter = sportCenter;
-    this.sportCenter = null;
-    if(placeholderSportCenter != null)
-    {
-      placeholderSportCenter.removeSessionRegistration(this);
-    }
   }
 
 
@@ -142,7 +106,6 @@ public class SessionRegistration
     return super.toString() + "["+
             "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "session = "+(getSession()!=null?Integer.toHexString(System.identityHashCode(getSession())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "sportCenter = "+(getSportCenter()!=null?Integer.toHexString(System.identityHashCode(getSportCenter())):"null");
+            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null");
   }
 }

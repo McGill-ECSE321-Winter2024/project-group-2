@@ -34,17 +34,14 @@ public class Session
   private int maxParticipants;
 
   //Session Associations
-  @ManyToOne
   private ClassType classType;
-  @ManyToOne
   private Instructor instructor;
-  private SportCenter sportCenter;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Session(int aId, int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor, SportCenter aSportCenter)
+  public Session(int aId, int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor)
   {
     id = aId;
     length = aLength;
@@ -60,11 +57,6 @@ public class Session
     if (!setInstructor(aInstructor))
     {
       throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    boolean didAddSportCenter = setSportCenter(aSportCenter);
-    if (!didAddSportCenter)
-    {
-      throw new RuntimeException("Unable to create session due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -172,11 +164,6 @@ public class Session
   {
     return instructor;
   }
-  /* Code from template association_GetOne */
-  public SportCenter getSportCenter()
-  {
-    return sportCenter;
-  }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setClassType(ClassType aNewClassType)
   {
@@ -199,36 +186,11 @@ public class Session
     }
     return wasSet;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setSportCenter(SportCenter aSportCenter)
-  {
-    boolean wasSet = false;
-    if (aSportCenter == null)
-    {
-      return wasSet;
-    }
-
-    SportCenter existingSportCenter = sportCenter;
-    sportCenter = aSportCenter;
-    if (existingSportCenter != null && !existingSportCenter.equals(aSportCenter))
-    {
-      existingSportCenter.removeSession(this);
-    }
-    sportCenter.addSession(this);
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
     classType = null;
     instructor = null;
-    SportCenter placeholderSportCenter = sportCenter;
-    this.sportCenter = null;
-    if(placeholderSportCenter != null)
-    {
-      placeholderSportCenter.removeSession(this);
-    }
   }
 
 
@@ -243,7 +205,6 @@ public class Session
             "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "classType = "+(getClassType()!=null?Integer.toHexString(System.identityHashCode(getClassType())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "instructor = "+(getInstructor()!=null?Integer.toHexString(System.identityHashCode(getInstructor())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "sportCenter = "+(getSportCenter()!=null?Integer.toHexString(System.identityHashCode(getSportCenter())):"null");
+            "  " + "instructor = "+(getInstructor()!=null?Integer.toHexString(System.identityHashCode(getInstructor())):"null");
   }
 }

@@ -14,59 +14,21 @@ public class Customer extends Role
   // MEMBER VARIABLES
   //------------------------
 
-  //Customer Associations
-  private SportCenter sportCenter;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Customer(int aId, SportCenter aSportCenter)
+  public Customer(int aId)
   {
     super(aId);
-    boolean didAddSportCenter = setSportCenter(aSportCenter);
-    if (!didAddSportCenter)
-    {
-      throw new RuntimeException("Unable to create customer due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetOne */
-  public SportCenter getSportCenter()
-  {
-    return sportCenter;
-  }
-  /* Code from template association_SetOneToMany */
-  public boolean setSportCenter(SportCenter aSportCenter)
-  {
-    boolean wasSet = false;
-    if (aSportCenter == null)
-    {
-      return wasSet;
-    }
-
-    SportCenter existingSportCenter = sportCenter;
-    sportCenter = aSportCenter;
-    if (existingSportCenter != null && !existingSportCenter.equals(aSportCenter))
-    {
-      existingSportCenter.removeCustomer(this);
-    }
-    sportCenter.addCustomer(this);
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
-    SportCenter placeholderSportCenter = sportCenter;
-    this.sportCenter = null;
-    if(placeholderSportCenter != null)
-    {
-      placeholderSportCenter.removeCustomer(this);
-    }
     super.delete();
   }
 

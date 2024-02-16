@@ -14,46 +14,21 @@ public class Owner extends Staff
   // MEMBER VARIABLES
   //------------------------
 
-  //Owner Associations
-  private SportCenter sportCenter;
-
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Owner(int aId, SportCenter aSportCenter)
-  {
-    super(aId);
-    if (aSportCenter == null || aSportCenter.getOwner() != null)
-    {
-      throw new RuntimeException("Unable to create Owner due to aSportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
-    }
-    sportCenter = aSportCenter;
-  }
-
   public Owner(int aId)
   {
     super(aId);
-    sportCenter = new SportCenter(this);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetOne */
-  public SportCenter getSportCenter()
-  {
-    return sportCenter;
-  }
 
   public void delete()
   {
-    SportCenter existingSportCenter = sportCenter;
-    sportCenter = null;
-    if (existingSportCenter != null)
-    {
-      existingSportCenter.delete();
-    }
     super.delete();
   }
 
