@@ -4,10 +4,18 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 import java.sql.Time;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+
 import java.sql.Date;
 
 // line 41 "model.ump"
 // line 94 "model.ump"
+@Entity
 public class Session
 {
 
@@ -16,6 +24,8 @@ public class Session
   //------------------------
 
   //Session Attributes
+  @Id
+  @GeneratedValue
   private int id;
   private int length;
   private Time startTime;
@@ -25,7 +35,9 @@ public class Session
   private int maxParticipants;
 
   //Session Associations
+  @ManyToOne
   private ClassType classType;
+  @OneToOne
   private Instructor instructor;
   private SportCenter sportCenter;
 
