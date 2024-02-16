@@ -7,30 +7,20 @@ import java.util.*;
 import java.sql.Time;
 import java.sql.Date;
 
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-
-// line 61 "model.ump"
+// line 59 "model.ump"
 // line 124 "model.ump"
-@Entity
-public class SportCenter {
+public class SportCenter
+{
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //SportCenter Associations
-  @OneToOne(optional=false)
   private Owner owner;
-  @OneToMany
   private List<Session> sessions;
-  @OneToMany
   private List<Instructor> instructors;
-  @OneToMany
   private List<Customer> customers;
-  @OneToMany
   private List<SessionRegistration> sessionRegistrations;
 
   //------------------------
@@ -50,9 +40,9 @@ public class SportCenter {
     sessionRegistrations = new ArrayList<SessionRegistration>();
   }
 
-  public SportCenter(int aEmployeeIdForOwner, Person aPersonForOwner)
+  public SportCenter(int aIdForOwner)
   {
-    owner = new Owner(aEmployeeIdForOwner, aPersonForOwner, this);
+    owner = new Owner(aIdForOwner, this);
     sessions = new ArrayList<Session>();
     instructors = new ArrayList<Instructor>();
     customers = new ArrayList<Customer>();
@@ -265,9 +255,9 @@ public class SportCenter {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Instructor addInstructor(int aEmployeeId, Person aPerson)
+  public Instructor addInstructor(int aId)
   {
-    return new Instructor(aEmployeeId, aPerson, this);
+    return new Instructor(aId, this);
   }
 
   public boolean addInstructor(Instructor aInstructor)
@@ -337,9 +327,9 @@ public class SportCenter {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Customer addCustomer(Person aPerson)
+  public Customer addCustomer(int aId)
   {
-    return new Customer(aPerson, this);
+    return new Customer(aId, this);
   }
 
   public boolean addCustomer(Customer aCustomer)

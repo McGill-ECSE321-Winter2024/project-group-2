@@ -1,31 +1,21 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
-
 /*PLEASE DO NOT EDIT THIS CODE*/
-
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
+
 import java.sql.Time;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.GeneratedValue;
-
 import java.sql.Date;
 
-// line 42 "model.ump"
-// line 98 "model.ump"
+// line 41 "model.ump"
+// line 94 "model.ump"
+public class Session
+{
 
-@Entity
-public class Session {
-
-  // ------------------------
+  //------------------------
   // MEMBER VARIABLES
-  // ------------------------
+  //------------------------
 
-  // Session Attributes
-  @Id
-  @GeneratedValue
+  //Session Attributes
   private int id;
   private int length;
   private Time startTime;
@@ -34,20 +24,17 @@ public class Session {
   private boolean isRepeating;
   private int maxParticipants;
 
-  // Session Associations
-  @ManyToOne
+  //Session Associations
   private ClassType classType;
-  @ManyToOne
   private Instructor instructor;
-  @ManyToOne
   private SportCenter sportCenter;
 
-  // ------------------------
+  //------------------------
   // CONSTRUCTOR
-  // ------------------------
+  //------------------------
 
-  public Session(int aId, int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating,
-      int aMaxParticipants, ClassType aClassType, Instructor aInstructor, SportCenter aSportCenter) {
+  public Session(int aId, int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor, SportCenter aSportCenter)
+  {
     id = aId;
     length = aLength;
     startTime = aStartTime;
@@ -55,147 +42,165 @@ public class Session {
     date = aDate;
     isRepeating = aIsRepeating;
     maxParticipants = aMaxParticipants;
-    if (!setClassType(aClassType)) {
-      throw new RuntimeException(
-          "Unable to create Session due to aClassType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!setClassType(aClassType))
+    {
+      throw new RuntimeException("Unable to create Session due to aClassType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (!setInstructor(aInstructor)) {
-      throw new RuntimeException(
-          "Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!setInstructor(aInstructor))
+    {
+      throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     boolean didAddSportCenter = setSportCenter(aSportCenter);
-    if (!didAddSportCenter) {
-      throw new RuntimeException(
-          "Unable to create session due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!didAddSportCenter)
+    {
+      throw new RuntimeException("Unable to create session due to sportCenter. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
-  // ------------------------
+  //------------------------
   // INTERFACE
-  // ------------------------
+  //------------------------
 
-  public boolean setId(int aId) {
+  public boolean setId(int aId)
+  {
     boolean wasSet = false;
     id = aId;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setLength(int aLength) {
+  public boolean setLength(int aLength)
+  {
     boolean wasSet = false;
     length = aLength;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setStartTime(Time aStartTime) {
+  public boolean setStartTime(Time aStartTime)
+  {
     boolean wasSet = false;
     startTime = aStartTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEndTime(Time aEndTime) {
+  public boolean setEndTime(Time aEndTime)
+  {
     boolean wasSet = false;
     endTime = aEndTime;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setDate(Date aDate) {
+  public boolean setDate(Date aDate)
+  {
     boolean wasSet = false;
     date = aDate;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setIsRepeating(boolean aIsRepeating) {
+  public boolean setIsRepeating(boolean aIsRepeating)
+  {
     boolean wasSet = false;
     isRepeating = aIsRepeating;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setMaxParticipants(int aMaxParticipants) {
+  public boolean setMaxParticipants(int aMaxParticipants)
+  {
     boolean wasSet = false;
     maxParticipants = aMaxParticipants;
     wasSet = true;
     return wasSet;
   }
 
-  public int getId() {
+  public int getId()
+  {
     return id;
   }
 
-  public int getLength() {
+  public int getLength()
+  {
     return length;
   }
 
-  public Time getStartTime() {
+  public Time getStartTime()
+  {
     return startTime;
   }
 
-  public Time getEndTime() {
+  public Time getEndTime()
+  {
     return endTime;
   }
 
-  public Date getDate() {
+  public Date getDate()
+  {
     return date;
   }
 
-  public boolean getIsRepeating() {
+  public boolean getIsRepeating()
+  {
     return isRepeating;
   }
 
-  public int getMaxParticipants() {
+  public int getMaxParticipants()
+  {
     return maxParticipants;
   }
-
   /* Code from template association_GetOne */
-  public ClassType getClassType() {
+  public ClassType getClassType()
+  {
     return classType;
   }
-
   /* Code from template association_GetOne */
-  public Instructor getInstructor() {
+  public Instructor getInstructor()
+  {
     return instructor;
   }
-
   /* Code from template association_GetOne */
-  public SportCenter getSportCenter() {
+  public SportCenter getSportCenter()
+  {
     return sportCenter;
   }
-
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setClassType(ClassType aNewClassType) {
+  public boolean setClassType(ClassType aNewClassType)
+  {
     boolean wasSet = false;
-    if (aNewClassType != null) {
+    if (aNewClassType != null)
+    {
       classType = aNewClassType;
       wasSet = true;
     }
     return wasSet;
   }
-
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setInstructor(Instructor aNewInstructor) {
+  public boolean setInstructor(Instructor aNewInstructor)
+  {
     boolean wasSet = false;
-    if (aNewInstructor != null) {
+    if (aNewInstructor != null)
+    {
       instructor = aNewInstructor;
       wasSet = true;
     }
     return wasSet;
   }
-
   /* Code from template association_SetOneToMany */
-  public boolean setSportCenter(SportCenter aSportCenter) {
+  public boolean setSportCenter(SportCenter aSportCenter)
+  {
     boolean wasSet = false;
-    if (aSportCenter == null) {
+    if (aSportCenter == null)
+    {
       return wasSet;
     }
 
     SportCenter existingSportCenter = sportCenter;
     sportCenter = aSportCenter;
-    if (existingSportCenter != null && !existingSportCenter.equals(aSportCenter)) {
+    if (existingSportCenter != null && !existingSportCenter.equals(aSportCenter))
+    {
       existingSportCenter.removeSession(this);
     }
     sportCenter.addSession(this);
@@ -203,42 +208,31 @@ public class Session {
     return wasSet;
   }
 
-  public void delete() {
+  public void delete()
+  {
     classType = null;
     instructor = null;
     SportCenter placeholderSportCenter = sportCenter;
     this.sportCenter = null;
-    if (placeholderSportCenter != null) {
+    if(placeholderSportCenter != null)
+    {
       placeholderSportCenter.removeSession(this);
     }
   }
 
-  public String toString() {
-    return super.toString() + "[" +
-        "id" + ":" + getId() + "," +
-        "length" + ":" + getLength() + "," +
-        "isRepeating" + ":" + getIsRepeating() + "," +
-        "maxParticipants" + ":" + getMaxParticipants() + "]" + System.getProperties().getProperty("line.separator") +
-        "  " + "startTime" + "="
-        + (getStartTime() != null
-            ? !getStartTime().equals(this) ? getStartTime().toString().replaceAll("  ", "    ") : "this"
-            : "null")
-        + System.getProperties().getProperty("line.separator") +
-        "  " + "endTime" + "="
-        + (getEndTime() != null ? !getEndTime().equals(this) ? getEndTime().toString().replaceAll("  ", "    ") : "this"
-            : "null")
-        + System.getProperties().getProperty("line.separator") +
-        "  " + "date" + "="
-        + (getDate() != null ? !getDate().equals(this) ? getDate().toString().replaceAll("  ", "    ") : "this"
-            : "null")
-        + System.getProperties().getProperty("line.separator") +
-        "  " + "classType = "
-        + (getClassType() != null ? Integer.toHexString(System.identityHashCode(getClassType())) : "null")
-        + System.getProperties().getProperty("line.separator") +
-        "  " + "instructor = "
-        + (getInstructor() != null ? Integer.toHexString(System.identityHashCode(getInstructor())) : "null")
-        + System.getProperties().getProperty("line.separator") +
-        "  " + "sportCenter = "
-        + (getSportCenter() != null ? Integer.toHexString(System.identityHashCode(getSportCenter())) : "null");
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "id" + ":" + getId()+ "," +
+            "length" + ":" + getLength()+ "," +
+            "isRepeating" + ":" + getIsRepeating()+ "," +
+            "maxParticipants" + ":" + getMaxParticipants()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "startTime" + "=" + (getStartTime() != null ? !getStartTime().equals(this)  ? getStartTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "endTime" + "=" + (getEndTime() != null ? !getEndTime().equals(this)  ? getEndTime().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "date" + "=" + (getDate() != null ? !getDate().equals(this)  ? getDate().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "classType = "+(getClassType()!=null?Integer.toHexString(System.identityHashCode(getClassType())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "instructor = "+(getInstructor()!=null?Integer.toHexString(System.identityHashCode(getInstructor())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "sportCenter = "+(getSportCenter()!=null?Integer.toHexString(System.identityHashCode(getSportCenter())):"null");
   }
 }

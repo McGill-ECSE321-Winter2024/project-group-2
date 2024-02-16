@@ -1,103 +1,128 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
 /*PLEASE DO NOT EDIT THIS CODE*/
-
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
 
+
+
 // line 13 "model.ump"
-// line 77 "model.ump"
+// line 134 "model.ump"
+public class Person
+{
 
-@Entity
-public class Person {
-
-  // ------------------------
+  //------------------------
   // MEMBER VARIABLES
-  // ------------------------
+  //------------------------
 
-  // User Attributes
-
-  @Id
-  @GeneratedValue
-  private int id;
+  //Person Attributes
+  private int personId;
   private String password;
   private String email;
   private String name;
 
-  // ------------------------
+  //Person Associations
+  private Role role;
+
+  //------------------------
   // CONSTRUCTOR
-  // ------------------------
+  //------------------------
 
-  // Hibernate needs a default constructor, but it doesn't need to be public
-  @SuppressWarnings("unused")
-  private Person() {
-  }
-
-  public Person(String aPassword, String aEmail, String aName) {
+  public Person(int aPersonId, String aPassword, String aEmail, String aName, Role aRole)
+  {
+    personId = aPersonId;
     password = aPassword;
     email = aEmail;
     name = aName;
+    if (!setRole(aRole))
+    {
+      throw new RuntimeException("Unable to create Person due to aRole. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
-  // ------------------------
+  //------------------------
   // INTERFACE
-  // ------------------------
+  //------------------------
 
-  public boolean setId(int aId) {
+  public boolean setPersonId(int aPersonId)
+  {
     boolean wasSet = false;
-    id = aId;
+    personId = aPersonId;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setPassword(String aPassword) {
+  public boolean setPassword(String aPassword)
+  {
     boolean wasSet = false;
     password = aPassword;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEmail(String aEmail) {
+  public boolean setEmail(String aEmail)
+  {
     boolean wasSet = false;
     email = aEmail;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setName(String aName) {
+  public boolean setName(String aName)
+  {
     boolean wasSet = false;
     name = aName;
     wasSet = true;
     return wasSet;
   }
 
-  public int getId() {
-    return id;
+  public int getPersonId()
+  {
+    return personId;
   }
 
-  public String getPassword() {
+  public String getPassword()
+  {
     return password;
   }
 
-  public String getEmail() {
+  public String getEmail()
+  {
     return email;
   }
 
-  public String getName() {
+  public String getName()
+  {
     return name;
   }
-
-  public void delete() {
+  /* Code from template association_GetOne */
+  public Role getRole()
+  {
+    return role;
+  }
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setRole(Role aNewRole)
+  {
+    boolean wasSet = false;
+    if (aNewRole != null)
+    {
+      role = aNewRole;
+      wasSet = true;
+    }
+    return wasSet;
   }
 
-  public String toString() {
-    return super.toString() + "[" +
-        "id" + ":" + getId() + "," +
-        "password" + ":" + getPassword() + "," +
-        "email" + ":" + getEmail() + "," +
-        "name" + ":" + getName() + "]";
+  public void delete()
+  {
+    role = null;
+  }
+
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "personId" + ":" + getPersonId()+ "," +
+            "password" + ":" + getPassword()+ "," +
+            "email" + ":" + getEmail()+ "," +
+            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "role = "+(getRole()!=null?Integer.toHexString(System.identityHashCode(getRole())):"null");
   }
 }
