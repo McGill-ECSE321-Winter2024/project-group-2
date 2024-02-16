@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 import java.sql.Date;
 
@@ -37,7 +36,7 @@ public class Session
   //Session Associations
   @ManyToOne
   private ClassType classType;
-  @OneToOne
+  @ManyToOne
   private Instructor instructor;
   private SportCenter sportCenter;
 
