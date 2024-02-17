@@ -68,19 +68,19 @@ public class SessionRepositoryTests {
         yogaSession = sessionRepo.save(yogaSession);
 
         // Read back from database
-        Optional<Session> sessionFromDB = sessionRepo.findById(sessionId);
+        Session sessionFromDB = sessionRepo.getSessionById(sessionId);
 
         // Assertions
         assertNotNull(sessionFromDB);
-        assertEquals(sessionId, sessionFromDB.get().getId());
-        assertEquals(length, sessionFromDB.get().getId());
-        assertEquals(startTime, sessionFromDB.get().getStartTime());
-        assertEquals(endTime, sessionFromDB.get().getEndTime());
-        assertEquals(date, sessionFromDB.get().getDate());
-        assertEquals(isRepeating, sessionFromDB.get().getIsRepeating());
-        assertEquals(maxParticipants, sessionFromDB.get().getMaxParticipants());
-        assertEquals(yoga, sessionFromDB.get().getClassType());
-        assertEquals(yuri, sessionFromDB.get().getInstructor());
+        assertEquals(sessionId, sessionFromDB.getId());
+        assertEquals(length, sessionFromDB.getId());
+        assertEquals(startTime, sessionFromDB.getStartTime());
+        assertEquals(endTime, sessionFromDB.getEndTime());
+        assertEquals(date, sessionFromDB.getDate());
+        assertEquals(isRepeating, sessionFromDB.getIsRepeating());
+        assertEquals(maxParticipants, sessionFromDB.getMaxParticipants());
+        assertEquals(yoga, sessionFromDB.getClassType());
+        assertEquals(yuri, sessionFromDB.getInstructor());
         assertNotNull(yuri);
         assertEquals(yuriId, yuri.getId());
     }

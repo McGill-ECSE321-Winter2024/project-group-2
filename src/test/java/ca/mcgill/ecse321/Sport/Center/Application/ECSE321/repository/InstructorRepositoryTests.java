@@ -39,11 +39,12 @@ public class InstructorRepositoryTests {
         yuri = repo.save(yuri);
 
         // Read back from database
-        Optional<Instructor> yuriFromDB = repo.findById(yuriId);
+        Instructor yuriFromDB = repo.getInstructorById(yuriId);
 
         // Assertions
         assertNotNull(yuriFromDB);
-        assertEquals(yuriId, yuriFromDB.get().getId());
+        assertEquals(yuriId, yuriFromDB.getId());
+        clearDatabase();
     }
 
 }

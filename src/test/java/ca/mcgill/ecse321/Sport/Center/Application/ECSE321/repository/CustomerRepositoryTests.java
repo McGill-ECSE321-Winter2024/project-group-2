@@ -42,11 +42,12 @@ public class CustomerRepositoryTests {
         bob = repo.save(bob);
 
         //Read back from database
-        Optional<Customer> bobFromDB = repo.findById(bobId);
+        Customer bobFromDB = repo.getCustomerById(bobId);
 
         //Assertions
         assertNotNull(bobFromDB);
-        assertEquals(bobId, bobFromDB.get().getId());
+        assertEquals(bobId, bobFromDB.getId());
+        clearDatabase();
     }
 
 }
