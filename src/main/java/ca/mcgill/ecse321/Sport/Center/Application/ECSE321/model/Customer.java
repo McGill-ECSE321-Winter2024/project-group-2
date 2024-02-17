@@ -17,7 +17,11 @@ public class Customer extends Role
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Customer()
+  {
+    super();
+  }
+  
   public Customer(int aId)
   {
     super(aId);

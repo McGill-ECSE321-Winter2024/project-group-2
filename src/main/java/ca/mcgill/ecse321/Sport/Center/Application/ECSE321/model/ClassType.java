@@ -23,6 +23,9 @@ public class ClassType
   // CONSTRUCTOR
   //------------------------
 
+  public ClassType()
+  {}
+  
   public ClassType(String aClassType)
   {
     classType = aClassType;

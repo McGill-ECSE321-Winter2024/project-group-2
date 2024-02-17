@@ -66,7 +66,7 @@ public class SessionRepositoryTests {
 
         // Save in database
         yogaSession = sessionRepo.save(yogaSession);
-
+        
         // Read back from database
         Session sessionFromDB = sessionRepo.getSessionById(sessionId);
 
