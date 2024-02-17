@@ -89,6 +89,22 @@ public class SessionRegistrationRepositoryTests {
         assertEquals(regId, regFromDB.get().getId());
         assertEquals(bob, regFromDB.get().getCustomer());
         assertEquals(yogaSession, regFromDB.get().getSession());
+        assertNotNull(yogaSession);
+        assertEquals(yogaSession.getId(), regFromDB.get().getSession().getId());
+        assertEquals(yogaSession.getLength(), regFromDB.get().getSession().getLength());
+        assertEquals(yogaSession.getStartTime(), regFromDB.get().getSession().getStartTime());
+        assertEquals(yogaSession.getEndTime(), regFromDB.get().getSession().getEndTime());
+        assertEquals(yogaSession.getDate(), regFromDB.get().getSession().getDate());
+        assertEquals(yogaSession.getIsRepeating(), regFromDB.get().getSession().getIsRepeating());
+        assertEquals(yogaSession.getMaxParticipants(), regFromDB.get().getSession().getMaxParticipants());
+        assertEquals(yogaSession.getClassType(), regFromDB.get().getSession().getClassType());
+        assertEquals(yogaSession.getInstructor(), regFromDB.get().getSession().getInstructor());
+        assertNotNull(yoga);
+        assertEquals(yoga.getClassType(), regFromDB.get().getSession().getClassType().getClassType());
+        assertNotNull(yuri);
+        assertEquals(yuri.getId(), regFromDB.get().getSession().getInstructor().getId());
+        assertNotNull(bob);
+        assertEquals(bob.getId(), regFromDB.get().getCustomer().getId());
     }
 
 }

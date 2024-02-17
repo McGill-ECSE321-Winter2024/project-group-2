@@ -81,6 +81,8 @@ public class SessionRepositoryTests {
         assertEquals(maxParticipants, sessionFromDB.get().getMaxParticipants());
         assertEquals(yoga, sessionFromDB.get().getClassType());
         assertEquals(yuri, sessionFromDB.get().getInstructor());
+        assertNotNull(yuri);
+        assertEquals(yuriId, yuri.getId());
     }
 
 }
