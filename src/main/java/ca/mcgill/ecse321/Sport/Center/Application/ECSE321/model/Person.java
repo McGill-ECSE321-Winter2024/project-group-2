@@ -32,6 +32,9 @@ public class Person
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Person()
+  {
+  }
 
   public Person(int aPersonId, String aPassword, String aEmail, String aName, Role aRole)
   {

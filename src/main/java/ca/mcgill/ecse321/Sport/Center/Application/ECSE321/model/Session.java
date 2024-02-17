@@ -42,6 +42,9 @@ public class Session
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Session(){
+
+  }
 
   public Session(int aId, int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor)
   {

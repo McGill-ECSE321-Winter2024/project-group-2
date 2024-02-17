@@ -17,7 +17,9 @@ public class Owner extends Staff
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Owner(){
+    super();
+  }
   public Owner(int aId)
   {
     super(aId);

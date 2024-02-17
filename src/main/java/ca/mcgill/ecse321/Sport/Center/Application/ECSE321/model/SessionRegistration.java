@@ -32,6 +32,10 @@ public class SessionRegistration
   // CONSTRUCTOR
   //------------------------
 
+  public SessionRegistration()
+  {
+  }
+
   public SessionRegistration(int aId, Session aSession, Customer aCustomer)
   {
     id = aId;
