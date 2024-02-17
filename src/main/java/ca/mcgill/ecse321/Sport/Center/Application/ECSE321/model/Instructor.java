@@ -18,6 +18,10 @@ public class Instructor extends Staff
   // CONSTRUCTOR
   //------------------------
 
+  public Instructor()
+  {
+    super();
+  }
   public Instructor(int aId)
   {
     super(aId);

@@ -28,7 +28,9 @@ public abstract class Role
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Role()
+  {}
+  
   public Role(int aId)
   {
     id = aId;

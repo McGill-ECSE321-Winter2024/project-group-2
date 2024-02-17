@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.repository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.*;
 
+import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import java.sql.Time;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -39,12 +41,12 @@ public class InstructorRepositoryTests {
         yuri = repo.save(yuri);
 
         // Read back from database
+        yuriId = yuri.getId();
         Instructor yuriFromDB = repo.getInstructorById(yuriId);
 
         // Assertions
         assertNotNull(yuriFromDB);
         assertEquals(yuriId, yuriFromDB.getId());
-        clearDatabase();
     }
 
 }

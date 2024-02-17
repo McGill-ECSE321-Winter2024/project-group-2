@@ -17,7 +17,10 @@ public abstract class Staff extends Role
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
+  public Staff()
+  {
+    super();
+  }
   public Staff(int aId)
   {
     super(aId);
