@@ -48,7 +48,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 
 * **Aurelia**: Wrote and updated the README.md, write here.
 * **Pei Yan**: Write here.
-* **Alice**: Write here.
+* **Alice**: Requirements Documentation, Domain Model, Use Case Diagrams, JPA Annotation, Meeting Minutes and Wiki.
 * **Behrad**: Write here.
 * **Sebastian**: Write here.
 * **Yuri**: Requirements Documentation, Domain Model, Use Case Diagrams, JPA Annotation, Meeting Minutes.
