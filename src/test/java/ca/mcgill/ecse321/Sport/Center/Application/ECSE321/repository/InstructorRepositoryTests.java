@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.repository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.*;
 
-import org.aspectj.lang.annotation.After;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,12 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.util.Optional;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
@@ -34,19 +30,19 @@ public class InstructorRepositoryTests {
     @Test
     public void testCreateAndReadInstructor() {
         // Create instructor
-        int yuriId = 1;
-        Instructor yuri = new Instructor(yuriId);
+        int instructorId = 1;
+        Instructor instructor = new Instructor(instructorId);
 
         // Save in database
-        yuri = repo.save(yuri);
+        instructor = repo.save(instructor);
 
         // Read back from database
-        yuriId = yuri.getId();
-        Instructor yuriFromDB = repo.getInstructorById(yuriId);
+        instructorId = instructor.getId();
+        Instructor instructorFromDB = repo.getInstructorById(instructorId);
 
         // Assertions
-        assertNotNull(yuriFromDB);
-        assertEquals(yuriId, yuriFromDB.getId());
+        assertNotNull(instructorFromDB);
+        assertEquals(instructorId, instructorFromDB.getId());
     }
 
 }

@@ -15,7 +15,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -50,8 +49,8 @@ public class SessionRepositoryTests {
         instructor = instructorRepo.save(instructor);
 
         // Create class type
-        ClassType yoga = new ClassType("yoga");
-        yoga = classTypeRepo.save(yoga);
+        ClassType exampleClassType = new ClassType("exampleClassType");
+        exampleClassType = classTypeRepo.save(exampleClassType);
 
         // Create session
         int sessionId = 1;
@@ -62,7 +61,7 @@ public class SessionRepositoryTests {
         boolean isRepeating = true;
         int maxParticipants = 50;
         Session yogaSession = new Session(sessionId, length, startTime, endTime, date,
-                isRepeating, maxParticipants, yoga, instructor);
+                isRepeating, maxParticipants, exampleClassType, instructor);
 
         // Save in database
         yogaSession = sessionRepo.save(yogaSession);

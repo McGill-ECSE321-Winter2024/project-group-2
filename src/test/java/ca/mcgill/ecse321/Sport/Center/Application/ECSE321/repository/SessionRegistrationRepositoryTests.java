@@ -13,7 +13,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -49,18 +48,18 @@ public class SessionRegistrationRepositoryTests {
         LocalTime localEndTime = LocalTime.of(12, 0, 0);   // 12:00:00
 
         //Create Customer
-        int bobId = 1;
-        Customer bob = new Customer(bobId);
-        bob = customerRepo.save(bob);
+        int customerId = 1;
+        Customer customer = new Customer(customerId);
+        customer = customerRepo.save(customer);
 
         // Create instructor
-        int yuriId = 1;
-        Instructor yuri = new Instructor(yuriId);
-        yuri = instructorRepo.save(yuri);
+        int instructorId = 1;
+        Instructor instructor = new Instructor(instructorId);
+        instructor = instructorRepo.save(instructor);
 
         // Create class type
-        ClassType yoga = new ClassType("yoga");
-        yoga = classTypeRepo.save(yoga);
+        ClassType exampleClassType = new ClassType("exampleClassType");
+        exampleClassType = classTypeRepo.save(exampleClassType);
 
         // Create session
         int sessionId = 1;
@@ -70,13 +69,13 @@ public class SessionRegistrationRepositoryTests {
         Date date = Date.valueOf(LocalDate.of(2024, 2, 18));
         boolean isRepeating = true;
         int maxParticipants = 50;
-        Session yogaSession = new Session(sessionId, length, startTime, endTime, date,
-                isRepeating, maxParticipants, yoga, yuri);
-        yogaSession = sessionRepo.save(yogaSession);
+        Session sessionRegistration = new Session(sessionId, length, startTime, endTime, date,
+                isRepeating, maxParticipants, exampleClassType, instructor);
+        sessionRegistration = sessionRepo.save(sessionRegistration);
 
         // Create registration
         int regId = 1;
-        SessionRegistration reg = new SessionRegistration(regId, yogaSession, bob);
+        SessionRegistration reg = new SessionRegistration(regId, sessionRegistration, customer);
 
         // Save in database
         reg = registrationRepo.save(reg);
@@ -91,23 +90,23 @@ public class SessionRegistrationRepositoryTests {
         //Customer Assertions
         Customer customerFromDB = regFromDB.getCustomer();
         assertNotNull(customerFromDB);
-        assertEquals(bob.getId(), customerFromDB.getId());
+        assertEquals(customer.getId(), customerFromDB.getId());
         //Session Assertions
-        Session yogaSessionFromDB = regFromDB.getSession();
-        assertNotNull(yogaSessionFromDB);
-        assertEquals(yogaSession.getClassType().getClassType(), yogaSessionFromDB.getClassType().getClassType());
-        assertEquals(yogaSession.getDate(), yogaSessionFromDB.getDate());
-        assertEquals(yogaSession.getEndTime(), yogaSessionFromDB.getEndTime());
-        assertEquals(yogaSession.getId(), yogaSessionFromDB.getId());
-        assertEquals(yogaSession.getInstructor().getId(), yogaSessionFromDB.getInstructor().getId());
-        assertEquals(yogaSession.getIsRepeating(), yogaSessionFromDB.getIsRepeating());
-        assertEquals(yogaSession.getLength(), yogaSessionFromDB.getLength());
-        assertEquals(yogaSession.getMaxParticipants(), yogaSessionFromDB.getMaxParticipants());
-        assertEquals(yogaSession.getStartTime(), yogaSessionFromDB.getStartTime());
+        Session sessionRegistrationFromDB = regFromDB.getSession();
+        assertNotNull(sessionRegistrationFromDB);
+        assertEquals(sessionRegistration.getClassType().getClassType(), sessionRegistrationFromDB.getClassType().getClassType());
+        assertEquals(sessionRegistration.getDate(), sessionRegistrationFromDB.getDate());
+        assertEquals(sessionRegistration.getEndTime(), sessionRegistrationFromDB.getEndTime());
+        assertEquals(sessionRegistration.getId(), sessionRegistrationFromDB.getId());
+        assertEquals(sessionRegistration.getInstructor().getId(), sessionRegistrationFromDB.getInstructor().getId());
+        assertEquals(sessionRegistration.getIsRepeating(), sessionRegistrationFromDB.getIsRepeating());
+        assertEquals(sessionRegistration.getLength(), sessionRegistrationFromDB.getLength());
+        assertEquals(sessionRegistration.getMaxParticipants(), sessionRegistrationFromDB.getMaxParticipants());
+        assertEquals(sessionRegistration.getStartTime(), sessionRegistrationFromDB.getStartTime());
         //Instructor Assertions
-        ClassType typeFromDB = yogaSessionFromDB.getClassType();
+        ClassType typeFromDB = sessionRegistrationFromDB.getClassType();
         assertNotNull(typeFromDB);
-        assertEquals(yoga.getClassType(), typeFromDB.getClassType());
+        assertEquals(sessionRegistration.getClassType().getClassType(), typeFromDB.getClassType());
 
     }
 

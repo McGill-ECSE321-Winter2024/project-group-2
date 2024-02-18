@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 
-import java.sql.Date;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,19 +29,19 @@ public class OwnerRepositoryTests {
     @Test
     public void testCreateAndReadOwner() {
         // Create owner
-        int yuriId = 1;
-        Owner yuri = new Owner(yuriId);
+        int ownerId = 1;
+        Owner owner = new Owner(ownerId);
 
         // Save in database
-        yuri = repo.save(yuri);
+        owner = repo.save(owner);
 
         // Read back from database
-        yuriId = yuri.getId();
-        Owner yuriFromDB = repo.getOwnerById(yuriId);
+        ownerId = owner.getId();
+        Owner ownerFromDB = repo.getOwnerById(ownerId);
 
         // Assertions
-        assertNotNull(yuriFromDB);
-        assertEquals(yuriId, yuriFromDB.getId());
+        assertNotNull(ownerFromDB);
+        assertEquals(ownerId, ownerFromDB.getId());
     }
 
 }

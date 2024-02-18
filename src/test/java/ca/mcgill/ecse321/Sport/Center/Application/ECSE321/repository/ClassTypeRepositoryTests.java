@@ -30,15 +30,15 @@ public class ClassTypeRepositoryTests {
 
     @Test
     public void testCreateAndReadClassType() {
-        String classType = "yoga";
-        ClassType yoga = new ClassType(classType);
+        String classType = "exampleClassType";
+        ClassType exampleClassType = new ClassType(classType);
 
-        yoga = repo.save(yoga);
+        exampleClassType = repo.save(exampleClassType);
 
-        ClassType yogaFromRepo = repo.getClassTypeByClassType(yoga.getClassType());
+        ClassType exampleClassTypeFromRepo = repo.getClassTypeByClassType(exampleClassType.getClassType());
 
-        assertNotNull(yogaFromRepo);
-        assertEquals(classType, yogaFromRepo.getClassType());
+        assertNotNull(exampleClassTypeFromRepo);
+        assertEquals(classType, exampleClassTypeFromRepo.getClassType());
     }
 
 }

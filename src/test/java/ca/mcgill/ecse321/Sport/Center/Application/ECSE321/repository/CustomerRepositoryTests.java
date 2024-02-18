@@ -10,9 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 
-import java.sql.Date;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,20 +28,19 @@ public class CustomerRepositoryTests {
     @Test
     public void testCreateAndReadCustomer() {
         //Create Customer
-        int bobId = 1;
-        Customer bob = new Customer(bobId);
+        int customerId = 1;
+        Customer customer = new Customer(customerId);
 
         //Save in database
-        bob = repo.save(bob);
+        customer = repo.save(customer);
 
         //Read back from database
-        bobId = bob.getId();
-        Customer bobFromDB = repo.getCustomerById(bobId);
+        customerId = customer.getId();
+        Customer customerFromDB = repo.getCustomerById(customerId);
 
         //Assertions
-        assertNotNull(bobFromDB);
-        assertEquals(bobId, bobFromDB.getId());
-        clearDatabase();
+        assertNotNull(customerFromDB);
+        assertEquals(customerId, customerFromDB.getId());
     }
 
 }

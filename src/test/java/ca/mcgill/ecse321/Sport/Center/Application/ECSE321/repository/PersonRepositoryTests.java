@@ -11,13 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 
-import java.sql.Date;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTimeout;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 @SpringBootTest
 public class PersonRepositoryTests {
@@ -38,27 +34,27 @@ public class PersonRepositoryTests {
     public void testCreateAndReadPerson() {
         //Create person
         int id = 1;
-        String name = "Yuri";
+        String name = "person";
         String password = "password";
         String email = "email";
         Customer role = new Customer();
-        Person yuri = new Person(id, name, password, email, role);
+        Person person = new Person(id, name, password, email, role);
 
         //Save in database
         customerRepository.save(role);
-        yuri = repo.save(yuri);
+        person = repo.save(person);
 
         //Read back from database
-        id = yuri.getPersonId();
-        Person yuriFromDB = repo.getPersonByPersonId(id);
+        id = person.getPersonId();
+        Person personFromDB = repo.getPersonByPersonId(id);
 
         //Assertions
-        assertNotNull(yuriFromDB);
-        assertEquals(yuri.getPersonId(), yuriFromDB.getPersonId());
-        assertEquals(yuri.getEmail(), yuriFromDB.getEmail());
-        assertEquals(yuri.getPassword(), yuriFromDB.getPassword());
-        assertEquals(yuri.getName(), yuriFromDB.getName());
-        assertEquals(yuri.getRole().getId(), yuriFromDB.getRole().getId());
+        assertNotNull(personFromDB);
+        assertEquals(person.getPersonId(), personFromDB.getPersonId());
+        assertEquals(person.getEmail(), personFromDB.getEmail());
+        assertEquals(person.getPassword(), personFromDB.getPassword());
+        assertEquals(person.getName(), personFromDB.getName());
+        assertEquals(person.getRole().getId(), personFromDB.getRole().getId());
     }
 
 }
