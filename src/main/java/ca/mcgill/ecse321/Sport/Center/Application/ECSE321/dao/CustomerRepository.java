@@ -4,6 +4,21 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 
-public interface CustomerRepository extends CrudRepository<Customer, Integer>{
+/**
+ * This interface defines the repository for the CRUD functionalities relating
+ * to the Customer: method to find a customer in the system.
+ * 
+ * @author Aurelia Bouliane
+ */
+
+public interface CustomerRepository extends CrudRepository<Customer, Integer> {
+
+    /**
+     * This method gets a customer based on its id
+     *
+     * @param id id of the customer (primary key)
+     * @return Customer with the specified id
+     * @author Aurelia Bouliane
+     */
     public Customer getCustomerById(int id);
 }
