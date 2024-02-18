@@ -6,13 +6,6 @@ import jakarta.persistence.Entity;
 public abstract class Staff extends Role
 {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
   public Staff()
   {
     super();
@@ -21,10 +14,6 @@ public abstract class Staff extends Role
   {
     super(aId);
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public void delete()
   {

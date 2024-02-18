@@ -9,10 +9,6 @@ import jakarta.persistence.ManyToOne;
 public class SessionRegistration
 {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
   //SessionRegistration Attributes
   @Id
   @GeneratedValue
@@ -24,9 +20,6 @@ public class SessionRegistration
   @ManyToOne
   private Customer customer;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
 
   public SessionRegistration()
   {
@@ -45,9 +38,6 @@ public class SessionRegistration
     }
   }
 
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setId(int aId)
   {

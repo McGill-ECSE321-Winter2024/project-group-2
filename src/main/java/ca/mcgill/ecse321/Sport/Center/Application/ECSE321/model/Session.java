@@ -13,10 +13,6 @@ import java.sql.Date;
 public class Session
 {
 
-  //------------------------
-  // MEMBER VARIABLES
-  //------------------------
-
   //Session Attributes
   @Id
   @GeneratedValue
@@ -34,9 +30,6 @@ public class Session
   @ManyToOne
   private Instructor instructor;
 
-  //------------------------
-  // CONSTRUCTOR
-  //------------------------
   public Session(){
 
   }
@@ -59,10 +52,6 @@ public class Session
       throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
-
-  //------------------------
-  // INTERFACE
-  //------------------------
 
   public boolean setId(int aId)
   {
