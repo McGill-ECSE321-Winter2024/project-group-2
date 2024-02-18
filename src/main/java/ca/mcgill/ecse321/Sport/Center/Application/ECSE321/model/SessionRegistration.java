@@ -5,6 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
+/**
+ * The SessionRegistration class represents the registration of a customer for a session in the sports center.
+ * It includes attributes such as id and has many-to-one associations with the Session and Customer classes.
+ */
 @Entity
 public class SessionRegistration
 {
@@ -20,11 +24,22 @@ public class SessionRegistration
   @ManyToOne
   private Customer customer;
 
-
+  /**
+   * Default constructor for SessionRegistration.
+   */
   public SessionRegistration()
   {
   }
 
+  /**
+   * Parameterized constructor for SessionRegistration.
+   * 
+   * @param aId The unique identifier for the session registration.
+   * @param aSession The associated session for the registration.
+   * @param aCustomer The associated customer for the registration.
+   * @throws RuntimeException if unable to create SessionRegistration due to aSession or aCustomer.
+   * See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html
+   */
   public SessionRegistration(int aId, Session aSession, Customer aCustomer)
   {
     id = aId;
@@ -38,7 +53,12 @@ public class SessionRegistration
     }
   }
 
-
+  /**
+   * Sets the id attribute of the session registration.
+   * 
+   * @param aId The new value for id.
+   * @return True if the operation was successful, false otherwise.
+   */
   public boolean setId(int aId)
   {
     boolean wasSet = false;
@@ -47,20 +67,44 @@ public class SessionRegistration
     return wasSet;
   }
 
+  /**
+   * Gets the id attribute of the session registration.
+   * 
+   * @return The id.
+   */
   public int getId()
   {
     return id;
   }
+
+  /**
+   * Gets the associated session for the session registration.
+   * 
+   * @return The session.
+   */
   /* Code from template association_GetOne */
   public Session getSession()
   {
     return session;
   }
+
+  /**
+   * Gets the associated customer for the session registration.
+   * 
+   * @return The customer.
+   */
   /* Code from template association_GetOne */
   public Customer getCustomer()
   {
     return customer;
   }
+
+  /**
+   * Sets the associated session for the session registration.
+   * 
+   * @param aNewSession The new session to be associated with the registration.
+   * @return True if the operation was successful, false otherwise.
+   */
   /* Code from template association_SetUnidirectionalOne */
   public boolean setSession(Session aNewSession)
   {
@@ -72,6 +116,13 @@ public class SessionRegistration
     }
     return wasSet;
   }
+
+  /**
+   * Sets the associated customer for the session registration.
+   * 
+   * @param aNewCustomer The new customer to be associated with the registration.
+   * @return True if the operation was successful, false otherwise.
+   */
   /* Code from template association_SetUnidirectionalOne */
   public boolean setCustomer(Customer aNewCustomer)
   {
@@ -84,13 +135,21 @@ public class SessionRegistration
     return wasSet;
   }
 
+  /**
+   * Deletes the associated session and customer for the session registration.
+   */
   public void delete()
   {
     session = null;
     customer = null;
   }
 
-
+  /**
+   * Generates a string representation of the SessionRegistration, including its attribute id,
+   * and associated session and customer.
+   * 
+   * @return A string representation of the SessionRegistration.
+   */
   public String toString()
   {
     return super.toString() + "["+
