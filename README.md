@@ -37,7 +37,7 @@ For more information about the web application, please consult the [wiki](../../
 | ------------------- | -------------------| 
 | Aurelia Bouliane    |         18         |
 | Pei Yan Geng        |         12         | 
-| Alice Godbout       |         12         | 
+| Alice Godbout       |         14         | 
 | Behrad Rezaie       |                    | 
 | Sebastian Reinhardt |                    |
 | Yuri Sorice         |         14         |
