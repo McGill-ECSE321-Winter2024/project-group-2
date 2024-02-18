@@ -51,7 +51,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 * **Alice**: Write here.
 * **Behrad**: Write here.
 * **Sebastian**: Write here.
-* **Yuri**: Write here.
+* **Yuri**: Requirements Documentation, Domain Model, Use Case Diagrams, JPA Annotation, Meeting Minutes.
 
 
 ## Deliverable 2
