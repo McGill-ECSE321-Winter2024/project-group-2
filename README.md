@@ -55,14 +55,14 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 
 
 ## Deliverable 2
-| Name                | Individual efforts |
-| ------------------- | -------------------|
-| Aurelia Bouliane    |                    |
-| Pei Yan Geng        |                    |
-| Alice Godbout       |                    |
-| Behrad Rezaie       |                    |
-| Sebastian Reinhardt |                    |
-| Yuri Sorice         |                    |
+| Name                | Individual Roles   | Individual efforts |
+| ------------------- | -------------------| -------------------|
+| Aurelia Bouliane    |                    |                    |
+| Pei Yan Geng        |                    |                    |
+| Alice Godbout       |                    |                    |
+| Behrad Rezaie       |                    |                    |
+| Sebastian Reinhardt |                    |                    |
+| Yuri Sorice         |                    |                    |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-2) will bring you to the report for deliverable 2.
 
@@ -76,14 +76,15 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 * **Yuri**: Write here.
 
 ## Deliverable 3
-| Name                | Individual efforts |
-| ------------------- | -------------------|
-| Aurelia Bouliane    |                    |
-| Pei Yan Geng        |                    |
-| Alice Godbout       |                    |
-| Behrad Rezaie       |                    |
-| Sebastian Reinhardt |                    |
-| Yuri Sorice         |                    |
+| Name                | Individual Roles   | Individual efforts |
+| ------------------- | -------------------| -------------------|
+| Aurelia Bouliane    |                    |                    |
+| Pei Yan Geng        |                    |                    |
+| Alice Godbout       |                    |                    |
+| Behrad Rezaie       |                    |                    |
+| Sebastian Reinhardt |                    |                    |
+| Yuri Sorice         |                    |                    |
+
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-3) will bring you to the report for deliverable 3.
 
