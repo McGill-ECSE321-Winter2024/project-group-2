@@ -1,7 +1,4 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
-/*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
-
 
 import java.sql.Time;
 
@@ -12,8 +9,6 @@ import jakarta.persistence.ManyToOne;
 
 import java.sql.Date;
 
-// line 41 "model.ump"
-// line 94 "model.ump"
 @Entity
 public class Session
 {
