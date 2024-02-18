@@ -8,7 +8,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistrat
  * This interface defines the repository for the CRUD functionalities relating
  * to the Session Registration.
  * 
- * @author Sebastian Reinhardt
  */
 
 public interface SessionRegistrationRepository extends CrudRepository<SessionRegistration, Integer> {
@@ -18,7 +17,6 @@ public interface SessionRegistrationRepository extends CrudRepository<SessionReg
      *
      * @param id id of the Session Registration (primary key)
      * @return Session Registration with the specified id
-     * @author Sebastian Reinhardt
      */
     public SessionRegistration getSessionRegistrationById(int id);
 }
