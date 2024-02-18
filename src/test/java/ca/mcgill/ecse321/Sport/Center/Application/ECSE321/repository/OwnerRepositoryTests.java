@@ -22,10 +22,6 @@ public class OwnerRepositoryTests {
     @Autowired
     private OwnerRepository repo;
 
-    public OwnerRepositoryTests(OwnerRepository repo) {
-        this.repo = repo;
-    }
-
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
@@ -34,7 +30,20 @@ public class OwnerRepositoryTests {
 
     @Test
     public void testCreateAndReadOwner() {
+        // Create owner
+        int yuriId = 1;
+        Owner yuri = new Owner(yuriId);
 
+        // Save in database
+        yuri = repo.save(yuri);
+
+        // Read back from database
+        yuriId = yuri.getId();
+        Owner yuriFromDB = repo.getOwnerById(yuriId);
+
+        // Assertions
+        assertNotNull(yuriFromDB);
+        assertEquals(yuriId, yuriFromDB.getId());
     }
 
 }

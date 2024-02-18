@@ -22,10 +22,6 @@ public class CustomerRepositoryTests {
     @Autowired
     private CustomerRepository repo;
 
-    public CustomerRepositoryTests(CustomerRepository repo) {
-        this.repo = repo;
-    }
-
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
@@ -42,6 +38,7 @@ public class CustomerRepositoryTests {
         bob = repo.save(bob);
 
         //Read back from database
+        bobId = bob.getId();
         Customer bobFromDB = repo.getCustomerById(bobId);
 
         //Assertions

@@ -22,10 +22,6 @@ public class ClassTypeRepositoryTests {
     @Autowired
     private ClassTypeRepository repo;
 
-    public ClassTypeRepositoryTests(ClassTypeRepository repo) {
-        this.repo = repo;
-    }
-
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
