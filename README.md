@@ -35,7 +35,7 @@ For more information about the web application, please consult the [wiki](../../
 ## Deliverable 1
 | Name                | Individual efforts |
 | ------------------- | -------------------| 
-| Aurelia Bouliane    |                    |
+| Aurelia Bouliane    |         18         |
 | Pei Yan Geng        |         12         | 
 | Alice Godbout       |                    | 
 | Behrad Rezaie       |                    | 
@@ -46,7 +46,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 
 ### Detailed view of individual roles of the team for deliverable 1:
 
-* **Aurelia**: Wrote and updated the README.md, write here.
+* **Aurelia**: Wrote and updated the README.md, worked on the Domain Model, wrote and updated the meeting minutes on the Wiki, wrote JPA Annotations, helped writing the dao (crud repos), wrote the first use case description with main and alternative flows & worked on the FR and NFR.
 * **Pei Yan**: Requirements Documentation, Domain Model, JPA Annotation, Persistence Testing Suite & Documentation.
 * **Alice**: Requirements Documentation, Domain Model, Use Case Diagrams, JPA Annotation, Meeting Minutes and Wiki.
 * **Behrad**: Write here.
