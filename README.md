@@ -36,7 +36,7 @@ For more information about the web application, please consult the [wiki](../../
 | Name                | Individual efforts |
 | ------------------- | -------------------| 
 | Aurelia Bouliane    |                    |
-| Pei Yan Geng        |                    | 
+| Pei Yan Geng        |         12         | 
 | Alice Godbout       |                    | 
 | Behrad Rezaie       |                    | 
 | Sebastian Reinhardt |                    |
