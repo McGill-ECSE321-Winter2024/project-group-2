@@ -38,7 +38,7 @@ For more information about the web application, please consult the [wiki](../../
 | Aurelia Bouliane    |         18         |
 | Pei Yan Geng        |         12         | 
 | Alice Godbout       |         14         | 
-| Behrad Rezaie       |                    | 
+| Behrad Rezaie       |         16         | 
 | Sebastian Reinhardt |                    |
 | Yuri Sorice         |         14         |
 
@@ -49,7 +49,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 * **Aurelia**: Wrote and updated the README.md, worked on the Domain Model, wrote and updated the meeting minutes on the Wiki, wrote JPA Annotations, helped writing the dao (crud repos), wrote the first use case description with main and alternative flows & worked on the FR and NFR.
 * **Pei Yan**: Requirements Documentation, Domain Model, JPA Annotation, Persistence Testing Suite & Documentation.
 * **Alice**: Domain Model, Documentation, Meeting Minutes, JPA Annotations, 5th Use Case description, Requirements.
-* **Behrad**: Domain model, Use Case Diagrams, Use Case Description, Persistence Layer, Persistence Tests
+* **Behrad**: SpringBoot setup, Domain model, Use Case Diagrams, Use Case Description, Persistence Layer, Persistence Tests
 * **Sebastian**: Write here.
 * **Yuri**: Requirements Documentation, Domain Model, Use Case Diagrams, JPA Annotation, Meeting Minutes.
 
