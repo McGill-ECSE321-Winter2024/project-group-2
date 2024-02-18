@@ -39,7 +39,7 @@ For more information about the web application, please consult the [wiki](../../
 | Pei Yan Geng        |         14         | 
 | Alice Godbout       |         14         | 
 | Behrad Rezaie       |         18         | 
-| Sebastian Reinhardt |                    |
+| Sebastian Reinhardt |         14         |
 | Yuri Sorice         |         14         |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-1#requirements-model) will bring you to the report for deliverable 1.
@@ -50,7 +50,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 * **Pei Yan**: Requirements Documentation, Domain Model, JPA Annotation, Persistence Testing Suite & Documentation.
 * **Alice**: Domain Model, Documentation, Meeting Minutes, JPA Annotations, 5th Use Case description, Requirements.
 * **Behrad**: SpringBoot setup, Domain model, Use Case Diagrams, Use Case Description, Persistence Layer, Persistence Tests
-* **Sebastian**: Write here.
+* **Sebastian**: Use Case description, Domain Model, JPA Annotation, CRUD repository, Consulted requirements documentation
 * **Yuri**: Requirements Documentation, Domain Model, Use Case Diagrams, JPA Annotation, Meeting Minutes.
 
 
