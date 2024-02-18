@@ -6,19 +6,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 
 /**
- * The SessionRegistration class represents the registration of a customer for a session in the sports center.
- * It includes attributes such as id and has many-to-one associations with the Session and Customer classes.
+ * The SessionRegistration class represents the registration of a customer for a
+ * session in the sports center.
+ * It includes attributes such as id and has many-to-one associations with the
+ * Session and Customer classes.
  */
 @Entity
-public class SessionRegistration
-{
+public class SessionRegistration {
 
-  //SessionRegistration Attributes
+  // SessionRegistration Attributes
   @Id
   @GeneratedValue
   private int id;
 
-  //SessionRegistration Associations
+  // SessionRegistration Associations
   @ManyToOne
   private Session session;
   @ManyToOne
@@ -27,29 +28,29 @@ public class SessionRegistration
   /**
    * Default constructor for SessionRegistration.
    */
-  public SessionRegistration()
-  {
+  public SessionRegistration() {
   }
 
   /**
    * Parameterized constructor for SessionRegistration.
    * 
-   * @param aId The unique identifier for the session registration.
-   * @param aSession The associated session for the registration.
+   * @param aId       The unique identifier for the session registration.
+   * @param aSession  The associated session for the registration.
    * @param aCustomer The associated customer for the registration.
-   * @throws RuntimeException if unable to create SessionRegistration due to aSession or aCustomer.
-   * See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html
+   * @throws RuntimeException if unable to create SessionRegistration due to
+   *                          aSession or aCustomer.
+   *                          See
+   *                          http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html
    */
-  public SessionRegistration(int aId, Session aSession, Customer aCustomer)
-  {
+  public SessionRegistration(int aId, Session aSession, Customer aCustomer) {
     id = aId;
-    if (!setSession(aSession))
-    {
-      throw new RuntimeException("Unable to create SessionRegistration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!setSession(aSession)) {
+      throw new RuntimeException(
+          "Unable to create SessionRegistration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (!setCustomer(aCustomer))
-    {
-      throw new RuntimeException("Unable to create SessionRegistration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    if (!setCustomer(aCustomer)) {
+      throw new RuntimeException(
+          "Unable to create SessionRegistration due to aCustomer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -59,8 +60,7 @@ public class SessionRegistration
    * @param aId The new value for id.
    * @return True if the operation was successful, false otherwise.
    */
-  public boolean setId(int aId)
-  {
+  public boolean setId(int aId) {
     boolean wasSet = false;
     id = aId;
     wasSet = true;
@@ -72,8 +72,7 @@ public class SessionRegistration
    * 
    * @return The id.
    */
-  public int getId()
-  {
+  public int getId() {
     return id;
   }
 
@@ -83,8 +82,7 @@ public class SessionRegistration
    * @return The session.
    */
   /* Code from template association_GetOne */
-  public Session getSession()
-  {
+  public Session getSession() {
     return session;
   }
 
@@ -94,8 +92,7 @@ public class SessionRegistration
    * @return The customer.
    */
   /* Code from template association_GetOne */
-  public Customer getCustomer()
-  {
+  public Customer getCustomer() {
     return customer;
   }
 
@@ -106,11 +103,9 @@ public class SessionRegistration
    * @return True if the operation was successful, false otherwise.
    */
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setSession(Session aNewSession)
-  {
+  public boolean setSession(Session aNewSession) {
     boolean wasSet = false;
-    if (aNewSession != null)
-    {
+    if (aNewSession != null) {
       session = aNewSession;
       wasSet = true;
     }
@@ -124,11 +119,9 @@ public class SessionRegistration
    * @return True if the operation was successful, false otherwise.
    */
   /* Code from template association_SetUnidirectionalOne */
-  public boolean setCustomer(Customer aNewCustomer)
-  {
+  public boolean setCustomer(Customer aNewCustomer) {
     boolean wasSet = false;
-    if (aNewCustomer != null)
-    {
+    if (aNewCustomer != null) {
       customer = aNewCustomer;
       wasSet = true;
     }
@@ -138,23 +131,25 @@ public class SessionRegistration
   /**
    * Deletes the associated session and customer for the session registration.
    */
-  public void delete()
-  {
+  public void delete() {
     session = null;
     customer = null;
   }
 
   /**
-   * Generates a string representation of the SessionRegistration, including its attribute id,
+   * Generates a string representation of the SessionRegistration, including its
+   * attribute id,
    * and associated session and customer.
    * 
    * @return A string representation of the SessionRegistration.
    */
-  public String toString()
-  {
-    return super.toString() + "["+
-            "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "session = "+(getSession()!=null?Integer.toHexString(System.identityHashCode(getSession())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "customer = "+(getCustomer()!=null?Integer.toHexString(System.identityHashCode(getCustomer())):"null");
+  public String toString() {
+    return super.toString() + "[" +
+        "id" + ":" + getId() + "]" + System.getProperties().getProperty("line.separator") +
+        "  " + "session = "
+        + (getSession() != null ? Integer.toHexString(System.identityHashCode(getSession())) : "null")
+        + System.getProperties().getProperty("line.separator") +
+        "  " + "customer = "
+        + (getCustomer() != null ? Integer.toHexString(System.identityHashCode(getCustomer())) : "null");
   }
 }

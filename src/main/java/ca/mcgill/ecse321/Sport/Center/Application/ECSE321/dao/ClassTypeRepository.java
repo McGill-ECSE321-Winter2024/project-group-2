@@ -7,8 +7,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 /**
  * This interface defines the repository for the CRUD functionalities relating
  * to the ClassType.
- * 
- * @author Aurelia Bouliane
  */
 
 public interface ClassTypeRepository extends CrudRepository<ClassType, String> {
@@ -18,7 +16,6 @@ public interface ClassTypeRepository extends CrudRepository<ClassType, String> {
      *
      * @param classType class type
      * @return Type we are getting
-     * @author Aurelia Bouliane
      */
     public ClassType getClassTypeByClassType(String classType);
 }
