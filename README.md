@@ -47,7 +47,7 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 ### Detailed view of individual roles of the team for deliverable 1:
 
 * **Aurelia**: Wrote and updated the README.md, write here.
-* **Pei Yan**: Write here.
+* **Pei Yan**: Requirements Documentation, Domain Model, JPA Annotation, Persistence Testing Suite & Documentation.
 * **Alice**: Requirements Documentation, Domain Model, Use Case Diagrams, JPA Annotation, Meeting Minutes and Wiki.
 * **Behrad**: Write here.
 * **Sebastian**: Write here.
