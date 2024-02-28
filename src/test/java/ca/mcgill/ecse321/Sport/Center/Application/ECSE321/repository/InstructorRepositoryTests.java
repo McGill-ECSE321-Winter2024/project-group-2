@@ -30,14 +30,14 @@ public class InstructorRepositoryTests {
     @Test
     public void testCreateAndReadInstructor() {
         // Create instructor
-        int instructorId = 1;
-        Instructor instructor = new Instructor(instructorId);
+        //int instructorId = 1;
+        Instructor instructor = new Instructor();
 
         // Save in database
         instructor = repo.save(instructor);
 
         // Read back from database
-        instructorId = instructor.getId();
+        int instructorId = instructor.getId();
         Instructor instructorFromDB = repo.getInstructorById(instructorId);
 
         // Assertions
