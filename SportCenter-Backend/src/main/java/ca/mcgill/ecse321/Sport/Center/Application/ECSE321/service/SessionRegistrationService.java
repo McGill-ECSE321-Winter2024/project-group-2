@@ -20,15 +20,6 @@ public class SessionRegistrationService {
     @Autowired
     SessionRegistrationRepository sessionRegistrationRepository;
     
-    @Transactional
-    public void createAccount(){
-        return;
-    }
-    
-    @Transactional
-    public void login(){
-        return;
-    }
 
     @Transactional
     public void viewSessions(){

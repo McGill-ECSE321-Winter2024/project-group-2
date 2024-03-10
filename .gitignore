@@ -1,2 +1,8 @@
 build/
+<<<<<<< HEAD
 src/main/resources
+=======
+src/main/resources/application.properties
+.gradle/
+bin/
+>>>>>>> ed7a250eeb1153773aa26dc6c7f29182511af16c
