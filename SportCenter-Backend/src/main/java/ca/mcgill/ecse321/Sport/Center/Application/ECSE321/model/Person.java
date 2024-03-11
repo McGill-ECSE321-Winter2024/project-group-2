@@ -1,82 +1,69 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
+/*PLEASE DO NOT EDIT THIS CODE*/
+/*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
+
+
+import java.util.*;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
-/**
- * The Person class represents an individual associated with the sports center.
- * It contains attributes such as personId, password, email, and name.
- * Additionally, it has a one-to-one association with the Role class.
- */
-@Entity
+
+// line 14 "model.ump"
+// line 116 "model.ump"
 public class Person
 {
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
 
   //Person Attributes
   @Id
   @GeneratedValue
-  private int personId;
+  private int id;
   private String password;
   private String email;
   private String name;
 
   //Person Associations
-  @OneToMany // changed from OneToOne to account for multiple roles (going from customer to instructor)
-  private Role role;
+  @OneToMany
+  private List<Role> roles;
 
-  /**
-   * Default constructor for Person.
-   */
-  public Person()
-  {
-  }
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
 
-  /**
-   * Parameterized constructor for Person.
-   * 
-   * @param aPersonId The unique identifier for the person.
-   * @param aPassword The password associated with the person.
-   * @param aEmail The email address of the person.
-   * @param aName The name of the person.
-   * @param aRole The associated role for the person.
-   * @throws RuntimeException if unable to create Person due to aRole.
-   * See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html
-   */
-  public Person(int aPersonId, String aPassword, String aEmail, String aName, Role aRole)
+  public Person(int aId, String aPassword, String aEmail, String aName, Role... allRoles)
   {
-    personId = aPersonId;
+    id = aId;
     password = aPassword;
     email = aEmail;
     name = aName;
-    if (!setRole(aRole))
+    roles = new ArrayList<Role>();
+    boolean didAddRoles = setRoles(allRoles);
+    if (!didAddRoles)
     {
-      throw new RuntimeException("Unable to create Person due to aRole. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Person, must have 1 to 3 roles. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
-  /**
-   * Sets the personId attribute of the person.
-   * 
-   * @param aPersonId The new value for personId.
-   * @return True if the operation was successful, false otherwise.
-   */
-  public boolean setPersonId(int aPersonId)
+  //------------------------
+  // INTERFACE
+  //------------------------
+
+  public boolean setId(int aId)
   {
     boolean wasSet = false;
-    personId = aPersonId;
+    id = aId;
     wasSet = true;
     return wasSet;
   }
 
-  /**
-   * Sets the password attribute of the person.
-   * 
-   * @param aPassword The new value for password.
-   * @return True if the operation was successful, false otherwise.
-   */
   public boolean setPassword(String aPassword)
   {
     boolean wasSet = false;
@@ -85,12 +72,6 @@ public class Person
     return wasSet;
   }
 
-  /**
-   * Sets the email attribute of the person.
-   * 
-   * @param aEmail The new value for email.
-   * @return True if the operation was successful, false otherwise.
-   */
   public boolean setEmail(String aEmail)
   {
     boolean wasSet = false;
@@ -99,12 +80,6 @@ public class Person
     return wasSet;
   }
 
-  /**
-   * Sets the name attribute of the person.
-   * 
-   * @param aName The new value for name.
-   * @return True if the operation was successful, false otherwise.
-   */
   public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -113,98 +88,164 @@ public class Person
     return wasSet;
   }
 
-  
-  /**
-   * Gets the personId attribute of the person.
-   * 
-   * @return The personId.
-   */
-  public int getPersonId()
+  public int getId()
   {
-    return personId;
+    return id;
   }
 
-  /**
-   * Gets the password attribute of the person.
-   * 
-   * @return The password.
-   */
   public String getPassword()
   {
     return password;
   }
 
-  /**
-   * Gets the email attribute of the person.
-   * 
-   * @return The email.
-   */
   public String getEmail()
   {
     return email;
   }
 
-  /**
-   * Gets the name attribute of the person.
-   * 
-   * @return The name.
-   */
   public String getName()
   {
     return name;
   }
-
-  /**
-   * Gets the associated role of the person.
-   * 
-   * @return The role.
-   */
-  /* Code from template association_GetOne */
-  public Role getRole()
+  /* Code from template association_GetMany */
+  public Role getRole(int index)
   {
-    return role;
+    Role aRole = roles.get(index);
+    return aRole;
   }
 
-  /**
-   * Sets the associated role of the person.
-   * 
-   * @param aNewRole The new role to be associated with the person.
-   * @return True if the operation was successful, false otherwise.
-   */
-  /* Code from template association_SetUnidirectionalOne */
-  public boolean setRole(Role aNewRole)
+  public List<Role> getRoles()
+  {
+    List<Role> newRoles = Collections.unmodifiableList(roles);
+    return newRoles;
+  }
+
+  public int numberOfRoles()
+  {
+    int number = roles.size();
+    return number;
+  }
+
+  public boolean hasRoles()
+  {
+    boolean has = roles.size() > 0;
+    return has;
+  }
+
+  public int indexOfRole(Role aRole)
+  {
+    int index = roles.indexOf(aRole);
+    return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfRoles()
+  {
+    return 1;
+  }
+  /* Code from template association_MaximumNumberOfMethod */
+  public static int maximumNumberOfRoles()
+  {
+    return 3;
+  }
+  /* Code from template association_AddUnidirectionalMN */
+  public boolean addRole(Role aRole)
+  {
+    boolean wasAdded = false;
+    if (roles.contains(aRole)) { return false; }
+    if (numberOfRoles() < maximumNumberOfRoles())
+    {
+      roles.add(aRole);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean removeRole(Role aRole)
+  {
+    boolean wasRemoved = false;
+    if (!roles.contains(aRole))
+    {
+      return wasRemoved;
+    }
+
+    if (numberOfRoles() <= minimumNumberOfRoles())
+    {
+      return wasRemoved;
+    }
+
+    roles.remove(aRole);
+    wasRemoved = true;
+    return wasRemoved;
+  }
+  /* Code from template association_SetUnidirectionalMN */
+  public boolean setRoles(Role... newRoles)
   {
     boolean wasSet = false;
-    if (aNewRole != null)
+    ArrayList<Role> verifiedRoles = new ArrayList<Role>();
+    for (Role aRole : newRoles)
     {
-      role = aNewRole;
-      wasSet = true;
+      if (verifiedRoles.contains(aRole))
+      {
+        continue;
+      }
+      verifiedRoles.add(aRole);
     }
+
+    if (verifiedRoles.size() != newRoles.length || verifiedRoles.size() < minimumNumberOfRoles() || verifiedRoles.size() > maximumNumberOfRoles())
+    {
+      return wasSet;
+    }
+
+    roles.clear();
+    roles.addAll(verifiedRoles);
+    wasSet = true;
     return wasSet;
   }
-
-  
-  /**
-   * Deletes the associated role of the person.
-   */
-  public void delete()
-  {
-    role = null;
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addRoleAt(Role aRole, int index)
+  {  
+    boolean wasAdded = false;
+    if(addRole(aRole))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRoles()) { index = numberOfRoles() - 1; }
+      roles.remove(aRole);
+      roles.add(index, aRole);
+      wasAdded = true;
+    }
+    return wasAdded;
   }
 
-  /**
-   * Generates a string representation of the Person, including its attributes
-   * and the associated role.
-   * 
-   * @return A string representation of the Person.
-   */
+  public boolean addOrMoveRoleAt(Role aRole, int index)
+  {
+    boolean wasAdded = false;
+    if(roles.contains(aRole))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRoles()) { index = numberOfRoles() - 1; }
+      roles.remove(aRole);
+      roles.add(index, aRole);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addRoleAt(aRole, index);
+    }
+    return wasAdded;
+  }
+
+  public void delete()
+  {
+    roles.clear();
+  }
+
+
   public String toString()
   {
     return super.toString() + "["+
-            "personId" + ":" + getPersonId()+ "," +
+            "id" + ":" + getId()+ "," +
             "password" + ":" + getPassword()+ "," +
             "email" + ":" + getEmail()+ "," +
-            "name" + ":" + getName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "role = "+(getRole()!=null?Integer.toHexString(System.identityHashCode(getRole())):"null");
+            "name" + ":" + getName()+ "]";
   }
 }

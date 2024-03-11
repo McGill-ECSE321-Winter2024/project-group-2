@@ -45,16 +45,16 @@ public class PersonRepositoryTests {
         person = repo.save(person);
 
         //Read back from database
-        id = person.getPersonId();
+        id = person.getId();
         Person personFromDB = repo.getPersonByPersonId(id);
 
         //Assertions
         assertNotNull(personFromDB);
-        assertEquals(person.getPersonId(), personFromDB.getPersonId());
+        assertEquals(person.getId(), personFromDB.getId());
         assertEquals(person.getEmail(), personFromDB.getEmail());
         assertEquals(person.getPassword(), personFromDB.getPassword());
         assertEquals(person.getName(), personFromDB.getName());
-        assertEquals(person.getRole().getId(), personFromDB.getRole().getId());
+        assertEquals(person.getRoles().get(0).getId(), personFromDB.getRoles().get(0).getId());
     }
 
 }
