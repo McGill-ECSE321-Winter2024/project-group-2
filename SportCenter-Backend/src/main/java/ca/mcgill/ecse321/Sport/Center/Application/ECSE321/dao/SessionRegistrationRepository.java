@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao;
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistration;
+import java.util.List;
 
 /**
  * This interface defines the repository for the CRUD functionalities relating
@@ -19,4 +20,12 @@ public interface SessionRegistrationRepository extends CrudRepository<SessionReg
      * @return Session Registration with the specified id
      */
     public SessionRegistration getSessionRegistrationById(int id);
+
+    /**
+     * This method gets the list of session registrations by the session id
+     * 
+     * @param id id of the session
+     * @return list of session registrations
+     */
+    public List<SessionRegistration> findSessionRegistrationBySessionId(int id);
 }
