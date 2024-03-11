@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 /**
@@ -23,7 +24,7 @@ public class Person
   private String name;
 
   //Person Associations
-  @OneToOne
+  @OneToMany // changed from OneToOne to account for multiple roles (going from customer to instructor)
   private Role role;
 
   /**
