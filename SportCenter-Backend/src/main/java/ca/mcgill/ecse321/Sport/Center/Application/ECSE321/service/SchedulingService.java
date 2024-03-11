@@ -1,13 +1,21 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Date;
+import java.sql.Time;
+
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 
 @Service
 public class SchedulingService {
@@ -21,8 +29,10 @@ public class SchedulingService {
     ClassTypeRepository classTypeRepository;
 
     @Transactional
-    public void createSession(){
-        return;
+    public Session createSession(int id, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
+        // I think this needs checks for validity + exceptions thrown
+        Session session = new Session(id, length, startTime, endTime, date, isRepeating, maxParticipants, classType, instructor);
+        return sessionRepository.save(session);
     }
     @Transactional
     public void updateSession(){ //maybe
