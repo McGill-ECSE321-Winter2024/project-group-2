@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 
@@ -14,27 +15,33 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 public class AccountService {
     
     @Autowired
-    PersonRepository personRepo;
+    private PersonRepository personRepository;
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
     @Autowired
-    InstructorRepository instructorRepository;
+    private InstructorRepository instructorRepository;
     @Autowired
-    OwnerRepository ownerRepository;
+    private OwnerRepository ownerRepository;
 
     @Transactional
-    public void createAccount(){
-        return;
+    public void createCustomerAccount(int personId, String password, String email, String name){
+        Customer newAccountRole =  new Customer();
+
+        Person newCustomer = createPerson(personId, password, email, name, newAccountRole);
+        customerRepository.save(newAccountRole);
+        personRepository.save(newCustomer);
+        
     }
 
     @Transactional
     public Iterable<Person> findAllPeople() {
-        return personRepo.findAll();
+        return personRepository.findAll();
     }
 
     @Transactional
     public Person findPersonById(int pid) throws Exception {
         Person p = personRepo.getPersonById(pid); // this is written as findPersonById in the tutorial
+
         if (p == null) {
             // need to make this a SportCenterApplicationException
             throw new Exception("There is no person with this ID");
@@ -46,12 +53,16 @@ public class AccountService {
     public Person createPerson(int personId, String password, String email, String name) {
         //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
         Person person = new Person(personId, password, email, name);
-
-        return personRepo.save(person);
+        return personRepository.save(person);
     }
     
     @Transactional
-    public void login(String username, String attemptedPassword){
-        return;
+
+    public boolean login(String email, String password){
+        if (personRepository.existsByEmail(email)) {
+        Person toLogin = personRepository.getPersonByEmail(email);
+            if (toLogin.getPassword().equals(password)) return true;
+        }
+        return false;
     }
 }
