@@ -18,7 +18,7 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
      * @param id id of the person (primary key)
      * @return Person with the specified id
      */
-    public Person getPersonByPersonId(int id);
+    public Person getPersonById(int id);
 
     public Person getPersonByEmail(String email);
 

@@ -18,4 +18,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
      * @return Customer with the specified id
      */
     public Customer getCustomerById(int id);
+    public Customer getCustomerByPersonEmail(String email);
+    public Customer getCustomerByPersonName(String name);
 }

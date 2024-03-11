@@ -31,18 +31,25 @@ public class InstructorRepositoryTests {
     public void testCreateAndReadInstructor() {
         // Create instructor
         //int instructorId = 1;
-        Instructor instructor = new Instructor();
+        int id = 0;
+        String name = "person";
+        String email = "email";
+        String password = "password";
+        Person person = new Person(id, name, email, password);
+        Instructor instructor = new Instructor(person);
 
         // Save in database
         instructor = repo.save(instructor);
 
         // Read back from database
-        int instructorId = instructor.getId();
-        Instructor instructorFromDB = repo.getInstructorById(instructorId);
+        Instructor instructorFromDB = repo.getInstructorByPersonName(name);
 
         // Assertions
         assertNotNull(instructorFromDB);
-        assertEquals(instructorId, instructorFromDB.getId());
+        assertEquals(instructor.getPerson().getId(), instructorFromDB.getPerson().getId());
+        assertEquals(instructor.getPerson().getEmail(), instructorFromDB.getPerson().getEmail());
+        assertEquals(instructor.getPerson().getName(), instructorFromDB.getPerson().getName());
+        assertEquals(instructor.getPerson().getPassword(), instructorFromDB.getPerson().getPassword());
     }
 
 }

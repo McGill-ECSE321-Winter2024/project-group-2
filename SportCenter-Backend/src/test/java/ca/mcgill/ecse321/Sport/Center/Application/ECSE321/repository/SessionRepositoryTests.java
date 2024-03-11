@@ -43,14 +43,19 @@ public class SessionRepositoryTests {
         LocalTime localStartTime = LocalTime.of(11, 0, 0); // 08:30:00
         LocalTime localEndTime = LocalTime.of(12, 0, 0);   // 12:00:00
 
+        int id = 1;
+        String name = "person";
+        String password = "password";
+        String email = "email";
+        Person person = new Person(id, name, password, email);
+
         // Create instructor
-        int instructorId = 1;
-        Instructor instructor = new Instructor(instructorId);
-        instructor = instructorRepo.save(instructor);
+        Instructor instructor = new Instructor(person);
+        instructorRepo.save(instructor);
 
         // Create class type
         ClassType exampleClassType = new ClassType("exampleClassType");
-        exampleClassType = classTypeRepo.save(exampleClassType);
+        classTypeRepo.save(exampleClassType);
 
         // Create session
         int sessionId = 1;
@@ -81,7 +86,7 @@ public class SessionRepositoryTests {
         assertEquals(yogaSession.getMaxParticipants(), sessionFromDB.getMaxParticipants());
         assertEquals(yogaSession.getClassType().getClassType(), sessionFromDB.getClassType().getClassType());
         assertNotNull(yogaSession.getInstructor());
-        assertEquals(yogaSession.getInstructor().getId(), sessionFromDB.getInstructor().getId());
+        assertEquals(yogaSession.getInstructor().getPerson().getId(), sessionFromDB.getInstructor().getPerson().getId());
     }
 
 }

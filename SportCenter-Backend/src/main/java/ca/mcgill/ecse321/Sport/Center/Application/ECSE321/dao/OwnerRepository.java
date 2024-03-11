@@ -19,4 +19,5 @@ public interface OwnerRepository extends CrudRepository<Owner, Integer> {
      * @return Owner with the specified id
      */
     public Owner getOwnerById(int id);
+    public Owner getOwnerByPersonName(String name);
 }

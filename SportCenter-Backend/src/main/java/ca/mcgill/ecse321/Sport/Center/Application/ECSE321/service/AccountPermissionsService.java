@@ -18,12 +18,12 @@ public class AccountPermissionsService {
     OwnerRepository ownerRepository;
 
     @Transactional
-    public void grantInstructorPermissions(){
+    public void grantInstructorPermissions(String personName){
         return;
     }
 
     @Transactional
-    public void revokeInstructorPermissions(){
+    public void revokeInstructorPermissions(String personName){
         return;
     }
 }
