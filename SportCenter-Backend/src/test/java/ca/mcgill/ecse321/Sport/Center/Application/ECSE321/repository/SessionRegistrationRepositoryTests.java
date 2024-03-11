@@ -46,15 +46,18 @@ public class SessionRegistrationRepositoryTests {
         // Create Times
         LocalTime localStartTime = LocalTime.of(11, 0, 0); // 08:30:00
         LocalTime localEndTime = LocalTime.of(12, 0, 0);   // 12:00:00
-
+        
+        int id = 1;
+        String name = "person";
+        String password = "password";
+        String email = "email";
+        Person person = new Person(id, name, password, email);
         //Create Customer
-        int customerId = 1;
-        Customer customer = new Customer(customerId);
+        Customer customer = new Customer(person);
         customer = customerRepo.save(customer);
 
         // Create instructor
-        int instructorId = 1;
-        Instructor instructor = new Instructor(instructorId);
+        Instructor instructor = new Instructor(person);
         instructor = instructorRepo.save(instructor);
 
         // Create class type
@@ -90,7 +93,7 @@ public class SessionRegistrationRepositoryTests {
         //Customer Assertions
         Customer customerFromDB = regFromDB.getCustomer();
         assertNotNull(customerFromDB);
-        assertEquals(customer.getId(), customerFromDB.getId());
+        assertEquals(customer.getPerson().getId(), customerFromDB.getPerson().getId());
         //Session Assertions
         Session sessionRegistrationFromDB = regFromDB.getSession();
         assertNotNull(sessionRegistrationFromDB);
@@ -98,7 +101,7 @@ public class SessionRegistrationRepositoryTests {
         assertEquals(sessionRegistration.getDate(), sessionRegistrationFromDB.getDate());
         assertEquals(sessionRegistration.getEndTime(), sessionRegistrationFromDB.getEndTime());
         assertEquals(sessionRegistration.getId(), sessionRegistrationFromDB.getId());
-        assertEquals(sessionRegistration.getInstructor().getId(), sessionRegistrationFromDB.getInstructor().getId());
+        assertEquals(sessionRegistration.getInstructor().getPerson().getId(), sessionRegistrationFromDB.getInstructor().getPerson().getId());
         assertEquals(sessionRegistration.getIsRepeating(), sessionRegistrationFromDB.getIsRepeating());
         assertEquals(sessionRegistration.getLength(), sessionRegistrationFromDB.getLength());
         assertEquals(sessionRegistration.getMaxParticipants(), sessionRegistrationFromDB.getMaxParticipants());

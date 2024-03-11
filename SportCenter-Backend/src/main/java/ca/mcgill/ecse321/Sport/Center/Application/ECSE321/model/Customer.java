@@ -1,40 +1,58 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 
-/**
- * The Customer class represents a role in the sports center for a customer.
- * This class extends the Role class and inherits its properties and methods.
- */
+// line 24 "domainModel.ump"
+
+
 @Entity
-public class Customer extends Role
+public class Customer
 {
-  /**
-   * Default constructor for Customer. Calls the default constructor of the
-   * superclass (Role) to initialize the base properties.
-   */
-  public Customer()
+
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Customer Associations
+  @OneToOne
+  private Person person;
+
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+  public Customer(){}
+  public Customer(Person aPerson)
   {
-    super();
-  }
-  
-  /**
-   * Parameterized constructor for Customer.
-   * 
-   * @param aId The unique identifier for the customer role.
-   */
-  public Customer(int aId)
-  {
-    super(aId);
+    if (!setPerson(aPerson))
+    {
+      throw new RuntimeException("Unable to create Customer due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
-  /**
-   * Deletes the Customer. Calls the delete method of the superclass (Role)
-   * to perform any cleanup or additional actions needed when deleting a customer.
-   */
+  //------------------------
+  // INTERFACE
+  //------------------------
+  /* Code from template association_GetOne */
+  public Person getPerson()
+  {
+    return person;
+  }
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setPerson(Person aNewPerson)
+  {
+    boolean wasSet = false;
+    if (aNewPerson != null)
+    {
+      person = aNewPerson;
+      wasSet = true;
+    }
+    return wasSet;
+  }
+
   public void delete()
   {
-    super.delete();
+    person = null;
   }
 
 }

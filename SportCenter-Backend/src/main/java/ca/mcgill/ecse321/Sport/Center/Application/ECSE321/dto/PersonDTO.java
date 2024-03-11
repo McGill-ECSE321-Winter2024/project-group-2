@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Role;
 
 import java.util.List;
 
@@ -14,12 +13,11 @@ public class PersonDTO {
 
     public PersonDTO() {
     }
-    public PersonDTO(int personId, String password, String email, String name, List<Role> roles ) {
+    public PersonDTO(int personId, String password, String email, String name) {
         this.personId = personId;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.roles = roles.toString();
     }
 
     public PersonDTO(Person model) {
@@ -27,7 +25,6 @@ public class PersonDTO {
         this.password = model.getPassword();
         this.email = model.getEmail();
         this.name = model.getName();
-        this.roles = model.getRoles().toString();
     }
 
     public int getPersonId() {

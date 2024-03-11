@@ -29,19 +29,25 @@ public class OwnerRepositoryTests {
     @Test
     public void testCreateAndReadOwner() {
         // Create owner
-        int ownerId = 1;
-        Owner owner = new Owner(ownerId);
+        int id = 0;
+        String name = "person";
+        String email = "email";
+        String password = "password";
+        Person person = new Person(id, name, email, password);
+        Owner owner = new Owner(person);
 
         // Save in database
         owner = repo.save(owner);
 
         // Read back from database
-        ownerId = owner.getId();
-        Owner ownerFromDB = repo.getOwnerById(ownerId);
+        Owner ownerFromDB = repo.getOwnerByPersonName(name);
 
         // Assertions
         assertNotNull(ownerFromDB);
-        assertEquals(ownerId, ownerFromDB.getId());
+        assertEquals(owner.getPerson().getId(), ownerFromDB.getPerson().getId());
+        assertEquals(owner.getPerson().getEmail(), ownerFromDB.getPerson().getEmail());
+        assertEquals(owner.getPerson().getName(), ownerFromDB.getPerson().getName());
+        assertEquals(owner.getPerson().getPassword(), ownerFromDB.getPerson().getPassword());
     }
 
 }

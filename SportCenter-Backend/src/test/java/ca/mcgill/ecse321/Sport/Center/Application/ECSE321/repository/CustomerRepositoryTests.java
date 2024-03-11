@@ -28,19 +28,25 @@ public class CustomerRepositoryTests {
     @Test
     public void testCreateAndReadCustomer() {
         //Create Customer
-        int customerId = 1;
-        Customer customer = new Customer(customerId);
+        int id = 0;
+        String name = "person";
+        String email = "email";
+        String password = "password";
+        Person person = new Person(id, name, email, password);
+        Customer customer = new Customer(person);
 
         //Save in database
         customer = repo.save(customer);
 
         //Read back from database
-        customerId = customer.getId();
-        Customer customerFromDB = repo.getCustomerById(customerId);
+        Customer customerFromDB = repo.getCustomerByPersonEmail(email);
 
         //Assertions
         assertNotNull(customerFromDB);
-        assertEquals(customerId, customerFromDB.getId());
+        assertEquals(customer.getPerson().getId(), customerFromDB.getPerson().getId());
+        assertEquals(customer.getPerson().getEmail(), customerFromDB.getPerson().getEmail());
+        assertEquals(customer.getPerson().getName(), customerFromDB.getPerson().getName());
+        assertEquals(customer.getPerson().getPassword(), customerFromDB.getPerson().getPassword());
     }
 
 }

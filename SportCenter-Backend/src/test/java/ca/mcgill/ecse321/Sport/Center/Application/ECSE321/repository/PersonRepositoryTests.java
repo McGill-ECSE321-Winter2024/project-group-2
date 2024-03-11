@@ -37,16 +37,14 @@ public class PersonRepositoryTests {
         String name = "person";
         String password = "password";
         String email = "email";
-        Customer role = new Customer();
-        Person person = new Person(id, name, password, email, role);
+        Person person = new Person(id, name, password, email);
 
         //Save in database
-        customerRepository.save(role);
         person = repo.save(person);
 
         //Read back from database
         id = person.getId();
-        Person personFromDB = repo.getPersonByPersonId(id);
+        Person personFromDB = repo.getPersonById(id);
 
         //Assertions
         assertNotNull(personFromDB);
@@ -54,7 +52,6 @@ public class PersonRepositoryTests {
         assertEquals(person.getEmail(), personFromDB.getEmail());
         assertEquals(person.getPassword(), personFromDB.getPassword());
         assertEquals(person.getName(), personFromDB.getName());
-        assertEquals(person.getRoles().get(0).getId(), personFromDB.getRoles().get(0).getId());
     }
 
 }

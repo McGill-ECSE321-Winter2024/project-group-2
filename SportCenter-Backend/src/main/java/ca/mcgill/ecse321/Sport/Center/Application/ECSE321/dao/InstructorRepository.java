@@ -18,4 +18,7 @@ public interface InstructorRepository extends CrudRepository<Instructor, Integer
      * @return Instructor with the specified id
      */
     public Instructor getInstructorById(int id);
+    public Instructor getInstructorByPersonName(String name);
+
+
 }

@@ -13,11 +13,13 @@ import java.util.List;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistration;
 
@@ -33,6 +35,8 @@ public class SchedulingService {
     ClassTypeRepository classTypeRepository;
     @Autowired
     SessionRegistrationRepository sessionRegistrationRepository;
+    @Autowired
+    PersonRepository personRepository;
 
     @Transactional
     public Session createSession(int id, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
@@ -55,15 +59,22 @@ public class SchedulingService {
     }
 
     @Transactional
-    public void approveClassType(){
+    public void approveClassType(String classTypeName){
         return;
     }
     @Transactional
-    public void suggestClassType(){
+    public void suggestClassType(String classTypeName){
         return;
     }
     @Transactional
-    public void registerToTeachSession(){
+    public void registerToTeachSession(String instructorName, int sessionId){
+        Session targetSession = sessionRepository.getSessionById(sessionId);
+        Person targetPerson = personRepository.getPersonByName(instructorName);
+        Instructor targetInstructor = instructorRepository.getInstructorByPersonName(instructorName);
+        
+
+
+        targetSession.setInstructor(targetInstructor);
         return;
     }
 
