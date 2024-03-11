@@ -8,22 +8,23 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 
 @Service
 public class SessionRegistrationService {
     @Autowired
-    SessionRepository sessionRepository;
+    private SessionRepository sessionRepository;
     @Autowired
-    CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
     @Autowired
-    PersonRepository personRepository;
+    private PersonRepository personRepository;
     @Autowired
-    SessionRegistrationRepository sessionRegistrationRepository;
+    private SessionRegistrationRepository sessionRegistrationRepository;
     
 
     @Transactional
-    public void viewSessions(){
-        return;
+    public Iterable<Session> viewSessions(){
+        return sessionRepository.findAll();
     }
 
     @Transactional
