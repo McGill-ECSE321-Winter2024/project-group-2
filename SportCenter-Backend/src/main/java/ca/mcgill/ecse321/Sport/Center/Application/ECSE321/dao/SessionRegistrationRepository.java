@@ -28,4 +28,8 @@ public interface SessionRegistrationRepository extends CrudRepository<SessionReg
      * @return list of session registrations
      */
     public List<SessionRegistration> findBySessionId(int id);
+
+    public void deleteAllBySessionId(int id);
+    public List<SessionRegistration> findAllByCustomerPersonEmail(String customerEmail);
+    public List<SessionRegistration> findAllByCustomerId(int customerId);
 }

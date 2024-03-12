@@ -20,7 +20,7 @@ public class Owner
 
   @Id
   @GeneratedValue
-  private int Id;
+  private int id;
   //------------------------
   // CONSTRUCTOR
   //------------------------

@@ -18,11 +18,16 @@ public class AccountService {
     private CustomerRepository customerRepository;
     @Transactional
     public void createCustomerAccount(int personId, String password, String email, String name){
-        Person person = personRepository.getById(personId);        
+        if(! personRepository.existsByEmail(email)){
+            Person person = new Person();
+            person.setName(name);
+            person.setEmail(email);
+            person.setPassword(password);
+            personRepository.save(person);
+        }
+        Person person = personRepository.findByEmail(email);        
         Customer newCustomerRole =  new Customer(person);
-
         customerRepository.save(newCustomerRole);
-        personRepository.save(person);
         
     }
 
@@ -33,7 +38,7 @@ public class AccountService {
 
     @Transactional
     public Person findPersonById(int pid) throws Exception {
-        Person p = personRepository.getById(pid); // this is written as findPersonById in the tutorial
+        Person p = personRepository.findById(pid); // this is written as findPersonById in the tutorial
 
         if (p == null) {
             // need to make this a SportCenterApplicationException
@@ -45,7 +50,14 @@ public class AccountService {
     @Transactional
     public Person createPerson(int personId, String password, String email, String name) {
         //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
-        Person person = new Person(personId, password, email, name);
+        if(personRepository.existsByEmail(email)){
+            return null;
+        }
+        
+        Person person = new Person();
+        person.setEmail(email);
+        person.setName(name);
+        person.setPassword(password);
         return personRepository.save(person);
     }
     
@@ -53,8 +65,10 @@ public class AccountService {
 
     public boolean login(String email, String password){
         if (personRepository.existsByEmail(email)) {
-        Person toLogin = personRepository.getByEmail(email);
-            if (toLogin.getPassword().equals(password)) return true;
+            Person toLogin = personRepository.findByEmail(email);
+            if (toLogin.getPassword().equals(password)){
+                return true;
+            }
         }
         return false;
     }

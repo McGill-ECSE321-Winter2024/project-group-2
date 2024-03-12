@@ -44,9 +44,23 @@ public class SchedulingService {
         return sessionRepository.save(session);
     }
 
+    /**
+     *Updates an existing session in the database
+
+     * @param sessionId
+     * @param length
+     * @param startTime
+     * @param endtime
+     * @param date
+     * @param isRepeating
+     * @param maxParticipants
+     * @param classType
+     * @param instructor
+     * @author Behrad
+     */
     @Transactional
     public void updateSession(int sessionId, int length, Time startTime, Time endtime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){ //maybe
-        Session session = sessionRepository.getById(sessionId);
+        Session session = sessionRepository.findById(sessionId);
         session.setLength(length);
         session.setStartTime(startTime);
         session.setEndTime(endtime);
@@ -59,34 +73,68 @@ public class SchedulingService {
         return;
     }
     @Transactional
-    public void deleteSession(int id){
-        List<SessionRegistration> sessionRegistrationsToDelete= sessionRegistrationRepository.findBySessionId(id);
-        for (SessionRegistration registration : sessionRegistrationsToDelete){
-            sessionRegistrationRepository.delete(registration);
-        }
-        sessionRepository.deleteById(id);
+    public void deleteSession(int sessionId){
+        sessionRegistrationRepository.deleteAllBySessionId(sessionId);
+        sessionRepository.deleteById(sessionId);
     }
 
+    /**
+     * Approves and saves a suggested classtype
+     * @param classTypeName
+     * @author Behrad
+     */
     @Transactional
     public void approveClassType(String classTypeName){
-        ClassType classType = classTypeRepository.getByClassType(classTypeName);
+        ClassType classType = classTypeRepository.findByClassType(classTypeName);
         classType.setIsApproved(true);
         classTypeRepository.save(classType);
         return;
     }
+    /**
+     * Rejects and deletes a suggested class type
+     * @param classTypeName
+     * @author Behrad
+     */
+    @Transactional
+    public void rejectClassType(String classTypeName){
+        ClassType classType = classTypeRepository.findByClassType(classTypeName);
+        classTypeRepository.delete(classType);
+        return;
+    }
+    /**
+     * Creates a new classtype with approval status false
+     * @param classTypeName
+     * @author Behrad
+     */
     @Transactional
     public void suggestClassType(String classTypeName){
         ClassType classType = new ClassType(classTypeName, false);
         classTypeRepository.save(classType);
         return;
     }
+    /**
+     * Views all class types based on approval status
+     * @param isApproved
+     * @return List<ClassType> targeted classtypes
+     * @author Behrad
+     */
     @Transactional
-    public void registerToTeachSession(String instructorName, int sessionId){
-        Session targetSession = sessionRepository.getById(sessionId);
+    public List<ClassType> viewClassTypeByApproval(boolean isApproved){
+        List<ClassType> classTypes = classTypeRepository.findByIsApproved(isApproved);
+        return classTypes;
+    }
+    /**
+     * Registers an instructor by their person's email to teach a session
+     * @param instructorEmail
+     * @param sessionId
+     * @author Behrad
+     */
+    @Transactional
+    public void registerToTeachSession(String instructorEmail, int sessionId){
+        Session targetSession = sessionRepository.findById(sessionId);
+        Instructor targetInstructor = instructorRepository.findByPersonEmail(instructorEmail);
         
-        Instructor targetInstructor = instructorRepository.getByPersonName(instructorName);
         targetSession.setInstructor(targetInstructor);
-
         sessionRepository.save(targetSession);
         return;
     }

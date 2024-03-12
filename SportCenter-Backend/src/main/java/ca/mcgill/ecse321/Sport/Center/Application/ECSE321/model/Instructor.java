@@ -18,7 +18,7 @@ public class Instructor
   //Instructor Associations
   @Id
   @GeneratedValue
-  private int Id;
+  private int id;
   //------------------------
   @OneToOne
   private Person person;

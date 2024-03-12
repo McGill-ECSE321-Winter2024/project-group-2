@@ -21,7 +21,7 @@ public class Customer
   private Person person;
   @Id
   @GeneratedValue
-  private int Id;
+  private int id;
   //------------------------
   // CONSTRUCTOR
   //------------------------

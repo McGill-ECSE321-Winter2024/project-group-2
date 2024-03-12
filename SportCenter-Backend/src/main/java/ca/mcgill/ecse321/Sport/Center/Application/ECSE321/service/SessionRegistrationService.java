@@ -12,6 +12,8 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistration;
 
+import java.util.List;
+
 @Service
 public class SessionRegistrationService {
     @Autowired
@@ -56,9 +58,9 @@ public class SessionRegistrationService {
      */
     @Transactional
     public SessionRegistration viewSpecificSession(int pid) throws Exception {
-        SessionRegistration s = sessionRegistrationRepository.getById(pid);
+        SessionRegistration s = sessionRegistrationRepository.findById(pid);
         if (s == null) {
-            throw new Exception("There is no person with this ID.");
+            throw new Exception("There is no registration with this ID.");
     } 
         return s;
     }
@@ -71,5 +73,29 @@ public class SessionRegistrationService {
     @Transactional
     public void cancelRegistration(int id){
         sessionRegistrationRepository.deleteById(id);
+    }
+
+    /**
+     * 
+     * @param customerId
+     * @return all registrations for a customer
+     * @author Behrad
+     */
+    @Transactional
+    public List<SessionRegistration> viewRegistrationsByCustomer(int customerId){
+        List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findAllByCustomerId(customerId);
+        return allRegistrations;
+    }
+
+    /**
+     * 
+     * @param sessionId
+     * @return all registrations for a session
+     * @author Behrad
+     */
+    @Transactional
+    public List<SessionRegistration> viewRegistrationsBySession(int sessionId){
+        List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findBySessionId(sessionId);
+        return allRegistrations;
     }
 }

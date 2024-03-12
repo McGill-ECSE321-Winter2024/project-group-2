@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
@@ -20,4 +22,6 @@ public interface ClassTypeRepository extends CrudRepository<ClassType, String> {
     public ClassType getByClassType(String classType);
 
     public ClassType findByClassType(String classType);
+
+    public List<ClassType> findByIsApproved(boolean isApproved);
 }
