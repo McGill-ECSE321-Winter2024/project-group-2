@@ -16,12 +16,12 @@ public class Instructor
   //------------------------
 
   //Instructor Associations
-  @OneToOne
-  private Person person;
   @Id
   @GeneratedValue
   private int Id;
   //------------------------
+  @OneToOne
+  private Person person;
   // CONSTRUCTOR
   //------------------------
   public Instructor(){}

@@ -1,6 +1,7 @@
 class ClassType
 {
    classType;
+   boolean isApproved;
   1 <- * Session;
 }
 
@@ -18,11 +19,14 @@ class Person
 
 class Instructor
 {
+  Integer id;
   1 <- * Session;
 }
 
 class Customer
 {
+  Integer id;
+
 }
 class SessionRegistration{
   	Integer id;
@@ -42,4 +46,6 @@ class Session
 
 class Owner
 {
+  Integer id;
+
 }

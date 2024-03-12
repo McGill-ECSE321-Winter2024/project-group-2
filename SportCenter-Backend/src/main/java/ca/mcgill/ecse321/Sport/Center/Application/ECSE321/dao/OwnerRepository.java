@@ -18,6 +18,9 @@ public interface OwnerRepository extends CrudRepository<Owner, Integer> {
      * @param id id of the owner (primary key)
      * @return Owner with the specified id
      */
-    public Owner getOwnerById(int id);
-    public Owner getOwnerByPersonName(String name);
+    public Owner getById(int id);
+    public Owner getByPersonName(String name);
+
+    public Owner findById(int id);
+    public Owner findByPersonName(String name);
 }

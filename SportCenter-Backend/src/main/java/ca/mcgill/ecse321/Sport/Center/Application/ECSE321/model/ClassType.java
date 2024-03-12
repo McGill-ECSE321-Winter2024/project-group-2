@@ -1,14 +1,14 @@
-package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.33.0.6934.a386b0a58 modeling language!*/
+package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 
 
 // line 1 "domainModel.ump"
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 @Entity
 public class ClassType
 {
@@ -20,14 +20,17 @@ public class ClassType
   //ClassType Attributes
   @Id
   private String classType;
+  private boolean isApproved;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   public ClassType(){}
-  public ClassType(String aClassType)
+
+  public ClassType(String aClassType, boolean aIsApproved)
   {
     classType = aClassType;
+    isApproved = aIsApproved;
   }
 
   //------------------------
@@ -42,9 +45,22 @@ public class ClassType
     return wasSet;
   }
 
+  public boolean setIsApproved(boolean aIsApproved)
+  {
+    boolean wasSet = false;
+    isApproved = aIsApproved;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getClassType()
   {
     return classType;
+  }
+
+  public boolean getIsApproved()
+  {
+    return isApproved;
   }
 
   public void delete()
@@ -54,6 +70,7 @@ public class ClassType
   public String toString()
   {
     return super.toString() + "["+
-            "classType" + ":" + getClassType()+ "]";
+            "classType" + ":" + getClassType()+ "," +
+            "isApproved" + ":" + getIsApproved()+ "]";
   }
 }

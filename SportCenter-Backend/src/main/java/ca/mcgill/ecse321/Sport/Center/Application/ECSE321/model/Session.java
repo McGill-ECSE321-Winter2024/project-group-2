@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
+import jakarta.persistence.Basic;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -22,12 +24,17 @@ public class Session
   @Id
   @GeneratedValue
   private int id;
-
+  @Basic(fetch = FetchType.EAGER)
   private int length;
+  @Basic(fetch = FetchType.EAGER)
   private Time startTime;
+  @Basic(fetch = FetchType.EAGER)
   private Time endTime;
+  @Basic(fetch = FetchType.EAGER)
   private Date date;
+  @Basic(fetch = FetchType.EAGER)
   private boolean isRepeating;
+  @Basic(fetch = FetchType.EAGER)
   private int maxParticipants;
 
   //Session Associations

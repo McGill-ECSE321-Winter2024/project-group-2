@@ -56,7 +56,7 @@ public class SessionRegistrationService {
      */
     @Transactional
     public SessionRegistration viewSpecificSession(int pid) throws Exception {
-        SessionRegistration s = sessionRegistrationRepository.getSessionRegistrationById(pid);
+        SessionRegistration s = sessionRegistrationRepository.getById(pid);
         if (s == null) {
             throw new Exception("There is no person with this ID.");
     } 

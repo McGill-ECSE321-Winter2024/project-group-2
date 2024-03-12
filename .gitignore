@@ -1,5 +1,5 @@
 build/
-src/main/resources
+SportCenter-Backend/src/main/resources
 src/main/resources/application.properties
 .gradle/
 bin/

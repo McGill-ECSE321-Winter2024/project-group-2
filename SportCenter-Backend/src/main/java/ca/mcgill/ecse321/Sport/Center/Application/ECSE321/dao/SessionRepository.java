@@ -18,5 +18,6 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
      * @param id id of the Session (primary key)
      * @return Session with the specified id
      */
-    public Session getSessionById(int id);
+    public Session getById(int id);
+    public Session findById(int id);
 }

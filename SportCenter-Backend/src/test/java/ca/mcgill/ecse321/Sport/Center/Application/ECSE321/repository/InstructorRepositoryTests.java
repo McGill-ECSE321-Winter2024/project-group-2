@@ -9,42 +9,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class InstructorRepositoryTests {
-        
+    
     @Autowired
-    private InstructorRepository repo;
+    private InstructorRepository instructorRepository;
+    @Autowired
+    private PersonRepository personRepository;
 
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        repo.deleteAll();
+        instructorRepository.deleteAll();
+        personRepository.deleteAll();
     }
 
     @Test
     public void testCreateAndReadInstructor() {
-        // Create instructor
-        //int instructorId = 1;
-        int id = 0;
+        //Create instructor
+        int id = 1;
         String name = "person";
         String email = "email";
         String password = "password";
         Person person = new Person(id, name, email, password);
-        Instructor instructor = new Instructor(person);
+        person = personRepository.save(person);
+        Instructor instructor = new Instructor();
+        instructor.setPerson(person);
 
-        // Save in database
-        instructor = repo.save(instructor);
+        //Save in database
+        instructor = instructorRepository.save(instructor);
 
-        // Read back from database
-        Instructor instructorFromDB = repo.getInstructorByPersonName(name);
+        //Read back from database
+        Instructor instructorFromDB = instructorRepository.getByPersonEmail(email);
 
-        // Assertions
+        //Assertions
         assertNotNull(instructorFromDB);
         assertEquals(instructor.getPerson().getId(), instructorFromDB.getPerson().getId());
         assertEquals(instructor.getPerson().getEmail(), instructorFromDB.getPerson().getEmail());

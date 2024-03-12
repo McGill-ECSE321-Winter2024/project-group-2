@@ -21,15 +21,15 @@ public class Person
   @GeneratedValue
   private int id;
   
-  private String password;
-  private String email;
   private String name;
+  private String email;
+  private String password;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
   public Person(){}
-  public Person(int aId, String aPassword, String aEmail, String aName)
+  public Person(int aId, String aName, String aEmail, String aPassword)
   {
     id = aId;
     password = aPassword;

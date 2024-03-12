@@ -30,14 +30,18 @@ public class SessionRegistrationRepositoryTests {
     private InstructorRepository instructorRepo;
     @Autowired
     private ClassTypeRepository classTypeRepo;
+    @Autowired
+    private PersonRepository personRepository;
 
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
+
         registrationRepo.deleteAll();
         sessionRepo.deleteAll();
         customerRepo.deleteAll();
         instructorRepo.deleteAll();
+        personRepository.deleteAll();
         classTypeRepo.deleteAll();
     }
 
@@ -51,9 +55,10 @@ public class SessionRegistrationRepositoryTests {
         String name = "person";
         String password = "password";
         String email = "email";
-        Person person = new Person(id, name, password, email);
+        Person person = new Person(id, password, email, name);
+        Person newPerson = personRepository.save(person);
         //Create Customer
-        Customer customer = new Customer(person);
+        Customer customer = new Customer(newPerson);
         customer = customerRepo.save(customer);
 
         // Create instructor
@@ -61,7 +66,7 @@ public class SessionRegistrationRepositoryTests {
         instructor = instructorRepo.save(instructor);
 
         // Create class type
-        ClassType exampleClassType = new ClassType("exampleClassType");
+        ClassType exampleClassType = new ClassType("exampleClassType", false);
         exampleClassType = classTypeRepo.save(exampleClassType);
 
         // Create session
@@ -85,7 +90,7 @@ public class SessionRegistrationRepositoryTests {
 
         // Read back from database
         regId = reg.getId();
-        SessionRegistration regFromDB = registrationRepo.getSessionRegistrationById(regId);
+        SessionRegistration regFromDB = registrationRepo.findById(regId);
 
         //Base Registration Assertions
         assertNotNull(regFromDB);

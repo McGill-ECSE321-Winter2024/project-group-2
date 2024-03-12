@@ -19,7 +19,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistratio
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistration;
 
@@ -46,12 +45,22 @@ public class SchedulingService {
     }
 
     @Transactional
-    public void updateSession(){ //maybe
+    public void updateSession(int sessionId, int length, Time startTime, Time endtime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){ //maybe
+        Session session = sessionRepository.getById(sessionId);
+        session.setLength(length);
+        session.setStartTime(startTime);
+        session.setEndTime(endtime);
+        session.setDate(date);
+        session.setIsRepeating(isRepeating);
+        session.setMaxParticipants(maxParticipants);
+        session.setClassType(classType);
+        session.setInstructor(instructor);
+        sessionRepository.save(session);
         return;
     }
     @Transactional
     public void deleteSession(int id){
-        List<SessionRegistration> sessionRegistrationsToDelete= sessionRegistrationRepository.findSessionRegistrationBySessionId(id);
+        List<SessionRegistration> sessionRegistrationsToDelete= sessionRegistrationRepository.findBySessionId(id);
         for (SessionRegistration registration : sessionRegistrationsToDelete){
             sessionRegistrationRepository.delete(registration);
         }
@@ -60,21 +69,25 @@ public class SchedulingService {
 
     @Transactional
     public void approveClassType(String classTypeName){
+        ClassType classType = classTypeRepository.getByClassType(classTypeName);
+        classType.setIsApproved(true);
+        classTypeRepository.save(classType);
         return;
     }
     @Transactional
     public void suggestClassType(String classTypeName){
+        ClassType classType = new ClassType(classTypeName, false);
+        classTypeRepository.save(classType);
         return;
     }
     @Transactional
     public void registerToTeachSession(String instructorName, int sessionId){
-        Session targetSession = sessionRepository.getSessionById(sessionId);
-        Person targetPerson = personRepository.getPersonByName(instructorName);
-        Instructor targetInstructor = instructorRepository.getInstructorByPersonName(instructorName);
+        Session targetSession = sessionRepository.getById(sessionId);
         
-
-
+        Instructor targetInstructor = instructorRepository.getByPersonName(instructorName);
         targetSession.setInstructor(targetInstructor);
+
+        sessionRepository.save(targetSession);
         return;
     }
 

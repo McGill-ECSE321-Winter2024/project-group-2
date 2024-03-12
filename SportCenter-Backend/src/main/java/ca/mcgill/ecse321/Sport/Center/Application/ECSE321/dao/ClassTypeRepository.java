@@ -17,5 +17,7 @@ public interface ClassTypeRepository extends CrudRepository<ClassType, String> {
      * @param classType class type
      * @return Type we are getting
      */
-    public ClassType getClassTypeByClassType(String classType);
+    public ClassType getByClassType(String classType);
+
+    public ClassType findByClassType(String classType);
 }
