@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 // line 43 "domainModel.ump"
 import jakarta.persistence.OneToOne;
 
@@ -16,6 +18,9 @@ public class Owner
   @OneToOne
   private Person person;
 
+  @Id
+  @GeneratedValue
+  private int Id;
   //------------------------
   // CONSTRUCTOR
   //------------------------
