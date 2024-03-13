@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.repository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,8 @@ public class SessionRepositoryTests {
     private ClassTypeRepository classTypeRepo;
     @Autowired
     private SessionRepository sessionRepo;
+    @Autowired
+    private PersonRepository personRepository;
 
     @BeforeEach
     @AfterEach
@@ -43,14 +46,24 @@ public class SessionRepositoryTests {
         LocalTime localStartTime = LocalTime.of(11, 0, 0); // 08:30:00
         LocalTime localEndTime = LocalTime.of(12, 0, 0);   // 12:00:00
 
+
+        String name = "person";
+        String password = "password";
+        String email = "email";
+        Person person = new Person();
+        person.setEmail(email);
+        person.setName(name);
+        person.setPassword(password);
+        person = personRepository.save(person);
+
         // Create instructor
-        int instructorId = 1;
-        Instructor instructor = new Instructor(instructorId);
-        instructor = instructorRepo.save(instructor);
+        Instructor instructor = new Instructor();
+        instructor.setPerson(person);
+        instructorRepo.save(instructor);
 
         // Create class type
-        ClassType exampleClassType = new ClassType("exampleClassType");
-        exampleClassType = classTypeRepo.save(exampleClassType);
+        ClassType exampleClassType = new ClassType("exampleClassType", false);
+        classTypeRepo.save(exampleClassType);
 
         // Create session
         int sessionId = 1;
@@ -68,7 +81,7 @@ public class SessionRepositoryTests {
         
         // Read back from database
         sessionId = yogaSession.getId();
-        Session sessionFromDB = sessionRepo.getSessionById(sessionId);
+        Session sessionFromDB = sessionRepo.findById(sessionId);
 
         // Assertions
         assertNotNull(sessionFromDB);
@@ -81,7 +94,7 @@ public class SessionRepositoryTests {
         assertEquals(yogaSession.getMaxParticipants(), sessionFromDB.getMaxParticipants());
         assertEquals(yogaSession.getClassType().getClassType(), sessionFromDB.getClassType().getClassType());
         assertNotNull(yogaSession.getInstructor());
-        assertEquals(yogaSession.getInstructor().getId(), sessionFromDB.getInstructor().getId());
+        assertEquals(yogaSession.getInstructor().getPerson().getId(), sessionFromDB.getInstructor().getPerson().getId());
     }
 
 }

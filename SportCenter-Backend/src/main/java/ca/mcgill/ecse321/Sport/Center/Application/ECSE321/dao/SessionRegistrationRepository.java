@@ -19,13 +19,17 @@ public interface SessionRegistrationRepository extends CrudRepository<SessionReg
      * @param id id of the Session Registration (primary key)
      * @return Session Registration with the specified id
      */
-    public SessionRegistration getSessionRegistrationById(int id);
-
+    public SessionRegistration getById(int id);
+    public SessionRegistration findById(int id);
     /**
      * This method gets the list of session registrations by the session id
      * 
      * @param id id of the session
      * @return list of session registrations
      */
-    public List<SessionRegistration> findSessionRegistrationBySessionId(int id);
+    public List<SessionRegistration> findBySessionId(int id);
+
+    public void deleteAllBySessionId(int id);
+    public List<SessionRegistration> findAllByCustomerPersonEmail(String customerEmail);
+    public List<SessionRegistration> findAllByCustomerId(int customerId);
 }

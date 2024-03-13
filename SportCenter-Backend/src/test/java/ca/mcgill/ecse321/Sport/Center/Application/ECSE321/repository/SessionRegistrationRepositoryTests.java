@@ -30,14 +30,18 @@ public class SessionRegistrationRepositoryTests {
     private InstructorRepository instructorRepo;
     @Autowired
     private ClassTypeRepository classTypeRepo;
+    @Autowired
+    private PersonRepository personRepository;
 
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
+
         registrationRepo.deleteAll();
         sessionRepo.deleteAll();
         customerRepo.deleteAll();
         instructorRepo.deleteAll();
+        personRepository.deleteAll();
         classTypeRepo.deleteAll();
     }
 
@@ -46,19 +50,23 @@ public class SessionRegistrationRepositoryTests {
         // Create Times
         LocalTime localStartTime = LocalTime.of(11, 0, 0); // 08:30:00
         LocalTime localEndTime = LocalTime.of(12, 0, 0);   // 12:00:00
-
+        
+        int id = 1;
+        String name = "person";
+        String password = "password";
+        String email = "email";
+        Person person = new Person(id, password, email, name);
+        Person newPerson = personRepository.save(person);
         //Create Customer
-        int customerId = 1;
-        Customer customer = new Customer(customerId);
+        Customer customer = new Customer(newPerson);
         customer = customerRepo.save(customer);
 
         // Create instructor
-        int instructorId = 1;
-        Instructor instructor = new Instructor(instructorId);
+        Instructor instructor = new Instructor(person);
         instructor = instructorRepo.save(instructor);
 
         // Create class type
-        ClassType exampleClassType = new ClassType("exampleClassType");
+        ClassType exampleClassType = new ClassType("exampleClassType", false);
         exampleClassType = classTypeRepo.save(exampleClassType);
 
         // Create session
@@ -82,7 +90,7 @@ public class SessionRegistrationRepositoryTests {
 
         // Read back from database
         regId = reg.getId();
-        SessionRegistration regFromDB = registrationRepo.getSessionRegistrationById(regId);
+        SessionRegistration regFromDB = registrationRepo.findById(regId);
 
         //Base Registration Assertions
         assertNotNull(regFromDB);
@@ -90,7 +98,7 @@ public class SessionRegistrationRepositoryTests {
         //Customer Assertions
         Customer customerFromDB = regFromDB.getCustomer();
         assertNotNull(customerFromDB);
-        assertEquals(customer.getId(), customerFromDB.getId());
+        assertEquals(customer.getPerson().getId(), customerFromDB.getPerson().getId());
         //Session Assertions
         Session sessionRegistrationFromDB = regFromDB.getSession();
         assertNotNull(sessionRegistrationFromDB);
@@ -98,7 +106,7 @@ public class SessionRegistrationRepositoryTests {
         assertEquals(sessionRegistration.getDate(), sessionRegistrationFromDB.getDate());
         assertEquals(sessionRegistration.getEndTime(), sessionRegistrationFromDB.getEndTime());
         assertEquals(sessionRegistration.getId(), sessionRegistrationFromDB.getId());
-        assertEquals(sessionRegistration.getInstructor().getId(), sessionRegistrationFromDB.getInstructor().getId());
+        assertEquals(sessionRegistration.getInstructor().getPerson().getId(), sessionRegistrationFromDB.getInstructor().getPerson().getId());
         assertEquals(sessionRegistration.getIsRepeating(), sessionRegistrationFromDB.getIsRepeating());
         assertEquals(sessionRegistration.getLength(), sessionRegistrationFromDB.getLength());
         assertEquals(sessionRegistration.getMaxParticipants(), sessionRegistrationFromDB.getMaxParticipants());

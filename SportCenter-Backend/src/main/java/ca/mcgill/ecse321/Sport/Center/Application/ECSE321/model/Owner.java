@@ -1,39 +1,61 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+// line 43 "domainModel.ump"
+import jakarta.persistence.OneToOne;
 
-/**
- * The Owner class represents a staff role in the sports center for an owner.
- * This class extends the Staff class and inherits its properties and methods.
- */
 @Entity
-public class Owner extends Staff
+public class Owner
 {
-  /**
-   * Default constructor for Owner. Calls the default constructor of the
-   * superclass (Staff) to initialize the base properties.
-   */
-  public Owner(){
-    super();
-  }
 
-  /**
-   * Parameterized constructor for Owner.
-   * 
-   * @param aId The unique identifier for the owner role.
-   */
-  public Owner(int aId)
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Owner Associations
+  @OneToOne
+  private Person person;
+
+  @Id
+  @GeneratedValue
+  private int id;
+  //------------------------
+  // CONSTRUCTOR
+  //------------------------
+  public Owner(){}
+  public Owner(Person aPerson)
   {
-    super(aId);
+    if (!setPerson(aPerson))
+    {
+      throw new RuntimeException("Unable to create Owner due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
-  /**
-   * Deletes the Owner. Calls the delete method of the superclass (Staff)
-   * to perform any cleanup or additional actions needed when deleting an owner.
-   */
+  //------------------------
+  // INTERFACE
+  //------------------------
+  /* Code from template association_GetOne */
+  public Person getPerson()
+  {
+    return person;
+  }
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setPerson(Person aNewPerson)
+  {
+    boolean wasSet = false;
+    if (aNewPerson != null)
+    {
+      person = aNewPerson;
+      wasSet = true;
+    }
+    return wasSet;
+  }
+
   public void delete()
   {
-    super.delete();
+    person = null;
   }
 
 }

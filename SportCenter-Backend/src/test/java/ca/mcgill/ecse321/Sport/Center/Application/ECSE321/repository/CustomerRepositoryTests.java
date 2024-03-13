@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,30 +18,40 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CustomerRepositoryTests {
     
     @Autowired
-    private CustomerRepository repo;
+    private CustomerRepository customerRepository;
+    @Autowired
+    private PersonRepository personRepository;
 
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        repo.deleteAll();
+        customerRepository.deleteAll();
+        personRepository.deleteAll();
     }
 
     @Test
     public void testCreateAndReadCustomer() {
         //Create Customer
-        int customerId = 1;
-        Customer customer = new Customer(customerId);
+        int id = 1;
+        String name = "person";
+        String email = "email";
+        String password = "password";
+        Person person = new Person(id, name, email, password);
+        person = personRepository.save(person);
+        Customer customer = new Customer(person);
 
         //Save in database
-        customer = repo.save(customer);
+        customer = customerRepository.save(customer);
 
         //Read back from database
-        customerId = customer.getId();
-        Customer customerFromDB = repo.getCustomerById(customerId);
+        Customer customerFromDB = customerRepository.getByPersonEmail(email);
 
         //Assertions
         assertNotNull(customerFromDB);
-        assertEquals(customerId, customerFromDB.getId());
+        assertEquals(customer.getPerson().getId(), customerFromDB.getPerson().getId());
+        assertEquals(customer.getPerson().getEmail(), customerFromDB.getPerson().getEmail());
+        assertEquals(customer.getPerson().getName(), customerFromDB.getPerson().getName());
+        assertEquals(customer.getPerson().getPassword(), customerFromDB.getPerson().getPassword());
     }
 
 }

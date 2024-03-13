@@ -27,11 +27,10 @@ public class ClassTypeRepositoryTests {
     @Test
     public void testCreateAndReadClassType() {
         String classType = "exampleClassType";
-        ClassType exampleClassType = new ClassType(classType);
-
+        ClassType exampleClassType = new ClassType(classType, false);
         exampleClassType = repo.save(exampleClassType);
 
-        ClassType exampleClassTypeFromRepo = repo.getClassTypeByClassType(exampleClassType.getClassType());
+        ClassType exampleClassTypeFromRepo = repo.findByClassType(classType);
 
         assertNotNull(exampleClassTypeFromRepo);
         assertEquals(classType, exampleClassTypeFromRepo.getClassType());

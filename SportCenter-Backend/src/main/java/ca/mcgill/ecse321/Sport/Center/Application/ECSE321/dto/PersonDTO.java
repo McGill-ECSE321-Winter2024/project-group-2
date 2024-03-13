@@ -1,31 +1,30 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Role;
+
+import java.util.List;
 
 public class PersonDTO {
     private int personId;
     private String password;
     private String email;
     private String name;
-    private String role;
+    private String roles;
 
     public PersonDTO() {
     }
-    public PersonDTO(int personId, String password, String email, String name, Role role ) {
+    public PersonDTO(int personId, String password, String email, String name) {
         this.personId = personId;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.role = role.toString();
     }
 
     public PersonDTO(Person model) {
-        this.personId = model.getPersonId();
+        this.personId = model.getId();
         this.password = model.getPassword();
         this.email = model.getEmail();
         this.name = model.getName();
-        this.role = model.getRole().toString();
     }
 
     public int getPersonId() {
@@ -53,12 +52,12 @@ public class PersonDTO {
         this.name = name;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(String roles) {
+        this.roles = roles;
     }
     
 }

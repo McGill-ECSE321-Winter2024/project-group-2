@@ -1,14 +1,10 @@
 class ClassType
 {
    classType;
+   boolean isApproved;
   1 <- * Session;
 }
 
-class Role
-{
-  Integer id;
-  abstract;
-}
 
 class Person
 {
@@ -16,21 +12,21 @@ class Person
   password;
   email;
   name;
-    0..1 -> 1 Role;
+  1 <- 0..1 Customer;
+  1 <- 0..1 Instructor;
+  1 <- 0..1 Owner;
 }
 
 class Instructor
 {
-  isA Staff;
+  Integer id;
   1 <- * Session;
 }
-class Staff{
-  abstract;
-  isA Role;
-}
+
 class Customer
 {
-  isA Role;
+  Integer id;
+
 }
 class SessionRegistration{
   	Integer id;
@@ -46,10 +42,10 @@ class Session
   Date date;
   boolean isRepeating;
   Integer maxParticipants;
-
 }
 
 class Owner
 {
-  isA Staff;
+  Integer id;
+
 }

@@ -1,41 +1,61 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
-/**
- * The Instructor class represents a staff role in the sports center for an instructor.
- * This class extends the Staff class and inherits its properties and methods.
- */
+
+// line 19 "domainModel.ump"
 @Entity
-public class Instructor extends Staff
+public class Instructor
 {
 
-  /**
-   * Default constructor for Instructor. Calls the default constructor of the
-   * superclass (Staff) to initialize the base properties.
-   */
-  public Instructor()
+  //------------------------
+  // MEMBER VARIABLES
+  //------------------------
+
+  //Instructor Associations
+  @Id
+  @GeneratedValue
+  private int id;
+  //------------------------
+  @OneToOne
+  private Person person;
+  // CONSTRUCTOR
+  //------------------------
+  public Instructor(){}
+  public Instructor(Person aPerson)
   {
-    super();
+    if (!setPerson(aPerson))
+    {
+      throw new RuntimeException("Unable to create Instructor due to aPerson. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+    }
   }
 
-  /**
-   * Parameterized constructor for Instructor.
-   * 
-   * @param aId The unique identifier for the instructor role.
-   */
-  public Instructor(int aId)
+  //------------------------
+  // INTERFACE
+  //------------------------
+  /* Code from template association_GetOne */
+  public Person getPerson()
   {
-    super(aId);
+    return person;
+  }
+  /* Code from template association_SetUnidirectionalOne */
+  public boolean setPerson(Person aNewPerson)
+  {
+    boolean wasSet = false;
+    if (aNewPerson != null)
+    {
+      person = aNewPerson;
+      wasSet = true;
+    }
+    return wasSet;
   }
 
-  /**
-   * Deletes the Instructor. Calls the delete method of the superclass (Staff)
-   * to perform any cleanup or additional actions needed when deleting an instructor.
-   */
   public void delete()
   {
-    super.delete();
+    person = null;
   }
 
 }
