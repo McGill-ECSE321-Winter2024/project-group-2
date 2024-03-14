@@ -20,7 +20,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistratio
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistration;
 
 @Service
 public class SchedulingService {
