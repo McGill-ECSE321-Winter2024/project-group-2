@@ -16,8 +16,15 @@ public class AccountService {
     private PersonRepository personRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    
+    public boolean isNullOrEmpty(String s){
+        return s == null || s.isBlank();
+    }
     @Transactional
-    public void createCustomerAccount(int personId, String password, String email, String name){
+    public void createCustomerAccount(int personId, String name, String email, String password){
+        if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
+            throw new IllegalArgumentException("Password, email, and name cannot be empty");
+        }
         if(! personRepository.existsByEmail(email)){
             Person person = new Person();
             person.setName(name);
@@ -38,7 +45,8 @@ public class AccountService {
 
     @Transactional
     public Person findPersonById(int pid) throws Exception {
-        Person p = personRepository.findById(pid); // this is written as findPersonById in the tutorial
+        
+        Person p = personRepository.findById(pid); 
 
         if (p == null) {
             // need to make this a SportCenterApplicationException
@@ -48,10 +56,13 @@ public class AccountService {
     }
 
     @Transactional
-    public Person createPerson(int personId, String password, String email, String name) {
+    public Person createPerson(int personId, String name, String email, String password) {
+        if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
+            throw new IllegalArgumentException("Password, email, and name cannot be empty");
+        }
         //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
         if(personRepository.existsByEmail(email)){
-            return null;
+            throw new IllegalArgumentException("Account with this email already exists");
         }
         
         Person person = new Person();
@@ -62,7 +73,6 @@ public class AccountService {
     }
     
     @Transactional
-
     public boolean login(String email, String password){
         if (personRepository.existsByEmail(email)) {
             Person toLogin = personRepository.findByEmail(email);
