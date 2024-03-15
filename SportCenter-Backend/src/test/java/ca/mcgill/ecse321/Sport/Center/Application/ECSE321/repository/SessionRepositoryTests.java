@@ -41,7 +41,7 @@ public class SessionRepositoryTests {
     }
 
     @Test
-    public void testCreateAndReadSession() {
+    public void testCreateAndReadSessionByIdSuccessful() {
         // Create Times
         LocalTime localStartTime = LocalTime.of(11, 0, 0); // 08:30:00
         LocalTime localEndTime = LocalTime.of(12, 0, 0);   // 12:00:00
@@ -95,6 +95,53 @@ public class SessionRepositoryTests {
         assertEquals(yogaSession.getClassType().getClassType(), sessionFromDB.getClassType().getClassType());
         assertNotNull(yogaSession.getInstructor());
         assertEquals(yogaSession.getInstructor().getPerson().getId(), sessionFromDB.getInstructor().getPerson().getId());
+    }
+
+    @Test
+    public void testCreateAndReadSessionByIdUnsuccessful() {
+        // Create Times
+        LocalTime localStartTime = LocalTime.of(11, 0, 0); // 08:30:00
+        LocalTime localEndTime = LocalTime.of(12, 0, 0);   // 12:00:00
+
+
+        String name = "person";
+        String password = "password";
+        String email = "email";
+        Person person = new Person();
+        person.setEmail(email);
+        person.setName(name);
+        person.setPassword(password);
+        person = personRepository.save(person);
+
+        // Create instructor
+        Instructor instructor = new Instructor();
+        instructor.setPerson(person);
+        instructorRepo.save(instructor);
+
+        // Create class type
+        ClassType exampleClassType = new ClassType("exampleClassType", false);
+        classTypeRepo.save(exampleClassType);
+
+        // Create session
+        int sessionId = 1;
+        int length = 60;
+        Time startTime = Time.valueOf(localStartTime);
+        Time endTime = Time.valueOf(localEndTime);
+        Date date = Date.valueOf(LocalDate.of(2024, 2, 18));
+        boolean isRepeating = true;
+        int maxParticipants = 50;
+        Session yogaSession = new Session(sessionId, length, startTime, endTime, date,
+                isRepeating, maxParticipants, exampleClassType, instructor);
+
+        // Save in database
+        yogaSession = sessionRepo.save(yogaSession);
+        
+        // Read back from database
+        sessionId = yogaSession.getId();
+        Session sessionFromDB = sessionRepo.findById(2);
+
+        // Assertions
+        assertNotNull(sessionFromDB);
     }
 
 }

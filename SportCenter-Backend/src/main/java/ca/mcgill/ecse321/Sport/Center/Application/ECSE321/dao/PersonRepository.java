@@ -21,6 +21,7 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
     public Person getById(int id);
     public Person getByEmail(String email);
     public Person getByName(String name);
+    //TODO not sure we need
 
     public Person findById(int pid);
     public Person findByEmail(String email);
