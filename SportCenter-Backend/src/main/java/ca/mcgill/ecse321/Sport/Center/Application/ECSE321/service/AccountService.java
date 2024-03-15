@@ -22,15 +22,14 @@ public class AccountService {
     private CustomerRepository customerRepository;
     
     @Transactional
-    public CustomerDTO createCustomerAccount(int personId, String password, String email, String name){
-        if(! personRepository.existsByEmail(email)){
-            Person person = new Person();
-            person.setName(name);
-            person.setEmail(email);
-            person.setPassword(password);
-            personRepository.save(person);
+    public CustomerDTO createCustomerAccount(String password, String email, String name) {
+        Person person;
+        if(!personRepository.existsByEmail(email)){
+            person = createPerson(password, email, name);
+        } else {
+            person = personRepository.findByEmail(email);
         }
-        Person person = personRepository.findByEmail(email);        
+        
         Customer newCustomerRole =  new Customer(person);
         customerRepository.save(newCustomerRole);
         
@@ -61,7 +60,7 @@ public class AccountService {
     }
 
     @Transactional
-    public PersonDTO createPerson(int personId, String password, String email, String name) {
+    public Person createPerson(String password, String email, String name) {
         if(personRepository.existsByEmail(email)){
             return null;
         }
@@ -72,8 +71,8 @@ public class AccountService {
         person.setPassword(password);
         personRepository.save(person);
 
-        PersonDTO newPerson = new PersonDTO(person);
-        return newPerson;
+        
+        return person;
     }
     
     @Transactional
