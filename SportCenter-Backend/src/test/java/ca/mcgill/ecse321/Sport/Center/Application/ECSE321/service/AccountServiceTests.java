@@ -75,7 +75,7 @@ public class AccountServiceTests {
         Person person = null;
         String error = null;
         try {
-            person = accountService.createPerson(1, PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+            person = accountService.createPerson(PERSON_PASSWORD, PERSON_EMAIL, PERSON_NAME);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -87,7 +87,7 @@ public class AccountServiceTests {
         Person person = null;
         String error = null;
         try {
-            person = accountService.createPerson(1, null, null, null);
+            person = accountService.createPerson(null, null, null);
         } catch (Exception e) {
             error = e.getMessage();
         }

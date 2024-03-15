@@ -83,7 +83,7 @@ public class AccountService {
         person.setEmail(email);
         person.setName(name);
         person.setPassword(password);
-        personRepository.save(person);
+        person = personRepository.save(person);
 
         
         return person;
