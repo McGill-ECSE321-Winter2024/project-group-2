@@ -19,5 +19,7 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
      * @return Session with the specified id
      */
     public Session getById(int id);
+    //TODO prob get rid of
     public Session findById(int id);
+    
 }

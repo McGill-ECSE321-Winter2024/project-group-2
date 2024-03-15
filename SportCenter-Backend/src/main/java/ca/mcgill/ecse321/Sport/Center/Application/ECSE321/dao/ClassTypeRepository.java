@@ -20,6 +20,7 @@ public interface ClassTypeRepository extends CrudRepository<ClassType, String> {
      * @return Type we are getting
      */
     public ClassType getByClassType(String classType);
+    // TODO check if we need this top one since get and find are same i believe
 
     public ClassType findByClassType(String classType);
 

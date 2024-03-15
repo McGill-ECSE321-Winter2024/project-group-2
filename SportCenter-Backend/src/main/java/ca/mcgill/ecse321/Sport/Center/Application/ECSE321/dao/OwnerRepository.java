@@ -20,6 +20,7 @@ public interface OwnerRepository extends CrudRepository<Owner, Integer> {
      */
     public Owner getById(int id);
     public Owner getByPersonName(String name);
+    //TODO dont know if we need
 
     public Owner findById(int id);
     public Owner findByPersonName(String name);

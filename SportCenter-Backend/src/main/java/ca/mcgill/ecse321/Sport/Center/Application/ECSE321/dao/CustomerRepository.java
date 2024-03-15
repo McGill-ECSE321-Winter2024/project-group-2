@@ -4,6 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 
+import java.util.List;
+
 /**
  * This interface defines the repository for the CRUD functionalities relating
  * to the Customer: method to find a customer in the system.
@@ -20,8 +22,10 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
     public Customer getById(int id);
     public Customer getByPersonEmail(String email);
     public Customer getByPersonName(String name);
+    //TODO not sure again if we need
 
     public Customer findById(int id);
     public Customer findByPersonEmail(String email);
     public Customer findByPersonName(String name);
+    public List<Customer> findAllCustomers();
 }
