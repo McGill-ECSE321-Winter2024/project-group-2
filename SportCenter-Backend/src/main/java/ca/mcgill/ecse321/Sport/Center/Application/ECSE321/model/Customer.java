@@ -53,7 +53,10 @@ public class Customer
     }
     return wasSet;
   }
-
+  public int getId() {
+      return id;
+  }
+  
   public void delete()
   {
     person = null;
