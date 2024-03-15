@@ -29,9 +29,8 @@ public class SessionRegistration
   // CONSTRUCTOR
   //------------------------
   public SessionRegistration(){}
-  public SessionRegistration(int aId, Session aSession, Customer aCustomer)
+  public SessionRegistration(Session aSession, Customer aCustomer)
   {
-    id = aId;
     if (!setSession(aSession))
     {
       throw new RuntimeException("Unable to create SessionRegistration due to aSession. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
@@ -46,13 +45,6 @@ public class SessionRegistration
   // INTERFACE
   //------------------------
 
-  public boolean setId(int aId)
-  {
-    boolean wasSet = false;
-    id = aId;
-    wasSet = true;
-    return wasSet;
-  }
 
   public int getId()
   {

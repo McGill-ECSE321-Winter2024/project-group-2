@@ -3,9 +3,13 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.ArrayList;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionRegistrationDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
@@ -16,8 +20,9 @@ public class AccountService {
     private PersonRepository personRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    
     @Transactional
-    public void createCustomerAccount(int personId, String password, String email, String name){
+    public CustomerDTO createCustomerAccount(int personId, String password, String email, String name){
         if(! personRepository.existsByEmail(email)){
             Person person = new Person();
             person.setName(name);
@@ -29,6 +34,12 @@ public class AccountService {
         Customer newCustomerRole =  new Customer(person);
         customerRepository.save(newCustomerRole);
         
+        // Making customer DTO to return
+        CustomerDTO newCustomer = new CustomerDTO(); 
+        newCustomer.setId(person.getId());
+        newCustomer.setSessions(new ArrayList<SessionRegistrationDTO>());
+
+        return newCustomer;
     }
 
     @Transactional
@@ -37,19 +48,20 @@ public class AccountService {
     }
 
     @Transactional
-    public Person findPersonById(int pid) throws Exception {
+    public PersonDTO findPersonById(int pid) throws Exception {
         Person p = personRepository.findById(pid); // this is written as findPersonById in the tutorial
 
         if (p == null) {
             // need to make this a SportCenterApplicationException
             throw new Exception("There is no person with this ID");
         }
-        return p;
+        PersonDTO newPerson = new PersonDTO(p);
+
+        return newPerson;
     }
 
     @Transactional
-    public Person createPerson(int personId, String password, String email, String name) {
-        //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
+    public PersonDTO createPerson(int personId, String password, String email, String name) {
         if(personRepository.existsByEmail(email)){
             return null;
         }
@@ -58,7 +70,10 @@ public class AccountService {
         person.setEmail(email);
         person.setName(name);
         person.setPassword(password);
-        return personRepository.save(person);
+        personRepository.save(person);
+
+        PersonDTO newPerson = new PersonDTO(person);
+        return newPerson;
     }
     
     @Transactional
