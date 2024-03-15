@@ -4,6 +4,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.repository.CrudRepository;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -138,4 +139,13 @@ public class SchedulingService {
         return;
     }
 
+    @Transactional
+    public Session findSessionById(int id) {
+        return sessionRepository.findById(id);
+    }
+
+    @Transactional
+    public List<Session> findAllSessions() {
+        return (List<Session>) sessionRepository.findAll();
+    }
 }
