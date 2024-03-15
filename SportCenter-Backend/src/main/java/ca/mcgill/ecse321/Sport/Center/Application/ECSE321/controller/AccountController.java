@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +40,7 @@ public class AccountController {
         return people;
     }
 
-    @PostMapping("/create")
+    @PutMapping("/customers")
     public ResponseEntity<CustomerDTO> createCustomerAccount(@RequestBody PersonDTO personDTO) {
         CustomerDTO newCustomer = accountService.createCustomerAccount(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
         if (newCustomer == null) {
@@ -48,7 +49,7 @@ public class AccountController {
         return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
-    @PostMapping("/person")
+    @PutMapping("/persons")
     public ResponseEntity<PersonDTO> createPerson(@RequestBody PersonDTO personDTO) {
         Person newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
         if (newPerson == null) {
@@ -58,7 +59,7 @@ public class AccountController {
         return new ResponseEntity<>(newPersonDto, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
+    @PutMapping("/login")
     public ResponseEntity<Boolean> login(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
         String password = credentials.get("password");
