@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(MockitoExtension.class)
 public class AccountServiceTests {
     @Mock
     private PersonRepository personDao;
@@ -75,7 +74,7 @@ public class AccountServiceTests {
         Person person = null;
         String error = null;
         try {
-            person = accountService.createPerson(1, PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+            person = accountService.createPerson(PERSON_PASSWORD, PERSON_EMAIL, PERSON_NAME);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -87,7 +86,7 @@ public class AccountServiceTests {
         Person person = null;
         String error = null;
         try {
-            person = accountService.createPerson(1, null, null, null);
+            person = accountService.createPerson(null, null, null);
         } catch (Exception e) {
             error = e.getMessage();
         }
