@@ -39,6 +39,17 @@ public class SchedulingService {
 
     @Transactional
     public Session createSession(int id, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
+        String error = "";
+        if(startTime.after(endTime)){
+            error += "Start time must be before end time";
+        }
+        if(!classType.getIsApproved()){
+            error += "Class type must be approved";
+        }
+        if(error!=""){
+            throw new IllegalArgumentException(error);
+        }
+        
         // I think this needs checks for validity + exceptions thrown
         Session session = new Session(id, length, startTime, endTime, date, isRepeating, maxParticipants, classType, instructor);
         return sessionRepository.save(session);
@@ -59,11 +70,27 @@ public class SchedulingService {
      * @author Behrad
      */
     @Transactional
-    public void updateSession(int sessionId, int length, Time startTime, Time endtime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){ //maybe
+    public void updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){ //maybe
+        String error = "";
+        if(startTime.after(endTime)){
+            error += "Start time must be before end time";
+        }
+        if(!classType.getIsApproved()){
+            error += "Class type must be approved";
+        }
+        
+
         Session session = sessionRepository.findById(sessionId);
+        if(session==null){
+            error+="No session with given ID";
+        }
+        if(error!=""){
+            throw new IllegalArgumentException(error);
+        }
+        
         session.setLength(length);
         session.setStartTime(startTime);
-        session.setEndTime(endtime);
+        session.setEndTime(endTime);
         session.setDate(date);
         session.setIsRepeating(isRepeating);
         session.setMaxParticipants(maxParticipants);
@@ -86,6 +113,10 @@ public class SchedulingService {
     @Transactional
     public void approveClassType(String classTypeName){
         ClassType classType = classTypeRepository.findByClassType(classTypeName);
+        if(classType == null){
+            throw new IllegalArgumentException("No class type with given name");
+        }
+        
         classType.setIsApproved(true);
         classTypeRepository.save(classType);
         return;
@@ -98,6 +129,9 @@ public class SchedulingService {
     @Transactional
     public void rejectClassType(String classTypeName){
         ClassType classType = classTypeRepository.findByClassType(classTypeName);
+        if(classType == null){
+            throw new IllegalArgumentException("No class type with given name");
+        }
         classTypeRepository.delete(classType);
         return;
     }
@@ -108,7 +142,11 @@ public class SchedulingService {
      */
     @Transactional
     public void suggestClassType(String classTypeName){
-        ClassType classType = new ClassType(classTypeName, false);
+        ClassType classType = classTypeRepository.findByClassType(classTypeName);
+        if(classType!=null){
+            throw new IllegalArgumentException("Class type with given name already suggested");
+        }
+        classType = new ClassType(classTypeName, false);
         classTypeRepository.save(classType);
         return;
     }
@@ -132,8 +170,16 @@ public class SchedulingService {
     @Transactional
     public void registerToTeachSession(String instructorEmail, int sessionId){
         Session targetSession = sessionRepository.findById(sessionId);
+        if(targetSession == null){
+            throw new IllegalArgumentException("No session with given ID");
+        }
+        if(!personRepository.existsByEmail(instructorEmail)){
+            throw new IllegalArgumentException("No person with given email");
+        }
         Instructor targetInstructor = instructorRepository.findByPersonEmail(instructorEmail);
-        
+        if(targetInstructor == null){
+            throw new IllegalArgumentException("No instructor with given email");
+        }
         targetSession.setInstructor(targetInstructor);
         sessionRepository.save(targetSession);
         return;

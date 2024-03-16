@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 @ExtendWith(MockitoExtension.class)
-@ExtendWith(MockitoExtension.class)
 public class AccountServiceTests {
     @Mock
     private PersonRepository personDao;
