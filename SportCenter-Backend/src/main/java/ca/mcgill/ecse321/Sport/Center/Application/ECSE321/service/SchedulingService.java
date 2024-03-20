@@ -61,7 +61,7 @@ public class SchedulingService {
      * @param sessionId
      * @param length
      * @param startTime
-     * @param endtime
+     * @param endTime
      * @param date
      * @param isRepeating
      * @param maxParticipants
