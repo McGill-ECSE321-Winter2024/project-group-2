@@ -28,7 +28,7 @@ public class AccountPermissionsService {
     @Transactional
     public InstructorDTO grantInstructorPermissions(int id) throws Exception{
         if(! personRepository.existsById(id)){
-            throw new Exception("not found");
+            throw new Exception("Person does not exist");
         }
 
         Person person = personRepository.findById(id);
