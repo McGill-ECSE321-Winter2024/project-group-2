@@ -31,8 +31,13 @@ public class AccountPermissionsService {
             throw new Exception("not found");
         }
 
+        Person person = personRepository.findById(id);
+        if (instructorRepository.existsByPersonEmail(person.getEmail())){
+            throw new Exception("person already is an instructor");
+        }
+
         Instructor newInstructorRole = new Instructor();
-        newInstructorRole.setPerson(personRepository.findById(id));
+        newInstructorRole.setPerson(person);
 
         return new InstructorDTO(newInstructorRole.getId(), new ArrayList<SessionDTO>());
     }

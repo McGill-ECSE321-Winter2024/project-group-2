@@ -19,18 +19,25 @@ public class AccountPermissionsController {
     AccountPermissionsService service;
 
     @PutMapping("/persons/{id}")
-    public ResponseEntity<?> grantInstructorPermissions(@PathVariable("id") String id){
-       try {
-        int idAsString = Integer.parseInt(id);
-        InstructorDTO instructor = service.grantInstructorPermissions(idAsString);
+    public ResponseEntity<?> grantInstructorPermissions(@PathVariable("id") String id) throws Exception{
+        int idAsInt = 0;
+        try {
+            idAsInt = Integer.parseInt(id);
+        }
+        catch(NumberFormatException num){
+            return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
+        }
+        catch (Exception e) {
+            if (e.getMessage().contains("not found")){
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }
+
+            else if (e.getMessage().contains("person already is an instructor")){
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }
+        InstructorDTO instructor = service.grantInstructorPermissions(idAsInt);
         return new ResponseEntity<>(instructor, HttpStatus.OK);
-       }
-       catch(NumberFormatException num){
-        return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
-       }
-       catch (Exception e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-       }
     }
 
     @PutMapping("/instructors/{id}")
