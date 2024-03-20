@@ -27,6 +27,18 @@ public class ScheduleController {
         return new ResponseEntity<>(new SessionResponseDTO(newSession), HttpStatus.CREATED);
     }
 
+    @PutMapping("/sessions/{id}") //needs testing
+    public ResponseEntity<SessionResponseDTO> updateSession (@RequestBody SessionDTO request) {
+        service.updateSession(request.getId(), request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/sessions/{id}") //needs testing
+    public ResponseEntity<SessionResponseDTO> deleteSession (@RequestBody SessionDTO request) {
+        service.deleteSession(request.getId());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
     @GetMapping("/sessions/{id}")
     public ResponseEntity<?> findSessionById(@PathVariable int id) {
         Session session = service.findSessionById(id);
