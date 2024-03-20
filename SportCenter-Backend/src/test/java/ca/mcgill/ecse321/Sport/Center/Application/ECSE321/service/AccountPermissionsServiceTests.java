@@ -7,6 +7,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
@@ -36,12 +37,15 @@ public class AccountPermissionsServiceTests {
     private static final String PERSON_NAME = "TestPerson";
     private static final String PERSON_EMAIL = "TestEmail";
     private static final String PERSON_PASSWORD = "TestPassword";
+    private static final int PERSON_ID = 1;
     
     private List<String> instructorEmails = new ArrayList<String>();
+    private List<Integer> instructorIds = new ArrayList<Integer>();
+    private List<Person> people = new ArrayList<>();
     
     @BeforeEach
     public void setMockOutput() {
-        lenient().when(personDao.findByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+        /*lenient().when(personDao.findByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(PERSON_EMAIL)) {
                 Person person = new Person();
                 person.setName(PERSON_NAME);
@@ -51,9 +55,16 @@ public class AccountPermissionsServiceTests {
             } else {
                 return null;
             }
-        });
-        lenient().when(personDao.existsByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
+        });*/
+        /*lenient().when(personDao.existsByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(PERSON_EMAIL)) {
+                return true;
+            } else {
+                return false;
+            }
+        });*/
+        lenient().when(personDao.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(PERSON_ID)) {
                 return true;
             } else {
                 return false;
@@ -63,26 +74,30 @@ public class AccountPermissionsServiceTests {
         lenient().when(instructorDao.existsByPersonEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             return instructorEmails.contains(invocation.getArgument(0));
         });
-
+        lenient().when(instructorDao.existsById(anyInt())).thenAnswer( (InvocationOnMock invocation) -> {
+            return instructorIds.contains(invocation.getArgument(0));
+        });
         lenient().when(instructorDao.save(any(Instructor.class))).thenAnswer( (InvocationOnMock invocation) -> {
             instructorEmails.add(((Instructor)invocation.getArgument(0)).getPerson().getEmail());
+            instructorIds.addLast(((Instructor)invocation.getArgument(0)).getId());
             return invocation.getArgument(0);
         });
 
-        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
+        
+        lenient().when(personDao.save(any(Person.class))).thenAnswer((InvocationOnMock invocation) -> {
+            people.add(invocation.getArgument(0));
             return invocation.getArgument(0);
-        };
-        lenient().when(personDao.save(any(Person.class))).thenAnswer(returnParameterAsAnswer);
+        });
     }
 
     @Test
     public void testPromoteValidPerson(){
-        String email = PERSON_EMAIL;
+        int personId = PERSON_ID;
 
         String error = null;
         try {
-            accountPermissionsService.grantInstructorPermissions(email);
-        } catch (IllegalArgumentException e) {
+            accountPermissionsService.grantInstructorPermissions(personId);
+        } catch (Exception e) {
             error = e.getMessage();
         }
         assertNull(error);
@@ -90,11 +105,11 @@ public class AccountPermissionsServiceTests {
 
     @Test
     public void testPromotePersonDoesNotExist(){
-        String email = "FakeEmail";
+        int personId = 2;
         String error = null;
         try {
-            accountPermissionsService.grantInstructorPermissions(email);
-        } catch (IllegalArgumentException e) {
+            accountPermissionsService.grantInstructorPermissions(personId);
+        } catch (Exception e) {
             error = e.getMessage();
         }
         assertEquals(error, "Person does not exist");
@@ -109,25 +124,26 @@ public class AccountPermissionsServiceTests {
         person.setName(name);
         person.setEmail(email);
         person.setPassword(password);
-        personDao.save(person);
+        person.setId(PERSON_ID);
+        person = personDao.save(person);
         
         Instructor instructor = new Instructor();
         instructor.setPerson(person);
-        instructorDao.save(instructor);
+        instructor = instructorDao.save(instructor);
         
-        when(personDao.existsByEmail(email)).thenReturn(true);
+        when(personDao.existsById(person.getId())).thenReturn(true);
         when(instructorDao.existsByPersonEmail(email)).thenReturn(instructorEmails.contains(email));
         String error = null;
         try {
-            accountPermissionsService.grantInstructorPermissions(email);
-        } catch (IllegalArgumentException e) {
+            accountPermissionsService.grantInstructorPermissions(person.getId());
+        } catch (Exception e) {
             error = e.getMessage();
             
         }
         assertEquals("Person already has instructor permissions", error);
     }
 
-    @Test
+    /*@Test
     public void failPromoteNull(){
         String email = null;
         String error = null;
@@ -137,7 +153,7 @@ public class AccountPermissionsServiceTests {
             error = e.getMessage();
         }
         assertEquals(error, "Person email cannot be empty");
-    }
+    }*/
     @Test
     public void demoteValidInstructor(){
         Person person = new Person();
@@ -147,18 +163,19 @@ public class AccountPermissionsServiceTests {
 
         Instructor instructor = new Instructor();
         instructor.setPerson(person);
-        instructorDao.save(instructor);
+        instructor.setId(PERSON_ID);
+        instructor = instructorDao.save(instructor);
 
         String error = null;
         try {
-            accountPermissionsService.revokeInstructorPermissions(PERSON_EMAIL);
-        } catch (IllegalArgumentException e) {
+            accountPermissionsService.revokeInstructorPermissions(instructor.getId());
+        } catch (Exception e) {
             error = e.getMessage();
         }
         assertNull(error);
     }
     
-    @Test
+    /*@Test
     public void failDemoteNull(){
         String email = null;
         String error = null;
@@ -168,29 +185,15 @@ public class AccountPermissionsServiceTests {
             error = e.getMessage();
         }
         assertEquals(error, "Person email cannot be empty");
-    }
+    }*/
 
-    public void failDemotePersonDoesNotExist(){
-        Person person = new Person();
-        person.setName(PERSON_NAME);
-        person.setEmail(PERSON_EMAIL);
-        person.setPassword(PERSON_PASSWORD);
-
-        String error = null;
-        try {
-            accountPermissionsService.revokeInstructorPermissions(PERSON_EMAIL);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertEquals(error, "Person does not exist");
-    }
     
     public void failDemoteInstructorDoesNotExist(){
         String email = "FakeEmail";
         String error = null;
         try {
-            accountPermissionsService.revokeInstructorPermissions(email);
-        } catch (IllegalArgumentException e) {
+            accountPermissionsService.revokeInstructorPermissions(PERSON_ID+1);
+        } catch (Exception e) {
             error = e.getMessage();
         }
         assertEquals(error, "Person does not have instructor permissions");
