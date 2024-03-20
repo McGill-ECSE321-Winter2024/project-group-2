@@ -44,7 +44,7 @@ public class SessionRegistrationService {
      * @author Alice, Aurelia
      */
     @Transactional
-    public SessionRegistration registerForSession(int aId, int sessionId, int customerId){
+    public SessionRegistration registerForSession(int sessionId, int customerId){
         if(!sessionRepository.existsById(sessionId)){
             throw new IllegalArgumentException("No session with given ID");
         }
