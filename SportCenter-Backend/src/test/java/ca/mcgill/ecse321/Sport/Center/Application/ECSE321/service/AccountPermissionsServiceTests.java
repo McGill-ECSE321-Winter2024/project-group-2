@@ -70,6 +70,17 @@ public class AccountPermissionsServiceTests {
                 return false;
             }
         });
+        lenient().when(personDao.findById(PERSON_ID)).thenAnswer((InvocationOnMock invocation) -> {
+            if(invocation.getArgument(0).equals(PERSON_ID)) {
+                Person person = new Person();
+                person.setName(PERSON_NAME);
+                person.setEmail(PERSON_EMAIL);
+                person.setPassword(PERSON_PASSWORD);
+                return person;
+            } else {
+                return null;
+            }
+        });
 
         lenient().when(instructorDao.existsByPersonEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             return instructorEmails.contains(invocation.getArgument(0));
