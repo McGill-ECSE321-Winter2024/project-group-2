@@ -20,21 +20,31 @@ public class AccountPermissionsController {
     AccountPermissionsService service;
 
     @PutMapping("/persons/{id}")
-    public ResponseEntity<?> grantInstructorPermissions(@PathVariable("id") int id){
+    public ResponseEntity<?> grantInstructorPermissions(@PathVariable("id") String id){
        try {
-        InstructorDTO instructor = service.grantInstructorPermissions(id);
+        int idAsString = Integer.parseInt(id);
+        InstructorDTO instructor = service.grantInstructorPermissions(idAsString);
         return new ResponseEntity<>(instructor, HttpStatus.OK);
-       } catch (Exception e) {
+       }
+       catch(NumberFormatException num){
+        return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
+       }
+       catch (Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
        }
     }
 
     @PutMapping("/instructors/{id}")
-    public ResponseEntity<?> revokeInstructorPermissions(@PathVariable("id") int id){
+    public ResponseEntity<?> revokeInstructorPermissions(@PathVariable("id") String id){
         try {
-            service.revokeInstructorPermissions(id);
+            int idAsString = Integer.parseInt(id);
+            service.revokeInstructorPermissions(idAsString);
             return new ResponseEntity<>(HttpStatus.OK);
-           } catch (Exception e) {
+           }
+           catch(NumberFormatException num){
+            return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
+           }
+           catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
            }
     }
