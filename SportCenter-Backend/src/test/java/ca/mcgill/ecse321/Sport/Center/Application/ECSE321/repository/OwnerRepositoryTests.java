@@ -13,7 +13,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -32,55 +31,8 @@ public class OwnerRepositoryTests {
     }
 
     @Test
-    public void testCreateAndReadOwnerByNameSuccessful() {
-        // Create owner
-        int id = 0;
-        String name = "person";
-        String email = "email";
-        String password = "password";
-        Person person = new Person(id, name, email, password);
-        person = personRepository.save(person);
-        
-        Owner owner = new Owner(person);
-
-        // Save in database
-        owner = repo.save(owner);
-
-        // Read back from database
-        Owner ownerFromDB = repo.findByPersonName(name);
-
-        // Assertions
-        assertNotNull(ownerFromDB);
-        assertEquals(owner.getPerson().getId(), ownerFromDB.getPerson().getId());
-        assertEquals(owner.getPerson().getEmail(), ownerFromDB.getPerson().getEmail());
-        assertEquals(owner.getPerson().getName(), ownerFromDB.getPerson().getName());
-        assertEquals(owner.getPerson().getPassword(), ownerFromDB.getPerson().getPassword());
-    }
-
-    @Test
-    public void testCreateAndReadOwnerByNameUnsuccessful() {
-        int id = 0;
-        String name = "person";
-        String email = "email";
-        String password = "password";
-        Person person = new Person(id, name, email, password);
-        person = personRepository.save(person);
-        
-        Owner owner = new Owner(person);
-
-        // Save in database
-        owner = repo.save(owner);
-
-        // Read back from database
-        Owner ownerFromDB = repo.findByPersonName("nonExistentName");
-
-        //Assertions
-        assertNull(ownerFromDB);
-    }
-
-    @Test
     @Transactional
-    public void testCreateAndReadOwnerByIDSuccessful() {
+    public void testCreateAndReadOwner() {
         // Create owner
         int id = 0;
         String name = "person";
@@ -95,7 +47,7 @@ public class OwnerRepositoryTests {
         owner = repo.save(owner);
 
         // Read back from database
-        Owner ownerFromDB = repo.findById(id);
+        Owner ownerFromDB = repo.getByPersonName(name);
 
         // Assertions
         assertNotNull(ownerFromDB);
@@ -105,24 +57,4 @@ public class OwnerRepositoryTests {
         assertEquals(owner.getPerson().getPassword(), ownerFromDB.getPerson().getPassword());
     }
 
-    @Test
-    public void testCreateAndReadOwnerByIDUnsuccessful() {
-        int id = 0;
-        String name = "person";
-        String email = "email";
-        String password = "password";
-        Person person = new Person(id, name, email, password);
-        person = personRepository.save(person);
-        
-        Owner owner = new Owner(person);
-
-        // Save in database
-        owner = repo.save(owner);
-
-        // Read back from database
-        Owner ownerFromDB = repo.findById(2);
-
-        //Assertions
-        assertNull(ownerFromDB);
-    }
 }

@@ -44,8 +44,8 @@ public class SessionRegistrationService {
      * @author Alice, Aurelia
      */
     @Transactional
-    public SessionRegistration registerForSession(int aId, Session aSession, Customer aCustomer){
-        SessionRegistration sessionRegistration = new SessionRegistration(aId, aSession, aCustomer);
+    public SessionRegistration registerForSession(Session aSession, Customer aCustomer){
+        SessionRegistration sessionRegistration = new SessionRegistration(aSession, aCustomer);
         return sessionRegistrationRepository.save(sessionRegistration);
     }
 

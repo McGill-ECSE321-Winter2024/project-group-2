@@ -82,14 +82,14 @@ public class SessionRegistrationRepositoryTests {
         sessionRegistration = sessionRepo.save(sessionRegistration);
 
         // Create registration
-        int regId = 1;
-        SessionRegistration reg = new SessionRegistration(regId, sessionRegistration, customer);
 
+        SessionRegistration reg = new SessionRegistration(sessionRegistration, customer);
+        
         // Save in database
         reg = registrationRepo.save(reg);
 
         // Read back from database
-        regId = reg.getId();
+        int regId = reg.getId();
         SessionRegistration regFromDB = registrationRepo.findById(regId);
 
         //Base Registration Assertions

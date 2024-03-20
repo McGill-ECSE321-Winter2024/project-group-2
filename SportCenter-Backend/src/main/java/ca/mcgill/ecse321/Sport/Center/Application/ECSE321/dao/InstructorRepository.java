@@ -19,12 +19,11 @@ public interface InstructorRepository extends CrudRepository<Instructor, Integer
      * @param id id of the instructor (primary key)
      * @return Instructor with the specified id
      */
-    public Instructor getById(int id);
+    public Instructor findById(int id);
     public Instructor getByPersonName(String name);
     public Instructor getByPersonEmail(String email);
     //TODO not sure if we need
 
-    public Instructor findById(int id);
     public Instructor findByPersonName(String name);
     public Instructor findByPersonEmail(String email);
     public List<Instructor> findAllInstructors();
