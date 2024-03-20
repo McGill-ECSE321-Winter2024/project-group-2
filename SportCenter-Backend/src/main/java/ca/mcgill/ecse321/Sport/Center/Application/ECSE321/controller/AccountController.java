@@ -25,13 +25,13 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/people/{pid}") 
+    @GetMapping("/persons/{pid}") 
     public PersonDTO findPersonById(@PathVariable int pid) throws Exception {
         PersonDTO person = accountService.findPersonById(pid);
         return person;
     }
 
-    @GetMapping("/people")
+    @GetMapping("/persons")
     public List<PersonDTO> findAllPeople() {
         List<PersonDTO> people = new ArrayList<PersonDTO>();
             for (Person person : accountService.findAllPeople()) {
