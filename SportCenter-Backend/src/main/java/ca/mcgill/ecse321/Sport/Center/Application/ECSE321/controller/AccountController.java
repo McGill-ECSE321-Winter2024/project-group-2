@@ -26,6 +26,7 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+
     @GetMapping("/people/{pid}") 
     public ResponseEntity<?> findPersonById(@PathVariable String pid) throws Exception {
         int id;
@@ -43,9 +44,10 @@ public class AccountController {
         }
 
         return new ResponseEntity<>(person, HttpStatus.OK);
+
     }
 
-    @GetMapping("/people")
+    @GetMapping("/persons")
     public List<PersonDTO> findAllPeople() {
         List<PersonDTO> people = new ArrayList<PersonDTO>();
             for (Person person : accountService.findAllPeople()) {

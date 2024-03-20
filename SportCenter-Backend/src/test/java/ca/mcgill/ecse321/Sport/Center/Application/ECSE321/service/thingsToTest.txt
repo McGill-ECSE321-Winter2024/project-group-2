@@ -1,0 +1,17 @@
+Scheduling Service:
+Create Session: success, start after end time, classType not approved
+Updating session : success, invalid ID, start after end time, no null values
+Delete session: success, wrong ID
+Approve Class type: success, type doesnt exist
+Reject Class Type: success, type doesnt exist
+Suggest class type: success, type already exists
+Register to teach session: success, email is not a person, email is not an instructor, session does not exist, session already has an instructor
+Find session by ID: success, session does not exist
+
+Session Registration Service:
+Register for a session: success, session does not exist, session at max participants, session is over, customer does not exist
+View specific session: success, session does not exist
+Cancel Registration: success, registration does not exist
+View registrations by customer: success, customer does not exist
+View registrations by session: success, session does not exist
+
