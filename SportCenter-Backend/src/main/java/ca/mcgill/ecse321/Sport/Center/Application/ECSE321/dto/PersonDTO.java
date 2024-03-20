@@ -2,7 +2,6 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
-import java.util.List;
 
 public class PersonDTO {
     private int personId;

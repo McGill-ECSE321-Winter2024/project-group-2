@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
 @Service
 public class AccountPermissionsService {

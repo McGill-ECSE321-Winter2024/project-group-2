@@ -34,7 +34,7 @@ public class SessionRegistrationService {
     public Iterable<Session> viewSessions(){
         return sessionRepository.findAll();
     }
-
+    
     /**
      * 
      * @param aId
@@ -58,10 +58,11 @@ public class SessionRegistrationService {
      */
     @Transactional
     public SessionRegistration viewSpecificSession(int pid) throws Exception {
-        SessionRegistration s = sessionRegistrationRepository.findById(pid);
-        if (s == null) {
+        if(!sessionRegistrationRepository.existsById(pid)){
             throw new Exception("There is no registration with this ID.");
-    } 
+        }
+        SessionRegistration s = sessionRegistrationRepository.findById(pid);
+        
         return s;
     }
     
@@ -72,6 +73,9 @@ public class SessionRegistrationService {
      */
     @Transactional
     public void cancelRegistration(int id){
+        if (!sessionRegistrationRepository.existsById(id)) {
+            throw new IllegalArgumentException("No registration with given ID");
+        }
         sessionRegistrationRepository.deleteById(id);
     }
 
@@ -83,6 +87,9 @@ public class SessionRegistrationService {
      */
     @Transactional
     public List<SessionRegistration> viewRegistrationsByCustomer(int customerId){
+        if(!customerRepository.existsById(customerId)){
+            throw new IllegalArgumentException("No customer with given ID");
+        }
         List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findAllByCustomerId(customerId);
         return allRegistrations;
     }
@@ -95,6 +102,9 @@ public class SessionRegistrationService {
      */
     @Transactional
     public List<SessionRegistration> viewRegistrationsBySession(int sessionId){
+        if(!sessionRepository.existsById(sessionId)){
+            throw new IllegalArgumentException("No session with given ID");
+        }
         List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findBySessionId(sessionId);
         return allRegistrations;
     }
