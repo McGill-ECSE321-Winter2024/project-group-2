@@ -26,7 +26,7 @@ public interface InstructorRepository extends CrudRepository<Instructor, Integer
 
     public Instructor findByPersonName(String name);
     public Instructor findByPersonEmail(String email);
-    public List<Instructor> findAllInstructors();
+    //public List<Instructor> findAllInstructors();
     
 
 

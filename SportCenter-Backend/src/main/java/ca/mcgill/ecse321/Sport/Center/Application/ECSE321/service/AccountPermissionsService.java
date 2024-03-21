@@ -33,7 +33,7 @@ public class AccountPermissionsService {
 
         Person person = personRepository.findById(id);
         if (instructorRepository.existsByPersonEmail(person.getEmail())){
-            throw new Exception("person already is an instructor");
+            throw new Exception("Person is already an instructor");
         }
 
         Instructor newInstructorRole = new Instructor();

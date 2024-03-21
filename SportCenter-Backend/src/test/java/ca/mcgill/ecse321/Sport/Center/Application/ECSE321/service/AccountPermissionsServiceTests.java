@@ -70,7 +70,7 @@ public class AccountPermissionsServiceTests {
                 return false;
             }
         });
-        lenient().when(personDao.findById(PERSON_ID)).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(personDao.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(PERSON_ID)) {
                 Person person = new Person();
                 person.setName(PERSON_NAME);
@@ -102,69 +102,40 @@ public class AccountPermissionsServiceTests {
     }
 
     @Test
-    public void testPromoteValidPerson(){
-        int personId = PERSON_ID;
+    public void testGrantInstructorPermissions(){
+        Person person = new Person();
+        person.setName(PERSON_NAME);
+        person.setEmail(PERSON_EMAIL);
+        person.setPassword(PERSON_PASSWORD);
+        person.setId(PERSON_ID);
 
         String error = null;
-        try {
-            accountPermissionsService.grantInstructorPermissions(personId);
-        } catch (Exception e) {
+        try{
+            accountPermissionsService.grantInstructorPermissions(PERSON_ID);
+        }catch(Exception e){
             error = e.getMessage();
         }
         assertNull(error);
-    }
 
-    @Test
-    public void testPromotePersonDoesNotExist(){
-        int personId = 2;
-        String error = null;
-        try {
-            accountPermissionsService.grantInstructorPermissions(personId);
-        } catch (Exception e) {
+        int fakeId = PERSON_ID+1;
+        try{
+            accountPermissionsService.grantInstructorPermissions(fakeId);
+        }catch(Exception e){
             error = e.getMessage();
         }
         assertEquals(error, "Person does not exist");
-    }
-    @Test
-    public void testPromotePersonAlreadyInstructor(){
-        String name = "FakePerson";
-        String email = "FakeEmail";
-        String password = "FakePassword";
+        error = null;
         
-        Person person = new Person();
-        person.setName(name);
-        person.setEmail(email);
-        person.setPassword(password);
-        person.setId(PERSON_ID);
-        person = personDao.save(person);
-        
-        Instructor instructor = new Instructor();
-        instructor.setPerson(person);
-        instructor = instructorDao.save(instructor);
-        
-        when(personDao.existsById(person.getId())).thenReturn(true);
-        when(instructorDao.existsByPersonEmail(email)).thenReturn(instructorEmails.contains(email));
-        String error = null;
-        try {
-            accountPermissionsService.grantInstructorPermissions(person.getId());
-        } catch (Exception e) {
+        Instructor instructor = new Instructor(person);
+        instructorDao.save(instructor);
+        try{
+            accountPermissionsService.grantInstructorPermissions(PERSON_ID);
+        }catch(Exception e){
             error = e.getMessage();
-            
         }
-        assertEquals("Person already has instructor permissions", error);
+        assertEquals(error, "Person is already an instructor");
     }
 
-    /*@Test
-    public void failPromoteNull(){
-        String email = null;
-        String error = null;
-        try {
-            accountPermissionsService.grantInstructorPermissions(email);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertEquals(error, "Person email cannot be empty");
-    }*/
     @Test
     public void demoteValidInstructor(){
         Person person = new Person();
@@ -186,19 +157,7 @@ public class AccountPermissionsServiceTests {
         assertNull(error);
     }
     
-    /*@Test
-    public void failDemoteNull(){
-        String email = null;
-        String error = null;
-        try {
-            accountPermissionsService.revokeInstructorPermissions(email);
-        } catch (IllegalArgumentException e) {
-            error = e.getMessage();
-        }
-        assertEquals(error, "Person email cannot be empty");
-    }*/
 
-    
     public void failDemoteInstructorDoesNotExist(){
         String email = "FakeEmail";
         String error = null;
