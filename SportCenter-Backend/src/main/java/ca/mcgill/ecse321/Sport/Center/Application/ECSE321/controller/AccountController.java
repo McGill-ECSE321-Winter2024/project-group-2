@@ -55,7 +55,7 @@ public class AccountController {
             }
         return people;
     }
-
+    // Might not need to 
     @PutMapping("/customers")
     public ResponseEntity<?> createCustomerAccount(@RequestBody PersonDTO personDTO) {
         // null check
@@ -67,6 +67,11 @@ public class AccountController {
         ResponseEntity<?> passwordValidationResponse = passwordValidation(personDTO.getPassword());
         if (passwordValidationResponse != null) {
             return passwordValidationResponse;
+        }
+
+        ResponseEntity<?> emailValidationResponse = emailValidation(personDTO.getEmail);
+        if (emailValidationResponse != null) {
+            return emailValidationResponse;
         }
 
         CustomerDTO newCustomer;
