@@ -98,7 +98,7 @@ public class SessionRegistrationService {
         if(!customerRepository.existsById(customerId)){
             throw new IllegalArgumentException("No customer with given ID");
         }
-        List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findAllByCustomerId(customerId);
+        List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findByCustomerId(customerId);
         return allRegistrations;
     }
 

@@ -85,7 +85,7 @@ public class SessionRegistrationServiceTests {
             }
             return SessionRegistrations;
         });
-        lenient().when(sessionRegistrationRepository.findAllByCustomerId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRegistrationRepository.findByCustomerId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             List<SessionRegistration> SessionRegistrations = new ArrayList<>();
             for(SessionRegistration SessionRegistration : SessionRegistrationList){
                 if(SessionRegistration.getCustomer().getId() == (int)invocation.getArgument(0)){
@@ -137,18 +137,19 @@ public class SessionRegistrationServiceTests {
     }
     @BeforeEach
     public void clearRepos(){
+        //Clean repo's memory
         sessionList.clear();
         SessionRegistrationList.clear();
         customerList.clear();
 
+        //Create mock session and customer
         sessionList.add(new Session(0,10,Time.valueOf("10:00:00"),Time.valueOf("11:00:00"),Date.valueOf("2020-02-02"),false,10,new ClassType("Type",true),new Instructor()));
 
         Person person = new Person();
         person.setEmail("testEmail");
         person.setName("fullName");
         person.setPassword("passino");
-        Customer customer = new Customer();
-        customer.setPerson(person);
+        Customer customer = new Customer(person);
         customerList.add(customer);
     }
     
@@ -210,8 +211,20 @@ public class SessionRegistrationServiceTests {
 
     @Test
     public void testCancelRegistration(){
-        int fakeRegistrationId = 100;
         String error = "";
+        
+        //Success scenario
+        SessionRegistration registration = new SessionRegistration(sessionList.getLast(), customerList.getLast());
+        sessionRegistrationRepository.save(registration);
+        try{
+            SessionRegistrationService.cancelRegistration(registration.getId());
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        assertEquals(error, ""); //no error encountered
+        
+        //Fail scenario: Test for bad id
+        int fakeRegistrationId = 100;
         try{
             SessionRegistrationService.cancelRegistration(fakeRegistrationId);
         }catch(Exception e){
@@ -230,6 +243,8 @@ public class SessionRegistrationServiceTests {
 
         SessionRegistration targetRegistration = null;
         String error = "";
+        
+        //Success scenario
         try{
             targetRegistration = SessionRegistrationService.viewSpecificSessionRegistration(successfulId);
         }catch(Exception e){
@@ -237,6 +252,8 @@ public class SessionRegistrationServiceTests {
         }
         assertNotNull(targetRegistration);
         assertEquals(error, "");
+        
+        //Fail scenario: Test for bad ID
         targetRegistration = null;
         try{
             targetRegistration = SessionRegistrationService.viewSpecificSessionRegistration(unsuccessfulId);
@@ -258,7 +275,7 @@ public class SessionRegistrationServiceTests {
 
         String error = "";
         SessionRegistration exampleRegistration = null;
-        //Test for successful registration
+        //Success scenario
         try{
             exampleRegistration = SessionRegistrationService.registerForSession(successfulSessionId, successfulCustomerId);
         }catch(Exception e){
@@ -266,9 +283,9 @@ public class SessionRegistrationServiceTests {
         }
         assertNotNull(exampleRegistration);
         assertEquals(error, "");
-        exampleRegistration = null;
         
-        //Test for bad session ID
+        //Fail scenario: Test for bad session ID
+        exampleRegistration = null;
         try{
             exampleRegistration = SessionRegistrationService.registerForSession(unsuccessfulSessionId, successfulCustomerId);
         }catch(Exception e){
@@ -276,9 +293,9 @@ public class SessionRegistrationServiceTests {
         }
         assertNull(exampleRegistration);
         assertTrue(error.contains("No session with given ID"));
-        exampleRegistration = null;
         
-        //Test for bad customer id
+        //Fail scenario: Test for bad customer id
+        exampleRegistration = null;
         try{
             exampleRegistration = SessionRegistrationService.registerForSession(successfulSessionId, unsuccessfulCustomerId);
         }catch(Exception e){

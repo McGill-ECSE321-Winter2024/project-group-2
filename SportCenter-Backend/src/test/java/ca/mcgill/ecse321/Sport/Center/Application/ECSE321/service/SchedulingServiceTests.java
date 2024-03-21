@@ -24,6 +24,7 @@ import org.mockito.stubbing.Answer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
@@ -45,6 +46,8 @@ public class SchedulingServiceTests {
     private ClassTypeRepository classTypeDao;
     @Mock
     private SessionRepository sessionDao;
+    @Mock
+    private SessionRegistrationRepository sessionRegistrationDao;
     @InjectMocks
     private SchedulingService schedulingService;
     
@@ -95,6 +98,14 @@ public class SchedulingServiceTests {
                 }
             }
             return null;
+        });
+        lenient().when(sessionDao.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            for (Session session : sessions) {
+                if(session.getId() == (int) invocation.getArgument(0)) {
+                    return true;
+                }
+            }
+            return false;
         });
         
         lenient().when(instructorDao.existsByPersonEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
@@ -160,29 +171,24 @@ public class SchedulingServiceTests {
 
     
     @Test
-    public void createSessionSuccess(){
+    public void testCreateSession(){
         Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
         Session session = null;
         String error = null;
+        
+        //Success scenario
         try {
             session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
+        assertNull(error);
         assertEquals(START_TIME, session.getStartTime());
-    }
 
-    @Test
-    public void createSessionBadTime(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
-        personDao.save(instructor);
-        Instructor instructor1 = new Instructor(instructor);
-        instructorDao.save(instructor1);
-        Session session = null;
-        String error = null;
+        //Fail scenario: Start time after end time
         try {
             session = schedulingService.createSession(1,10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
@@ -190,18 +196,9 @@ public class SchedulingServiceTests {
         }
         assertNotNull(error);
         assertTrue(error.contains("Start time must be before end time"));
-    }   
 
-    @Test
-    public void createSessionBadType(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
-        personDao.save(instructor);
-        Instructor instructor1 = new Instructor(instructor);
-        instructorDao.save(instructor1);
+        //Fail scenario: Class type not approved
         ClassType invalidType = new ClassType("fake", false);
-
-        Session session = null;
-        String error = null;
         try {
             session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1);
         } catch (Exception e) {
@@ -209,45 +206,31 @@ public class SchedulingServiceTests {
         }
         assertNotNull(error);
         assertTrue(error.contains("Class type must be approved"));
-    } 
+    }
 
     @Test
-    public void updateSessionSuccess(){
+    public void testUpdateSession(){
         Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
-        personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
-        instructorDao.save(instructor1);
         Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
-        
-        assertEquals(100, session.getMaxParticipants());
+        personDao.save(instructor);
+        instructorDao.save(instructor1);
         sessionDao.save(session);
 
         String error = null;
+        //Success Scenario
         try {
             schedulingService.updateSession(1,10, START_TIME, END_TIME,DATE, false, 10000, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
         assertNull(error);
-        session = sessions.get(0);
-        assertEquals(10000, session.getMaxParticipants());
+        assertEquals(10000, sessions.get(0).getMaxParticipants());
 
-    } 
-    
-    
-    @Test
-    public void updateSessionBadInputs(){
-        ClassType invalidType = new ClassType("fake", false);
-        Person instructorPerson = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
-        personDao.save(instructorPerson);
-        Instructor instructor = new Instructor(instructorPerson);
-        instructorDao.save(instructor);
-        Session session = new Session(1, 10, END_TIME, START_TIME, DATE, false, 100, CLASS_TYPE, instructor);
-        sessionDao.save(session);
-
-        String error = null;
+        //Fail scenario: Bad inputs -> Start time after end time, class type not approved
+        ClassType unapprovedClassType = new ClassType("fake", false);
         try {
-            schedulingService.updateSession(1,10, END_TIME, START_TIME,DATE, false, 10000, invalidType, instructor);
+            schedulingService.updateSession(1,10, END_TIME, START_TIME,DATE, false, 10000, unapprovedClassType, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -255,35 +238,53 @@ public class SchedulingServiceTests {
         assertTrue(error.contains("Start time must be before end time"));
         assertTrue(error.contains("Class type must be approved"));
     } 
-
-    /* 
+    
+     
     @Test
-    public void deleteSessionSuccess(){
+    public void testDeleteSession(){
         Person instructorPerson = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
-        personDao.save(instructorPerson);
         Instructor instructor = new Instructor(instructorPerson);
-        instructorDao.save(instructor);
         Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor);
-        sessionDao.save(session);
-        schedulingService.deleteSession(1);
+        personDao.save(instructorPerson);
+        instructorDao.save(instructor);
+        session = sessionDao.save(session);
         
-        assertNull(sessionDao.findById(1));
-    }
-
-    @Test
-    public void deleteSessionBadId(){}*/
-
-    @Test
-    public void approveClassTypeSuccess(){
-        ClassType classType = new ClassType("fake", false);
-        classTypeDao.save(classType);
-        schedulingService.approveClassType("fake");
-        assertTrue(approvedClassTypes.contains("fake"));
-    }
-
-    @Test
-    public void approveClassTypeBadName(){
         String error = null;
+
+        //Success scenario (no errors)
+        try{
+            schedulingService.deleteSession(session.getId());
+        }catch(Exception e){
+            error = e.getMessage();
+        }
+        assertNull(error);
+        
+        //Fail scenario: Bad ID
+        try{
+            schedulingService.deleteSession(session.getId()+1);
+        }catch(Exception e){
+            error = e.getMessage();
+        }
+        assertEquals("No session with given ID", error);
+    }
+
+
+    @Test
+    public void testApproveClassType(){
+        String error = null;
+
+        //Success scenario: No error thrown
+        ClassType classType = new ClassType("Real", false);
+        classTypeDao.save(classType);
+        try{
+            schedulingService.approveClassType("Real");
+        }catch(Exception e){
+            error=e.getMessage();
+        }
+        assertNull(error);
+        assertTrue(approvedClassTypes.contains("Real"));
+
+        //Fail scenario: Name doesnt exist
         try {
             schedulingService.approveClassType("fake");
         } catch (Exception e) {
@@ -292,18 +293,22 @@ public class SchedulingServiceTests {
         assertNotNull(error);
         assertEquals("No class type with given name", error);
     }
-    /* 
-    @Test
-    public void rejectClassTypeSuccess(){
-        ClassType classType = new ClassType("fake", false);
-        classTypeDao.save(classType);
-        schedulingService.rejectClassType("fake");
-        assertTrue(suggestedClassTypes.isEmpty());
-    }*/
 
     @Test
-    public void rejectClassTypeBadName(){
+    public void testRejectClassType(){
         String error = null;
+        
+        //Success scenario: No error thrown
+        ClassType classType = new ClassType("Real", false);
+        classTypeDao.save(classType);
+        try{
+            schedulingService.rejectClassType("Real");
+        }catch(Exception e){
+            error = e.getMessage();
+        }
+        assertNull(error);
+
+        //Fail scenario: Name doesnt exist
         try {
             schedulingService.rejectClassType("fake");
         } catch (Exception e) {
@@ -315,15 +320,18 @@ public class SchedulingServiceTests {
 
     @Test
     public void suggestClassTypeSuccess(){
-        schedulingService.suggestClassType("fake");
-        assertTrue(suggestedClassTypes.contains("fake"));
-    }
-
-    @Test
-    public void suggestExistingClassType(){
-        ClassType classType = new ClassType("fake", false);
-        classTypeDao.save(classType);
         String error = null;
+        
+        //Success scenario: No error thrown
+        try{
+        schedulingService.suggestClassType("fake");
+        }catch(Exception e){
+            error = e.getMessage();
+        }
+        assertTrue(suggestedClassTypes.contains("fake"));
+        assertNull(error);
+
+        //Fail scenario: ClassType already suggested
         try {
             schedulingService.suggestClassType("fake");
         } catch (Exception e) {

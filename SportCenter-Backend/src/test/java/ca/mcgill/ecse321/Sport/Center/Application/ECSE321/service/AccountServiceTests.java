@@ -58,10 +58,10 @@ public class AccountServiceTests {
             personEmails.add(((Person)invocation.getArgument(0)).getEmail());
             return invocation.getArgument(0);
         });
-
-        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-            return invocation.getArgument(0);
-        };
+    }
+    @BeforeEach
+    public void clearRepos(){
+        personEmails.clear();
     }
 
     public void testPerson(Person person){
@@ -69,8 +69,9 @@ public class AccountServiceTests {
         assertEquals(PERSON_EMAIL, person.getEmail());
         assertEquals(PERSON_PASSWORD, person.getPassword());
     }
+
     @Test
-    public void createValidCustomer(){
+    public void testCreateCustomer(){
         Person person = null;
         String error = null;
         try {
@@ -80,40 +81,34 @@ public class AccountServiceTests {
         }
         assertNull(error);
         testPerson(person);
-    }
-    @Test
-    public void createNullCustomer(){
-        Person person = null;
-        String error = null;
-        try {
+
+        try{
             person = accountService.createPerson(null, null, null);
-        } catch (Exception e) {
+        }catch(Exception e){
             error = e.getMessage();
         }
         assertEquals("Password, email, and name cannot be empty",error);
     }
 
     @Test
-    public void loginValidPerson(){
+    public void testLogin(){
         Person person = new Person();
         person.setEmail(PERSON_EMAIL);
         person.setPassword(PERSON_PASSWORD);
         person.setName(PERSON_NAME);
         personDao.save(person);
 
+        //Success scenario
         boolean loggedIn = accountService.login(PERSON_EMAIL, PERSON_PASSWORD);
         assertEquals(true, loggedIn);
-    }
-    
-    @Test
-    public void loginInvalidEmail(){
-        boolean loggedIn = accountService.login("fake email", PERSON_PASSWORD);
-        assertEquals(false, loggedIn);
-    }
-    @Test
-    public void loginInvalidPassword(){
-        boolean loggedIn = accountService.login(PERSON_EMAIL, "fake password");
-        assertEquals(false, loggedIn);
-    }
 
+        //Fail scenario: Wrong password
+        loggedIn = accountService.login(PERSON_EMAIL, "fake password");
+        assertEquals(false, loggedIn);
+
+        //Fail scenario: Wrong email
+        loggedIn=true;
+        loggedIn = accountService.login("fake email", PERSON_PASSWORD);
+        assertEquals(false, loggedIn);
+    }
 }

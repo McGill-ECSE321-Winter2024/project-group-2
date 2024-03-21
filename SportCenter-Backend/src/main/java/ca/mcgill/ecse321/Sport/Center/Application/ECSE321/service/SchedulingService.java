@@ -101,7 +101,11 @@ public class SchedulingService {
     }
     @Transactional
     public void deleteSession(int sessionId){
-        sessionRegistrationRepository.deleteAllBySessionId(sessionId);
+        if(!sessionRepository.existsById(sessionId)){
+            throw new IllegalArgumentException("No session with given ID");
+        }
+        
+        sessionRegistrationRepository.deleteBySessionId(sessionId);
         sessionRepository.deleteById(sessionId);
     }
 
