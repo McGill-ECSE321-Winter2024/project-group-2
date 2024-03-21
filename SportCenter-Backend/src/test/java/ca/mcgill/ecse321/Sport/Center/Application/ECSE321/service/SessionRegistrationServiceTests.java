@@ -51,10 +51,10 @@ public class SessionRegistrationServiceTests {
 
     @BeforeEach
     public void setMockOutput(){
-        when(sessionRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             return sessionList;
         });
-        when(sessionRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             for(Session session : sessionList){
                 if(session.getId() == (int)invocation.getArgument(0)){
                     return session;
@@ -62,10 +62,10 @@ public class SessionRegistrationServiceTests {
             }
             return null;
         });
-        when(customerRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(customerRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             return customerList;
         });
-        when(customerRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(customerRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             for(Customer customer : customerList){
                 if(customer.getId() == (int)invocation.getArgument(0)){
                     return customer;
@@ -73,10 +73,10 @@ public class SessionRegistrationServiceTests {
             }
             return null;
         });
-        when(sessionRegistrationRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRegistrationRepository.findAll()).thenAnswer((InvocationOnMock invocation) -> {
             return SessionRegistrationList;
         });
-        when(sessionRegistrationRepository.findBySessionId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRegistrationRepository.findBySessionId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             List<SessionRegistration> SessionRegistrations = new ArrayList<>();
             for(SessionRegistration SessionRegistration : SessionRegistrationList){
                 if(SessionRegistration.getSession().getId() == (int)invocation.getArgument(0)){
@@ -85,7 +85,7 @@ public class SessionRegistrationServiceTests {
             }
             return SessionRegistrations;
         });
-        when(sessionRegistrationRepository.findAllByCustomerId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRegistrationRepository.findAllByCustomerId(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             List<SessionRegistration> SessionRegistrations = new ArrayList<>();
             for(SessionRegistration SessionRegistration : SessionRegistrationList){
                 if(SessionRegistration.getCustomer().getId() == (int)invocation.getArgument(0)){
@@ -94,7 +94,7 @@ public class SessionRegistrationServiceTests {
             }
             return SessionRegistrations;
         });
-        when(sessionRegistrationRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRegistrationRepository.findById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             for(SessionRegistration SessionRegistration : SessionRegistrationList){
                 if(SessionRegistration.getId() == (int)invocation.getArgument(0)){
                     return SessionRegistration;
@@ -102,11 +102,38 @@ public class SessionRegistrationServiceTests {
             }
             return null;
         });
-        when(sessionRegistrationRepository.save(any(SessionRegistration.class))).thenAnswer((InvocationOnMock invocation) -> {
+        lenient().when(sessionRegistrationRepository.save(any(SessionRegistration.class))).thenAnswer((InvocationOnMock invocation) -> {
             SessionRegistrationList.add(invocation.getArgument(0));
             return invocation.getArgument(0);
         });
-        
+        lenient().when(sessionRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            for(Session session : sessionList){
+                if(session.getId() == (int)invocation.getArgument(0)){
+                    return true;
+                }
+            }
+            return false;
+        });
+        lenient().when(customerRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            for(Customer customer : customerList){
+                if(customer.getId() == (int)invocation.getArgument(0)){
+                    return true;
+                }
+            }
+            return false;
+        });
+        lenient().when(sessionRegistrationRepository.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
+            for(SessionRegistration registration : SessionRegistrationList){
+                if(registration.getId() == (int)invocation.getArgument(0)){
+                    return true;
+                }
+            }
+            return false;
+        });
+        lenient().when(sessionRegistrationRepository.save(any(SessionRegistration.class))).thenAnswer((InvocationOnMock invocation) -> {
+            SessionRegistrationList.add(invocation.getArgument(0));
+            return invocation.getArgument(0);
+        });
     }
     @BeforeEach
     public void clearRepos(){
@@ -199,7 +226,8 @@ public class SessionRegistrationServiceTests {
         int unsuccessfulId = sessionList.getFirst().getId() + 1;
 
         SessionRegistration exampleRegistration = new SessionRegistration(sessionList.get(0),customerList.get(0));
-        
+        sessionRegistrationRepository.save(exampleRegistration);
+
         SessionRegistration targetRegistration = null;
         String error = "";
         try{
