@@ -35,15 +35,17 @@ public class AccountService {
             person = createPerson(password, email, name);
         } else {
             person = personRepository.findByEmail(email);
-
+        }
+        if(customerRepository.findByPersonEmail(email)!=null){
+            throw new IllegalArgumentException("Customer account already exists");
         }
         
         Customer newCustomerRole =  new Customer(person);
-        customerRepository.save(newCustomerRole);
+        newCustomerRole = customerRepository.save(newCustomerRole);
         
         // Making customer DTO to return
         CustomerDTO newCustomer = new CustomerDTO(); 
-        newCustomer.setId(person.getId());
+        newCustomer.setId(newCustomerRole.getId());
         newCustomer.setSessions(new ArrayList<SessionRegistrationDTO>());
 
         return newCustomer;
