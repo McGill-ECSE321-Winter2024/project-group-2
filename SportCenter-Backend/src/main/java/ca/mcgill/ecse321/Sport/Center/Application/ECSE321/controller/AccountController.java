@@ -27,7 +27,7 @@ public class AccountController {
     private AccountService accountService;
 
 
-    @GetMapping("/people/{pid}") 
+    @GetMapping("/persons/{pid}") 
     public ResponseEntity<?> findPersonById(@PathVariable String pid) throws Exception {
         int id;
         try {
@@ -55,8 +55,8 @@ public class AccountController {
             }
         return people;
     }
-
-    @PutMapping("/customers")
+    // Might not need to 
+    @PostMapping("/customers")
     public ResponseEntity<?> createCustomerAccount(@RequestBody PersonDTO personDTO) {
         // null check
         ResponseEntity<?> nullCheckResponse = nullCheck(personDTO);
@@ -69,10 +69,18 @@ public class AccountController {
             return passwordValidationResponse;
         }
 
-        CustomerDTO newCustomer;
+        ResponseEntity<?> emailValidationResponse = emailValidation(personDTO.getEmail());
+        if (emailValidationResponse != null) {
+            return emailValidationResponse;
+        }
+
+        CustomerDTO newCustomer=null;
         try {
             newCustomer = accountService.createCustomerAccount(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
         } catch (Exception e) {
+            if(e.getMessage().contains("Customer account already exists")) {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
             Person newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
             newCustomer = accountService.createCustomerAccount(newPerson.getPassword(), newPerson.getEmail(), newPerson.getName());
         }
@@ -82,7 +90,7 @@ public class AccountController {
         return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
-    @PutMapping("/persons")
+    @PostMapping("/persons")
     public ResponseEntity<?> createPerson(@RequestBody PersonDTO personDTO) {
         // null check
         ResponseEntity<?> nullCheckResponse = nullCheck(personDTO);
@@ -100,7 +108,15 @@ public class AccountController {
             return emailValidationResponse;
         }
 
-        Person newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
+        Person newPerson = null;
+        try{
+            newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
+        }catch(IllegalArgumentException e){
+            if(e.getMessage().contains("Account with this email already exists")){
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+        }
+
         if (newPerson == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -108,7 +124,7 @@ public class AccountController {
         return new ResponseEntity<>(newPersonDto, HttpStatus.CREATED);
     }
 
-    @PutMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
         String password = credentials.get("password");
