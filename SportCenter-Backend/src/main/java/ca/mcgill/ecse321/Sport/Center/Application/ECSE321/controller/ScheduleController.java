@@ -20,7 +20,7 @@ public class ScheduleController {
 
     @PostMapping("/sessions")
     public ResponseEntity<SessionResponseDTO> createSession(@RequestBody SessionDTO request) {
-        Session newSession = service.createSession(request.getId(), request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
+        Session newSession = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
         if (newSession == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }

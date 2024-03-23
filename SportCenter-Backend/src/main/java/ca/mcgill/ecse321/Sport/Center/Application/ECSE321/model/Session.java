@@ -47,9 +47,9 @@ public class Session
   // CONSTRUCTOR
   //------------------------
   public Session(){}
-  public Session(int aId, int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor)
+  public Session(int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor)
   {
-    id = aId;
+    
     length = aLength;
     startTime = aStartTime;
     endTime = aEndTime;
@@ -70,13 +70,7 @@ public class Session
   // INTERFACE
   //------------------------
 
-  public boolean setId(int aId)
-  {
-    boolean wasSet = false;
-    id = aId;
-    wasSet = true;
-    return wasSet;
-  }
+ 
 
   public boolean setLength(int aLength)
   {

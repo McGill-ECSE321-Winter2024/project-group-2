@@ -168,7 +168,7 @@ public class SchedulingServiceTests {
         Session session = null;
         String error = null;
         try {
-            session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
+            session = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -184,7 +184,7 @@ public class SchedulingServiceTests {
         Session session = null;
         String error = null;
         try {
-            session = schedulingService.createSession(1,10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
+            session = schedulingService.createSession(10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -203,7 +203,7 @@ public class SchedulingServiceTests {
         Session session = null;
         String error = null;
         try {
-            session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1);
+            session = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -217,14 +217,13 @@ public class SchedulingServiceTests {
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
-        
+        Session session = new Session( 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
         assertEquals(100, session.getMaxParticipants());
         sessionDao.save(session);
 
         String error = null;
         try {
-            schedulingService.updateSession(1,10, START_TIME, END_TIME,DATE, false, 10000, CLASS_TYPE, instructor1);
+            schedulingService.updateSession(session.getId(), 10, START_TIME, END_TIME,DATE, false, 10000, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -242,7 +241,7 @@ public class SchedulingServiceTests {
         personDao.save(instructorPerson);
         Instructor instructor = new Instructor(instructorPerson);
         instructorDao.save(instructor);
-        Session session = new Session(1, 10, END_TIME, START_TIME, DATE, false, 100, CLASS_TYPE, instructor);
+        Session session = new Session(10, END_TIME, START_TIME, DATE, false, 100, CLASS_TYPE, instructor);
         sessionDao.save(session);
 
         String error = null;
@@ -355,9 +354,10 @@ public class SchedulingServiceTests {
         personDao.save(person);
         Instructor instructor = new Instructor(person);
         instructorDao.save(instructor);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
-        schedulingService.registerToTeachSession(PERSON_EMAIL, 1);
+        int sessionId = session.getId();
+        schedulingService.registerToTeachSession(PERSON_EMAIL, sessionId);
         
         assertEquals(PERSON_EMAIL, sessions.get(0).getInstructor().getPerson().getEmail());
     }
@@ -368,11 +368,11 @@ public class SchedulingServiceTests {
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
         String error = null;
         try {
-            schedulingService.registerToTeachSession("bad email", 1);
+            schedulingService.registerToTeachSession("bad email", session.getId());
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -388,11 +388,11 @@ public class SchedulingServiceTests {
         instructorDao.save(instructor2);
         Person person = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(person);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
         String error = null;
         try {
-            schedulingService.registerToTeachSession(PERSON_EMAIL, 1);
+            schedulingService.registerToTeachSession(PERSON_EMAIL, session.getId());
         } catch (Exception e) {
             error = e.getMessage();
         }

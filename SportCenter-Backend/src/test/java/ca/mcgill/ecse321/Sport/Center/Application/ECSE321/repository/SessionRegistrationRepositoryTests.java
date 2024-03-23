@@ -77,7 +77,7 @@ public class SessionRegistrationRepositoryTests {
         Date date = Date.valueOf(LocalDate.of(2024, 2, 18));
         boolean isRepeating = true;
         int maxParticipants = 50;
-        Session sessionRegistration = new Session(sessionId, length, startTime, endTime, date,
+        Session sessionRegistration = new Session(length, startTime, endTime, date,
                 isRepeating, maxParticipants, exampleClassType, instructor);
         sessionRegistration = sessionRepo.save(sessionRegistration);
 

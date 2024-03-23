@@ -73,7 +73,7 @@ public class SessionRepositoryTests {
         Date date = Date.valueOf(LocalDate.of(2024, 2, 18));
         boolean isRepeating = true;
         int maxParticipants = 50;
-        Session yogaSession = new Session(sessionId, length, startTime, endTime, date,
+        Session yogaSession = new Session(length, startTime, endTime, date,
                 isRepeating, maxParticipants, exampleClassType, instructor);
 
         // Save in database
