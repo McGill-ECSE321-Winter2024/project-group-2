@@ -29,9 +29,8 @@ public class Person
   // CONSTRUCTOR
   //------------------------
   public Person(){}
-  public Person(int aId, String aName, String aEmail, String aPassword)
+  public Person(String aName, String aEmail, String aPassword)
   {
-    id = aId;
     password = aPassword;
     email = aEmail;
     name = aName;

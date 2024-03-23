@@ -115,7 +115,7 @@ public class SchedulingServiceTests {
         lenient().when(instructorDao.findByPersonEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             for (String email : instructorEmails) {
                 if(email.equals(invocation.getArgument(0))) {
-                    return new Instructor(new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD));
+                    return new Instructor(new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD));
                 }
             }
             return null;
@@ -161,7 +161,7 @@ public class SchedulingServiceTests {
     
     @Test
     public void createSessionSuccess(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
@@ -177,7 +177,7 @@ public class SchedulingServiceTests {
 
     @Test
     public void createSessionBadTime(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
@@ -194,7 +194,7 @@ public class SchedulingServiceTests {
 
     @Test
     public void createSessionBadType(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
@@ -213,7 +213,7 @@ public class SchedulingServiceTests {
 
     @Test
     public void updateSessionSuccess(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
@@ -238,7 +238,7 @@ public class SchedulingServiceTests {
     @Test
     public void updateSessionBadInputs(){
         ClassType invalidType = new ClassType("fake", false);
-        Person instructorPerson = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructorPerson = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructorPerson);
         Instructor instructor = new Instructor(instructorPerson);
         instructorDao.save(instructor);
@@ -346,12 +346,12 @@ public class SchedulingServiceTests {
     @Test
     public void registerToTeachSessionSuccess(){
         
-        Person placeholder = new Person(10, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
         
-        Person person = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person person = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(person);
         Instructor instructor = new Instructor(person);
         instructorDao.save(instructor);
@@ -364,7 +364,7 @@ public class SchedulingServiceTests {
 
     @Test
     public void registerToTeachSessionEmailNotPerson(){
-        Person placeholder = new Person(1, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
@@ -382,11 +382,11 @@ public class SchedulingServiceTests {
 
     @Test
     public void registerToTeachSessionEmailNotInstructor(){
-        Person placeholder = new Person(1, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
-        Person person = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person person = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(person);
         Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);

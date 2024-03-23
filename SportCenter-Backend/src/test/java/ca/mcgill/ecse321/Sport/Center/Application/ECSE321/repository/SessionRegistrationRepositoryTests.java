@@ -55,7 +55,7 @@ public class SessionRegistrationRepositoryTests {
         String name = "person";
         String password = "password";
         String email = "email";
-        Person person = new Person(id, password, email, name);
+        Person person = new Person(password, email, name);
         Person newPerson = personRepository.save(person);
         //Create Customer
         Customer customer = new Customer(newPerson);
