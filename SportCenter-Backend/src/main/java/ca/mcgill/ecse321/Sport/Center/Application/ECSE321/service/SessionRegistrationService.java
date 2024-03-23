@@ -68,7 +68,7 @@ public class SessionRegistrationService {
     @Transactional
     public SessionRegistration viewSpecificSessionRegistration(int pid) throws Exception {
         if(!sessionRegistrationRepository.existsById(pid)){
-            throw new Exception("There is no registration with this ID.");
+            throw new Exception("No registration with this ID");
         }
         SessionRegistration s = sessionRegistrationRepository.findById(pid);
         
