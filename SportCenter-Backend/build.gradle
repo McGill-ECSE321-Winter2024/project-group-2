@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.2'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'jacoco'
 }
 
 group = 'ca.mcgill.ecse321'
@@ -31,4 +32,9 @@ tasks.named('test') {
 		exceptionFormat "full"
 		events "failed"
 	}
+	finalizedBy 'jacocoTestReport'
+}
+
+tasks.named('jacocoTestReport') {
+	dependsOn 'test'
 }
