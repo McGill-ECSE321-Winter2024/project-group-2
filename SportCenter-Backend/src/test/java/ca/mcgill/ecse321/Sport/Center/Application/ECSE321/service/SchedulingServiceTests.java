@@ -126,7 +126,7 @@ public class SchedulingServiceTests {
         lenient().when(instructorDao.findByPersonEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             for (String email : instructorEmails) {
                 if(email.equals(invocation.getArgument(0))) {
-                    return new Instructor(new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD));
+                    return new Instructor(new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD));
                 }
             }
             return null;
@@ -171,8 +171,8 @@ public class SchedulingServiceTests {
 
     
     @Test
-    public void testCreateSession(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+    public void createSessionSuccess(){
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
@@ -181,26 +181,40 @@ public class SchedulingServiceTests {
         
         //Success scenario
         try {
-            session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
+            session = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
         assertNull(error);
         assertEquals(START_TIME, session.getStartTime());
 
-        //Fail scenario: Start time after end time
+
+    @Test
+    public void createSessionBadTime(){
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        personDao.save(instructor);
+        Instructor instructor1 = new Instructor(instructor);
+        instructorDao.save(instructor1);
+        Session session = null;
+        String error = null;
         try {
-            session = schedulingService.createSession(1,10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
+            session = schedulingService.createSession(10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
         assertNotNull(error);
         assertTrue(error.contains("Start time must be before end time"));
 
-        //Fail scenario: Class type not approved
+
+    @Test
+    public void createSessionBadType(){
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        personDao.save(instructor);
+        Instructor instructor1 = new Instructor(instructor);
+        instructorDao.save(instructor1);
         ClassType invalidType = new ClassType("fake", false);
         try {
-            session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1);
+            session = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -209,24 +223,38 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void testUpdateSession(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
-        Instructor instructor1 = new Instructor(instructor);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
+    public void updateSessionSuccess(){
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
+        Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
+        Session session = new Session( 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
+        assertEquals(100, session.getMaxParticipants());
         sessionDao.save(session);
 
         String error = null;
         //Success Scenario
         try {
-            schedulingService.updateSession(1,10, START_TIME, END_TIME,DATE, false, 10000, CLASS_TYPE, instructor1);
+            schedulingService.updateSession(session.getId(), 10, START_TIME, END_TIME,DATE, false, 10000, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
         assertNull(error);
-        assertEquals(10000, sessions.get(0).getMaxParticipants());
+        session = sessions.get(0);
+        assertEquals(10000, session.getMaxParticipants());
 
+    } 
+    
+    
+    @Test
+    public void updateSessionBadInputs(){
+        ClassType invalidType = new ClassType("fake", false);
+        Person instructorPerson = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        personDao.save(instructorPerson);
+        Instructor instructor = new Instructor(instructorPerson);
+        instructorDao.save(instructor);
+        Session session = new Session(10, END_TIME, START_TIME, DATE, false, 100, CLASS_TYPE, instructor);
+        sessionDao.save(session);
         //Fail scenario: Bad inputs -> Start time after end time, class type not approved
         ClassType unapprovedClassType = new ClassType("fake", false);
         try {
@@ -354,33 +382,34 @@ public class SchedulingServiceTests {
     @Test
     public void registerToTeachSessionSuccess(){
         
-        Person placeholder = new Person(10, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
         
-        Person person = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person person = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(person);
         Instructor instructor = new Instructor(person);
         instructorDao.save(instructor);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
-        schedulingService.registerToTeachSession(PERSON_EMAIL, 1);
+        int sessionId = session.getId();
+        schedulingService.registerToTeachSession(PERSON_EMAIL, sessionId);
         
         assertEquals(PERSON_EMAIL, sessions.get(0).getInstructor().getPerson().getEmail());
     }
 
     @Test
     public void registerToTeachSessionEmailNotPerson(){
-        Person placeholder = new Person(1, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
         String error = null;
         try {
-            schedulingService.registerToTeachSession("bad email", 1);
+            schedulingService.registerToTeachSession("bad email", session.getId());
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -390,17 +419,17 @@ public class SchedulingServiceTests {
 
     @Test
     public void registerToTeachSessionEmailNotInstructor(){
-        Person placeholder = new Person(1, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
-        Person person = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person person = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(person);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
         String error = null;
         try {
-            schedulingService.registerToTeachSession(PERSON_EMAIL, 1);
+            schedulingService.registerToTeachSession(PERSON_EMAIL, session.getId());
         } catch (Exception e) {
             error = e.getMessage();
         }

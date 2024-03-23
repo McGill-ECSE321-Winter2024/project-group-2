@@ -55,7 +55,7 @@ public class SessionRegistrationRepositoryTests {
         String name = "person";
         String password = "password";
         String email = "email";
-        Person person = new Person(id, password, email, name);
+        Person person = new Person(password, email, name);
         Person newPerson = personRepository.save(person);
         //Create Customer
         Customer customer = new Customer(newPerson);
@@ -70,14 +70,13 @@ public class SessionRegistrationRepositoryTests {
         exampleClassType = classTypeRepo.save(exampleClassType);
 
         // Create session
-        int sessionId = 1;
         int length = 60;
         Time startTime = Time.valueOf(localStartTime);
         Time endTime = Time.valueOf(localEndTime);
         Date date = Date.valueOf(LocalDate.of(2024, 2, 18));
         boolean isRepeating = true;
         int maxParticipants = 50;
-        Session sessionRegistration = new Session(sessionId, length, startTime, endTime, date,
+        Session sessionRegistration = new Session(length, startTime, endTime, date,
                 isRepeating, maxParticipants, exampleClassType, instructor);
         sessionRegistration = sessionRepo.save(sessionRegistration);
 
