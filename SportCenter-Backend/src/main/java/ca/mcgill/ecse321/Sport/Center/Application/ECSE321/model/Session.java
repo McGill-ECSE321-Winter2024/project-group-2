@@ -47,9 +47,9 @@ public class Session
   // CONSTRUCTOR
   //------------------------
   public Session(){}
-  public Session(int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor)
+  public Session(int aId, int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor)
   {
-
+    id = aId;
     length = aLength;
     startTime = aStartTime;
     endTime = aEndTime;
@@ -60,10 +60,9 @@ public class Session
     {
       throw new RuntimeException("Unable to create Session due to aClassType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (aInstructor != null)
+    if (!setInstructor(aInstructor))
     {
-      setInstructor(aInstructor);
-      //throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -71,7 +70,13 @@ public class Session
   // INTERFACE
   //------------------------
 
-
+  public boolean setId(int aId)
+  {
+    boolean wasSet = false;
+    id = aId;
+    wasSet = true;
+    return wasSet;
+  }
 
   public boolean setLength(int aLength)
   {

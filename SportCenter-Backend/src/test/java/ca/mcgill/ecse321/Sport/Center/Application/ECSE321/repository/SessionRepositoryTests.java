@@ -66,20 +66,21 @@ public class SessionRepositoryTests {
         classTypeRepo.save(exampleClassType);
 
         // Create session
+        int sessionId = 1;
         int length = 60;
         Time startTime = Time.valueOf(localStartTime);
         Time endTime = Time.valueOf(localEndTime);
         Date date = Date.valueOf(LocalDate.of(2024, 2, 18));
         boolean isRepeating = true;
         int maxParticipants = 50;
-        Session yogaSession = new Session(length, startTime, endTime, date,
+        Session yogaSession = new Session(sessionId, length, startTime, endTime, date,
                 isRepeating, maxParticipants, exampleClassType, instructor);
 
         // Save in database
         yogaSession = sessionRepo.save(yogaSession);
         
         // Read back from database
-        int sessionId = yogaSession.getId();
+        sessionId = yogaSession.getId();
         Session sessionFromDB = sessionRepo.findById(sessionId);
 
         // Assertions

@@ -38,7 +38,7 @@ public class SchedulingService {
     PersonRepository personRepository;
 
     @Transactional
-    public Session createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
+    public Session createSession(int id, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
         String error = "";
         if(startTime.after(endTime)){
             error += "Start time must be before end time";
@@ -51,7 +51,7 @@ public class SchedulingService {
         }
         
         // I think this needs checks for validity + exceptions thrown
-        Session session = new Session(length, startTime, endTime, date, isRepeating, maxParticipants, classType, instructor);
+        Session session = new Session(id, length, startTime, endTime, date, isRepeating, maxParticipants, classType, instructor);
         return sessionRepository.save(session);
     }
 

@@ -38,7 +38,7 @@ public class OwnerRepositoryTests {
         String name = "person";
         String email = "email";
         String password = "password";
-        Person person = new Person(name, email, password);
+        Person person = new Person(id, name, email, password);
         person = personRepository.save(person);
         
         Owner owner = new Owner(person);
