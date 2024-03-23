@@ -44,7 +44,8 @@ public class SessionRegistrationService {
      * @author Alice, Aurelia
      */
     @Transactional
-    public SessionRegistration registerForSession(int sessionId, int customerId){
+
+    public SessionRegistration registerForSession(int aId, int sessionId, int customerId){
         if(!sessionRepository.existsById(sessionId)){
             throw new IllegalArgumentException("No session with given ID");
         }
@@ -66,9 +67,9 @@ public class SessionRegistrationService {
      * @author Alice Godbout
      */
     @Transactional
-    public SessionRegistration viewSpecificSessionRegistration(int pid) throws Exception {
+    public SessionRegistration viewSpecificSession(int pid) throws Exception {
         if(!sessionRegistrationRepository.existsById(pid)){
-            throw new Exception("No registration with this ID");
+            throw new Exception("There is no registration with this ID.");
         }
         SessionRegistration s = sessionRegistrationRepository.findById(pid);
         
@@ -99,7 +100,7 @@ public class SessionRegistrationService {
         if(!customerRepository.existsById(customerId)){
             throw new IllegalArgumentException("No customer with given ID");
         }
-        List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findByCustomerId(customerId);
+        List<SessionRegistration> allRegistrations = sessionRegistrationRepository.findAllByCustomerId(customerId);
         return allRegistrations;
     }
 
