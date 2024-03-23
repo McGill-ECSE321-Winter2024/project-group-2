@@ -49,7 +49,7 @@ public class Session
   public Session(){}
   public Session(int aLength, Time aStartTime, Time aEndTime, Date aDate, boolean aIsRepeating, int aMaxParticipants, ClassType aClassType, Instructor aInstructor)
   {
-    
+
     length = aLength;
     startTime = aStartTime;
     endTime = aEndTime;
@@ -60,9 +60,10 @@ public class Session
     {
       throw new RuntimeException("Unable to create Session due to aClassType. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
-    if (!setInstructor(aInstructor))
+    if (aInstructor != null)
     {
-      throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      setInstructor(aInstructor);
+      //throw new RuntimeException("Unable to create Session due to aInstructor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
   }
 
@@ -70,7 +71,7 @@ public class Session
   // INTERFACE
   //------------------------
 
- 
+
 
   public boolean setLength(int aLength)
   {

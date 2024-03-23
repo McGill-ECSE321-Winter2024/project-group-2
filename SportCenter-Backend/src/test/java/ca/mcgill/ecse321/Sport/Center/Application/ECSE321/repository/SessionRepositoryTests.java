@@ -66,7 +66,6 @@ public class SessionRepositoryTests {
         classTypeRepo.save(exampleClassType);
 
         // Create session
-        int sessionId = 1;
         int length = 60;
         Time startTime = Time.valueOf(localStartTime);
         Time endTime = Time.valueOf(localEndTime);
@@ -80,7 +79,7 @@ public class SessionRepositoryTests {
         yogaSession = sessionRepo.save(yogaSession);
         
         // Read back from database
-        sessionId = yogaSession.getId();
+        int sessionId = yogaSession.getId();
         Session sessionFromDB = sessionRepo.findById(sessionId);
 
         // Assertions

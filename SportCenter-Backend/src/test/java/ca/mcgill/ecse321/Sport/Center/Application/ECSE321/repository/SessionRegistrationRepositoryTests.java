@@ -70,7 +70,6 @@ public class SessionRegistrationRepositoryTests {
         exampleClassType = classTypeRepo.save(exampleClassType);
 
         // Create session
-        int sessionId = 1;
         int length = 60;
         Time startTime = Time.valueOf(localStartTime);
         Time endTime = Time.valueOf(localEndTime);
