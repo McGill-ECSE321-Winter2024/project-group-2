@@ -49,13 +49,18 @@ public class SessionRegistrationController {
             int customerIdInt = Integer.parseInt(customerId);
             SessionRegistration registration = service.registerForSession(sessionIdInt, customerIdInt);
             return ResponseEntity.ok(registration);
-        } catch (NumberFormatException num) {
-           return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body("Bad integer value for sessionId or customerId");
+        } catch (Exception e) {
+            if (e.getMessage().contains("No session with given ID") || e.getMessage().contains("No customer with given ID")) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            } else {
+                // Handling other unexpected exceptions
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+            }
         }
     }
+    
     
     /**
      * Endpoint for viewing a specific session registration by its ID.
@@ -71,10 +76,16 @@ public class SessionRegistrationController {
             SessionRegistration registration = service.viewSpecificSessionRegistration(pidInt);
             return ResponseEntity.ok(registration);
         } catch (NumberFormatException num) {
-            return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Bad integer value for pid", HttpStatus.BAD_REQUEST);
          }
          catch (Exception e) {
-             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            if (e.getMessage().contains("No registration with this ID")) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }
+            else {
+                // Handling other unexpected exceptions
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+            }
          }
     }
 
@@ -92,10 +103,16 @@ public class SessionRegistrationController {
             service.cancelRegistration(idInt);
             return ResponseEntity.ok().build();
         } catch (NumberFormatException num) {
-            return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Bad integer value for id", HttpStatus.BAD_REQUEST);
          }
          catch (Exception e) {
-             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+             if (e.getMessage().contains("No registration with given ID")) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+             }
+             else {
+                // Handling other unexpected exceptions
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+             }
          }
     }
 
@@ -113,9 +130,15 @@ public class SessionRegistrationController {
             List<SessionRegistration> registrations = service.viewRegistrationsByCustomer(customerIdInt);
             return ResponseEntity.ok(registrations);
         } catch (NumberFormatException num) {
-            return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Bad integer value for customerId", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            if (e.getMessage().contains("No customer with given ID")) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }
+            else {
+                // Handling other unexpected exceptions
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+             }
         }
     }
 
@@ -133,9 +156,15 @@ public class SessionRegistrationController {
             List<SessionRegistration> registrations = service.viewRegistrationsBySession(sessionIdInt);
             return ResponseEntity.ok(registrations);
         } catch (NumberFormatException num) {
-            return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Bad integer value for sessionId", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            if (e.getMessage().contains("No session with given ID")) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            }
+            else {
+                // Handling other unexpected exceptions
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+             }
         }
     }
 }
