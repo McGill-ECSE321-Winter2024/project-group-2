@@ -65,10 +65,10 @@ public class SessionRegistrationController {
      * @author Aurelia Bouliane
      */
     @GetMapping("/session/{pid}")
-    public ResponseEntity<?> viewSpecificSession(@PathVariable String pid) {
+    public ResponseEntity<?> viewSpecificSessionRegistration(@PathVariable String pid) {
         try {
             int pidInt = Integer.parseInt(pid);
-            SessionRegistration registration = service.viewSpecificSession(pidInt);
+            SessionRegistration registration = service.viewSpecificSessionRegistration(pidInt);
             return ResponseEntity.ok(registration);
         } catch (NumberFormatException num) {
             return new ResponseEntity<>("Bad integer value", HttpStatus.BAD_REQUEST);
