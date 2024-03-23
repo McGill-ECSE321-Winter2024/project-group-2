@@ -45,6 +45,7 @@ public class SessionRegistrationService {
      */
     @Transactional
     public SessionRegistration registerForSession(int sessionId, int customerId){
+
         if(!sessionRepository.existsById(sessionId)){
             throw new IllegalArgumentException("No session with given ID");
         }
@@ -53,6 +54,7 @@ public class SessionRegistrationService {
         }
         Session aSession = sessionRepository.findById(sessionId);
         Customer aCustomer = customerRepository.findById(customerId);
+
         SessionRegistration sessionRegistration = new SessionRegistration(aSession, aCustomer);
         return sessionRegistrationRepository.save(sessionRegistration);
     }
