@@ -40,7 +40,7 @@ public class SchedulingService {
 
 
     @Transactional
-    public SessionDTO createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
+    public SessionDTO createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, int instructorId){
         String error = "";
         if(startTime.after(endTime)){
             error += "Start time must be before end time";
@@ -48,10 +48,13 @@ public class SchedulingService {
         if(!classType.getIsApproved()){
             error += "Class type must be approved";
         }
+        if(instructorRepository.findById(instructorId)==null){
+            error+="No instructor with given ID";
+        }
         if(error!=""){
             throw new IllegalArgumentException(error);
         }
-        
+        Instructor instructor = instructorRepository.findById(instructorId);
         // I think this needs checks for validity + exceptions thrown
         Session session = new Session(length, startTime, endTime, date, isRepeating, maxParticipants, classType, instructor);
         session = sessionRepository.save(session);
@@ -73,7 +76,7 @@ public class SchedulingService {
      * @author Behrad
      */
     @Transactional
-    public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){ //maybe
+    public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, int instructorId){ //maybe
         String error = "";
         if(startTime.after(endTime)){
             error += "Start time must be before end time";
@@ -84,13 +87,15 @@ public class SchedulingService {
         if(classTypeRepository.findByClassType(classType.getClassType())==null){
             error += "No class type with given name";
         }
-        
+        if(instructorRepository.findById(instructorId)==null){
+            error+="No instructor with given ID";
+        }
 
         Session session = sessionRepository.findById(sessionId);
         if(session==null){
             error+="No session with given ID";
         }
-        Instructor targetInstructor = instructorRepository.findById(instructor.getId());
+        Instructor targetInstructor = instructorRepository.findById(instructorId);
         if(targetInstructor==null){
             error+="No instructor with given ID";
         }

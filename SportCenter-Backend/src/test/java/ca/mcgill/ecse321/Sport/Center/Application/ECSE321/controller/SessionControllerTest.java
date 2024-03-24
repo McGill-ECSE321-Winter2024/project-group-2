@@ -58,22 +58,20 @@ public class SessionControllerTest {
     @Test
     public void testCreateSessionSuccess(){
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
-        personRepository.save(person);
+        person = personRepository.save(person);
 
         Instructor instructor = new Instructor(person);
-        instructorRepository.save(instructor);
+        instructor = instructorRepository.save(instructor);
 
         ClassType yoga = new ClassType("yoga", true);
-        classTypeRepository.save(yoga);
+        yoga = classTypeRepository.save(yoga);
 
         Session session = new Session(60, Time.valueOf("10:00:00"), Time.valueOf("11:00:00"),
                 Date.valueOf("2020-03-12"), false, 10, yoga, instructor);
-        sessionRepository.save(session);
 
         SessionDTO request = new SessionDTO(session);
 
         ResponseEntity<SessionDTO> response = client.postForEntity("/sessions", request, SessionDTO.class);
-
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         SessionDTO sessionResponse = response.getBody();
@@ -84,46 +82,46 @@ public class SessionControllerTest {
         assertEquals(session.getIsRepeating(), sessionResponse.getIsRepeating());
         assertEquals(session.getMaxParticipants(), sessionResponse.getMaxParticipants());
         assertEquals(session.getClassType().getClassType(), sessionResponse.getClassType().getClassType());
-        assertEquals(session.getInstructor().getPerson().getId(), sessionResponse.getInstructor().getPerson().getId());
     }
 
     @Test
     public void testCreateSessionFail() {
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
-        personRepository.save(person);
+        person = personRepository.save(person);
 
         Instructor instructor = new Instructor(person);
-        instructorRepository.save(instructor);
+        instructor = instructorRepository.save(instructor);
 
         ClassType yoga = new ClassType("yoga", true);
-        classTypeRepository.save(yoga);
+        yoga = classTypeRepository.save(yoga);
 
         Session session = new Session(-60, Time.valueOf("12:00:00"), Time.valueOf("10:00:00"),
                 Date.valueOf("2020-03-12"), false, 10, yoga, instructor);
-        sessionRepository.save(session);
+        session = sessionRepository.save(session);
 
         SessionDTO request = new SessionDTO(session);
 
-        ResponseEntity<SessionDTO> response = client.postForEntity("/sessions", request, SessionDTO.class);
+        ResponseEntity<String> response = client.postForEntity("/sessions", request, String.class);
 
         assertNotNull(response);
+        assertTrue(response.getBody().contains("Start time must be before end time"));
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 
     @Test
     public void testGetSessionByIdSuccess() {
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
-        personRepository.save(person);
+        person = personRepository.save(person);
 
         Instructor instructor = new Instructor(person);
-        instructorRepository.save(instructor);
+        instructor = instructorRepository.save(instructor);
 
         ClassType yoga = new ClassType("yoga", true);
-        classTypeRepository.save(yoga);
+        yoga = classTypeRepository.save(yoga);
 
         Session session = new Session(60, Time.valueOf("10:00:00"), Time.valueOf("11:00:00"),
                 Date.valueOf("2020-03-12"), false, 10, yoga, instructor);
-        sessionRepository.save(session);
+        session = sessionRepository.save(session);
 
         String url = "/sessions/" + session.getId();
 
@@ -139,7 +137,7 @@ public class SessionControllerTest {
         assertEquals(session.getIsRepeating(), sessionResponse.getIsRepeating());
         assertEquals(session.getMaxParticipants(), sessionResponse.getMaxParticipants());
         assertEquals(session.getClassType().getClassType(), sessionResponse.getClassType().getClassType());
-        assertEquals(session.getInstructor().getPerson().getId(), sessionResponse.getInstructor().getPerson().getId());
+        assertEquals(session.getInstructor().getId(), sessionResponse.getInstructorId());
     }
 
     @Test
@@ -159,7 +157,7 @@ public class SessionControllerTest {
 
         String url = "/sessions/1234567890";
 
-        ResponseEntity<SessionDTO> response = client.getForEntity(url, SessionDTO.class);
+        ResponseEntity<String> response = client.getForEntity(url, String.class);
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

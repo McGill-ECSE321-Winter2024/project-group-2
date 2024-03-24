@@ -22,10 +22,10 @@ public class ScheduleController {
     public ResponseEntity<?> createSession(@RequestBody SessionDTO request) {
         SessionDTO newSessionDTO = null;
         try {
-            newSessionDTO = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
-            newSessionDTO.setInstructor(request.getInstructor());
+            newSessionDTO = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), request.getInstructorId());
+            //newSessionDTO.setInstructor(request.getInstructor());
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(newSessionDTO, HttpStatus.CREATED);
     }
@@ -34,7 +34,7 @@ public class ScheduleController {
     public ResponseEntity<?> updateSession (@PathVariable int id, @RequestBody SessionDTO request) {
         SessionDTO newSession = null;
         try {
-            newSession = service.updateSession(id, request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), request.getInstructor());
+            newSession = service.updateSession(id, request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), request.getInstructorId());
             return new ResponseEntity<>(newSession,HttpStatus.ACCEPTED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -53,7 +53,8 @@ public class ScheduleController {
         if (session == null) {
             return new ResponseEntity<>("Session not found", HttpStatus.NOT_FOUND);
         }
-        return ResponseEntity.ok(SessionResponseDTO.create(session));
+        SessionDTO sessionDTO = new SessionDTO(session);
+        return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
     }
 
     @GetMapping("/sessions")

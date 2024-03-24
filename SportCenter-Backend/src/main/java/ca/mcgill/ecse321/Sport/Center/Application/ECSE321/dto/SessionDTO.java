@@ -16,12 +16,11 @@ public class SessionDTO {
     private boolean isRepeating;
     private int maxParticipants;
     private ClassType classType;
-
-    private Instructor instructor;
+    private int instructorId;
 
     public SessionDTO(){
     }
-    public SessionDTO(int id, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType){
+    public SessionDTO(int id, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
         this.id = id;
         this.length = length;
         this.startTime = startTime;
@@ -30,6 +29,7 @@ public class SessionDTO {
         this.isRepeating = isRepeating;
         this.maxParticipants = maxParticipants;
         this.classType = classType;
+        this.instructorId = instructor.getId();
     }
 
     public SessionDTO(Session session) {
@@ -41,7 +41,7 @@ public class SessionDTO {
         this.isRepeating = session.getIsRepeating();
         this.maxParticipants = session.getMaxParticipants();
         this.classType = session.getClassType();
-        
+        this.instructorId = session.getInstructor().getId();
     }
 
     public int getId(){ //maybe remove this //no keep it plz
@@ -86,7 +86,7 @@ public class SessionDTO {
 
     public ClassType getClassType() { return classType; }
     public void setClassType(ClassType classType) { this.classType = classType; }
-    public Instructor getInstructor() { return instructor; }
-    public void setInstructor(Instructor instructor) { this.instructor = instructor; }
+    public int getInstructorId() { return instructorId; }
+    public void setInstructor(Instructor instructor) { this.instructorId = instructor.getId(); }
 
 }
