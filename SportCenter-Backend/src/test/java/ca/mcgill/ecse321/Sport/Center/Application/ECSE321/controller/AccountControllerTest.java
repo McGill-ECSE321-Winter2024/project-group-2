@@ -133,7 +133,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testLogin(){
+    public void testLoginValid() {
         PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
         client.postForEntity("/persons", person, PersonDTO.class);
 
@@ -143,17 +143,32 @@ public class AccountControllerTest {
         ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertTrue(response.getBody().toString().contains("true"));
+    }
 
+    @Test
+    public void testLoginInvalidPassword() {
+        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
+        client.postForEntity("/persons", person, PersonDTO.class);
+
+        HashMap<String, String> credentials = new HashMap<>();
+        credentials.put("email", person.getEmail());
         credentials.put("password", "wrongPassword2024");
-        ResponseEntity<?> response2 = client.postForEntity("/login", credentials, String.class);
-        assertEquals(HttpStatus.I_AM_A_TEAPOT, response2.getStatusCode());
-        assertTrue(response2.getBody().toString().contains("false"));
+        ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
+        assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
+        assertTrue(response.getBody().toString().contains("false"));
+    }
 
+    @Test
+    public void testLoginInvalidEmail() {
+        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
+        client.postForEntity("/persons", person, PersonDTO.class);
+
+        HashMap<String, String> credentials = new HashMap<>();
         credentials.put("email", "wrong@email.com");
-        credentials.put("password","aValidPassword2024");
-        ResponseEntity<?> response3 = client.postForEntity("/login", credentials, String.class);
-        assertEquals(HttpStatus.I_AM_A_TEAPOT, response3.getStatusCode());
-        assertTrue(response3.getBody().toString().contains("false"));
+        credentials.put("password", person.getPassword());
+        ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
+        assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
+        assertTrue(response.getBody().toString().contains("false"));
     }
 
     @Test
@@ -186,7 +201,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testGetAllPersons(){
+    public void testGetAllPersonsValid(){
         PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
         PersonDTO person2 = new PersonDTO(1, "aValidPassword2024", "another@validEmail.com", "anotherGood Name");
         client.postForEntity("/persons", person, PersonDTO.class);
@@ -198,7 +213,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testDeleteCustomerSuccess(){
+    public void testDeleteCustomerValid(){
         Person person = new Person();
         person.setName("Good Name");
         person.setEmail("valid@email.com");
@@ -220,7 +235,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testDeleteCustomerFailure(){   
+    public void testDeleteCustomerInvalid(){   
         String url = "/customers/1234";
         HttpMethod method = HttpMethod.DELETE;
         HttpHeaders headers = new HttpHeaders();
@@ -231,7 +246,7 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void testDeletePersonSuccess(){
+    public void testDeletePersonValid(){
         Person person = new Person();
         person.setName("Good Name");
         person.setEmail("valid@email.com");
@@ -248,7 +263,7 @@ public class AccountControllerTest {
     }
 
     @Test 
-    public void testDeletePersonFailure(){
+    public void testDeletePersonInvalid(){
         String url = "/persons/1234" ;
         HttpMethod method = HttpMethod.DELETE;
         HttpHeaders headers = new HttpHeaders();
