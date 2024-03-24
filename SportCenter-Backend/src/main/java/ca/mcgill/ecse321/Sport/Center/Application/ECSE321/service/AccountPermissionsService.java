@@ -1,5 +1,8 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service;
 
+import java.util.ArrayList;
+
+import org.hibernate.sql.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -7,6 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
@@ -20,39 +26,30 @@ public class AccountPermissionsService {
     OwnerRepository ownerRepository;
 
     @Transactional
-    public void grantInstructorPermissions(String personEmail) throws IllegalArgumentException{
-        if(personEmail==null || personEmail.trim().length()==0){
-            throw new IllegalArgumentException("Person email cannot be empty");
+    public InstructorDTO grantInstructorPermissions(int id) throws Exception{
+        if(! personRepository.existsById(id)){
+            throw new Exception("Person does not exist");
         }
-        if(! personRepository.existsByEmail(personEmail)){
-            throw new IllegalArgumentException("Person does not exist");
+
+        Person person = personRepository.findById(id);
+        if (instructorRepository.existsByPersonEmail(person.getEmail())){
+            throw new Exception("Person is already an instructor");
         }
-        if(instructorRepository.existsByPersonEmail(personEmail)){
-            throw new IllegalArgumentException("Person already has instructor permissions");
-        }
-        
-        
-        Person person = personRepository.findByEmail(personEmail);
+
         Instructor newInstructorRole = new Instructor();
         newInstructorRole.setPerson(person);
-        
-        instructorRepository.save(newInstructorRole);
-        return;
+        newInstructorRole = instructorRepository.save(newInstructorRole);
+
+        return new InstructorDTO(newInstructorRole.getId(), new ArrayList<SessionDTO>());
     }
 
     @Transactional
-    public void revokeInstructorPermissions(String personEmail){
-        if(personEmail==null || personEmail.trim().length()==0){
-            throw new IllegalArgumentException("Person email cannot be empty");
-        }
-        if(! personRepository.existsByEmail(personEmail)){
-            throw new IllegalArgumentException("Person does not exist");
-        }
-        if(! instructorRepository.existsByPersonEmail(personEmail)){
-            throw new IllegalArgumentException("Person does not have instructor permissions");
+    public void revokeInstructorPermissions(int id) throws Exception{
+        if(! instructorRepository.existsById(id)){
+            throw new Exception("Instructor does not exist");
         }
 
-        instructorRepository.deleteByPersonEmail(personEmail);
+        instructorRepository.deleteById(id);
         return;
     }
 }
