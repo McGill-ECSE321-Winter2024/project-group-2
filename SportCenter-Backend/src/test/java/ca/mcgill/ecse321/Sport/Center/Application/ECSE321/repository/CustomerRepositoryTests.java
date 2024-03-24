@@ -32,11 +32,10 @@ public class CustomerRepositoryTests {
     @Test
     public void testCreateAndReadCustomer() {
         //Create Customer
-        int id = 1;
         String name = "person";
         String email = "email";
         String password = "password";
-        Person person = new Person(id, name, email, password);
+        Person person = new Person(name, email, password);
         person = personRepository.save(person);
         Customer customer = new Customer(person);
 

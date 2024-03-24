@@ -26,6 +26,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepositor
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
@@ -116,7 +117,7 @@ public class SchedulingServiceTests {
         lenient().when(instructorDao.findByPersonEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
             for (String email : instructorEmails) {
                 if(email.equals(invocation.getArgument(0))) {
-                    return new Instructor(new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD));
+                    return new Instructor(new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD));
                 }
             }
             return null;
@@ -162,30 +163,30 @@ public class SchedulingServiceTests {
     
     @Test
     public void testCreateSession(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
-        Session session = null;
+        SessionDTO sessionDTO = null;
         String error = null;
         try {
-            session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
+            sessionDTO = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
-        assertEquals(START_TIME, session.getStartTime());
+        assertEquals(START_TIME, sessionDTO.getStartTime());
     }
 
     @Test
     public void createSessionBadTime(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
-        Session session = null;
+        SessionDTO sessionDTO = null;
         String error = null;
         try {
-            session = schedulingService.createSession(1,10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
+            sessionDTO = schedulingService.createSession(10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -195,16 +196,16 @@ public class SchedulingServiceTests {
 
     @Test
     public void createSessionBadType(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
         ClassType invalidType = new ClassType("fake", false);
 
-        Session session = null;
+        SessionDTO sessionDTO = null;
         String error = null;
         try {
-            session = schedulingService.createSession(1,10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1);
+            sessionDTO = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1);
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -214,9 +215,9 @@ public class SchedulingServiceTests {
 
     @Test
     public void testUpdateSession(){
-        Person instructor = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         Instructor instructor1 = new Instructor(instructor);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
         personDao.save(instructor);
         instructorDao.save(instructor1);
         sessionDao.save(session);
@@ -238,11 +239,11 @@ public class SchedulingServiceTests {
     @Test
     public void updateSessionBadInputs(){
         ClassType invalidType = new ClassType("fake", false);
-        Person instructorPerson = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person instructorPerson = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructorPerson);
         Instructor instructor = new Instructor(instructorPerson);
         instructorDao.save(instructor);
-        Session session = new Session(1, 10, END_TIME, START_TIME, DATE, false, 100, CLASS_TYPE, instructor);
+        Session session = new Session(10, END_TIME, START_TIME, DATE, false, 100, CLASS_TYPE, instructor);
         sessionDao.save(session);
 
         String error = null;
@@ -346,16 +347,16 @@ public class SchedulingServiceTests {
     @Test
     public void registerToTeachSessionSuccess(){
         
-        Person placeholder = new Person(10, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
         
-        Person person = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person person = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(person);
         Instructor instructor = new Instructor(person);
         instructorDao.save(instructor);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
         schedulingService.registerToTeachSession(PERSON_EMAIL, 1);
         
@@ -364,11 +365,11 @@ public class SchedulingServiceTests {
 
     @Test
     public void registerToTeachSessionEmailNotPerson(){
-        Person placeholder = new Person(1, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
         String error = null;
         try {
@@ -382,13 +383,13 @@ public class SchedulingServiceTests {
 
     @Test
     public void registerToTeachSessionEmailNotInstructor(){
-        Person placeholder = new Person(1, "placeholder", "placeholder", "placeholder");
+        Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
         instructorDao.save(instructor2);
-        Person person = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        Person person = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(person);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor2);
         sessionDao.save(session);
         String error = null;
         try {

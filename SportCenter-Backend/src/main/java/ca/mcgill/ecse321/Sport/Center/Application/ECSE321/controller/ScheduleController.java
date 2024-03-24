@@ -20,14 +20,14 @@ public class ScheduleController {
 
     @PostMapping("/sessions")
     public ResponseEntity<?> createSession(@RequestBody SessionDTO request) {
-        Session newSession = null;
+        SessionDTO newSessionDTO = null;
         try {
-            newSession = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
-            newSession.setInstructor(request.getInstructor());
+            newSessionDTO = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
+            newSessionDTO.setInstructor(request.getInstructor());
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(new SessionResponseDTO(newSession), HttpStatus.CREATED);
+        return new ResponseEntity<>(newSessionDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/sessions/{id}")

@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -29,6 +30,18 @@ public class SessionDTO {
         this.isRepeating = isRepeating;
         this.maxParticipants = maxParticipants;
         this.classType = classType;
+    }
+
+    public SessionDTO(Session session) {
+        this.id = session.getId();
+        this.length = session.getLength();
+        this.startTime = session.getStartTime();
+        this.endTime = session.getEndTime();
+        this.date = session.getDate();
+        this.isRepeating = session.getIsRepeating();
+        this.maxParticipants = session.getMaxParticipants();
+        this.classType = session.getClassType();
+        
     }
 
     public int getId(){ //maybe remove this //no keep it plz
