@@ -1,4 +1,5 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.controller;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,31 +17,34 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistrat
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.SessionRegistrationService;
 
 /**
- * The SessionRegistrationController class handles HTTP requests related to session registrations.
- * It provides endpoints for registering sessions, viewing sessions, and managing registrations.
+ * The SessionRegistrationController class handles HTTP requests related to
+ * session registrations.
+ * It provides endpoints for registering sessions, viewing sessions, and
+ * managing registrations.
  */
 @RestController
 public class SessionRegistrationController {
     @Autowired
     private SessionRegistrationService service;
-    
+
     // /**
-    //  * Endpoint for retrieving all available sessions.
-    //  * 
-    //  * @return an iterable list of sessions
-    //  * @author Aurelia Bouliane
-    //  */
+    // * Endpoint for retrieving all available sessions.
+    // *
+    // * @return an iterable list of sessions
+    // * @author Aurelia Bouliane
+    // */
     // @GetMapping("/sessions")
     // public Iterable<Session> viewSessions() {
-    //     return service.viewSessions();
+    // return service.viewSessions();
     // }
 
     /**
      * Endpoint for registering a customer to a session.
      * 
-     * @param sessionId the ID of the session
+     * @param sessionId  the ID of the session
      * @param customerId the ID of the customer
-     * @return a ResponseEntity containing the session registration or an error message
+     * @return a ResponseEntity containing the session registration or an error
+     *         message
      * @author Aurelia Bouliane
      */
     @PostMapping("/sessionRegistrations")
@@ -53,19 +57,20 @@ public class SessionRegistrationController {
         } catch (NumberFormatException e) {
             return ResponseEntity.badRequest().body("Bad integer value for sessionId or customerId");
         } catch (Exception e) {
-            if (e.getMessage().contains("No session with given ID") || e.getMessage().contains("No customer with given ID")) {
+            if (e.getMessage().contains("No session with given ID")
+                    || e.getMessage().contains("No customer with given ID")) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
             }
         }
         return new ResponseEntity<>(registration, HttpStatus.OK);
     }
-    
-    
+
     /**
      * Endpoint for viewing a specific session registration by its ID.
      * 
      * @param pid the registration ID
-     * @return a ResponseEntity containing the session registration or an error message
+     * @return a ResponseEntity containing the session registration or an error
+     *         message
      * @author Aurelia Bouliane
      */
     @GetMapping("/sessionRegistrations/{pid}")
@@ -76,13 +81,12 @@ public class SessionRegistrationController {
             registration = service.viewSpecificSession(pidInt);
         } catch (NumberFormatException num) {
             return new ResponseEntity<>("Bad integer value for pid", HttpStatus.BAD_REQUEST);
-         }
-         catch (Exception e) {
+        } catch (Exception e) {
             if (e.getMessage().contains("No registration with given ID")) {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
-         }
-         return new ResponseEntity<>(registration, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(registration, HttpStatus.OK);
     }
 
     /**
@@ -99,24 +103,24 @@ public class SessionRegistrationController {
             service.cancelRegistration(idInt);
         } catch (NumberFormatException num) {
             return new ResponseEntity<>("Bad integer value for id", HttpStatus.BAD_REQUEST);
-         }
-         catch (Exception e) {
-             if (e.getMessage().contains("No registration with given ID")) {
+        } catch (Exception e) {
+            if (e.getMessage().contains("No registration with given ID")) {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-             }
-         }
-         return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /**
      * Endpoint for viewing all registrations for a specific customer.
      * 
      * @param customerId the ID of the customer
-     * @return a ResponseEntity containing a list of session registrations or an error message
+     * @return a ResponseEntity containing a list of session registrations or an
+     *         error message
      * @author Aurelia Bouliane
      */
-    @GetMapping("/sessionRegistrations/customers")
-    public ResponseEntity<?> viewRegistrationsByCustomer(@RequestBody String customerId) {
+    @GetMapping("/sessionRegistrations/customers/{customerId}")
+    public ResponseEntity<?> viewRegistrationsByCustomer(@PathVariable("customerId") String customerId) {
         List<SessionRegistration> registrations = new ArrayList<SessionRegistration>();
         try {
             int customerIdInt = Integer.parseInt(customerId);
@@ -135,11 +139,12 @@ public class SessionRegistrationController {
      * Endpoint for viewing all registrations for a specific session.
      * 
      * @param sessionId the ID of the session
-     * @return a ResponseEntity containing a list of session registrations or an error message
+     * @return a ResponseEntity containing a list of session registrations or an
+     *         error message
      * @author Aurelia Bouliane
      */
-    @GetMapping("/sessionRegistrations/sessions")
-    public ResponseEntity<?> viewRegistrationsBySession(@RequestBody String sessionId) {
+    @GetMapping("/sessionRegistrations/sessions/{sessionId}")
+    public ResponseEntity<?> viewRegistrationsBySession(@PathVariable("sessionId") String sessionId) {
         List<SessionRegistration> registrations = new ArrayList<SessionRegistration>();
         try {
             int sessionIdInt = Integer.parseInt(sessionId);
