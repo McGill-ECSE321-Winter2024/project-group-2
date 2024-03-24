@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
@@ -30,9 +31,10 @@ public class AccountService {
         if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
             throw new IllegalArgumentException("Password, email, and name cannot be empty");
         }      
-        Person person;
+        PersonDTO personDTO;
+        Person person = null;
         if(!personRepository.existsByEmail(email)){
-            person = createPerson(password, email, name);
+            personDTO = createPerson(password, email, name);
         } else {
             person = personRepository.findByEmail(email);
         }
@@ -52,8 +54,15 @@ public class AccountService {
     }
 
     @Transactional
-    public Iterable<Person> findAllPeople() {
-        return personRepository.findAll();
+    public List<PersonDTO> findAllPeople() {
+        Iterable<Person> personList = personRepository.findAll();
+        List<PersonDTO> personDTOList = new ArrayList<PersonDTO>();
+    
+        for (Person person : personList) {
+            PersonDTO personDTO = new PersonDTO(person);
+            personDTOList.add(personDTO);
+        }
+        return personDTOList;
     }
 
     @Transactional
@@ -70,7 +79,7 @@ public class AccountService {
     }
 
     @Transactional
-    public Person createPerson(String password, String email, String name) {
+    public PersonDTO createPerson(String password, String email, String name) {
           //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
 
         if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
@@ -87,8 +96,8 @@ public class AccountService {
         person.setPassword(password);
         person = personRepository.save(person);
 
-        
-        return person;
+        PersonDTO personDTO = new PersonDTO(person);
+        return personDTO;
     }
     
     @Transactional
@@ -101,4 +110,28 @@ public class AccountService {
         }
         return false;
     }
+
+    @Transactional
+    public void deleteCustomerAccount(int pid) throws Exception{
+        PersonDTO personDTO = findPersonById(pid);
+
+
+        if (customerRepository.findByPersonEmail(personDTO.getEmail()) != null) {
+            customerRepository.deleteById(customerRepository.findByPersonEmail(personDTO.getEmail()).getId());
+        } else {
+            throw new Exception("There is no customer with this ID");
+        }
+    }
+
+    @Transactional
+    public void deletePerson(int personId) throws Exception{
+        if (personRepository.existsById(personId)) {
+            personRepository.deleteById(personId);
+        } else {
+            throw new Exception("There is no peson with this ID");
+        }
+
+    }
 }
+
+

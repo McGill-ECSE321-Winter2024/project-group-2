@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,10 +50,7 @@ public class AccountController {
 
     @GetMapping("/persons")
     public List<PersonDTO> findAllPeople() {
-        List<PersonDTO> people = new ArrayList<PersonDTO>();
-            for (Person person : accountService.findAllPeople()) {
-                people.add(new PersonDTO(person));
-            }
+        List<PersonDTO> people = accountService.findAllPeople();
         return people;
     }
     // Might not need to 
@@ -81,7 +79,7 @@ public class AccountController {
             if(e.getMessage().contains("Customer account already exists")) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-            Person newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
+            PersonDTO newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
             newCustomer = accountService.createCustomerAccount(newPerson.getPassword(), newPerson.getEmail(), newPerson.getName());
         }
         if (newCustomer == null) {
@@ -90,6 +88,13 @@ public class AccountController {
         return new ResponseEntity<>(newCustomer, HttpStatus.CREATED);
     }
 
+    /**
+     * Creates a person.
+     * 
+     * @param personDTO the PersonDTO object containing the person's information
+     * @return a ResponseEntity containing the created PersonDTO if successful, or an error message and HTTP status code if not
+     * @author Behrad, Yuri
+     */
     @PostMapping("/persons")
     public ResponseEntity<?> createPerson(@RequestBody PersonDTO personDTO) {
         // null check
@@ -108,20 +113,19 @@ public class AccountController {
             return emailValidationResponse;
         }
 
-        Person newPerson = null;
+        PersonDTO newPersonDTO = null;
         try{
-            newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
+            newPersonDTO = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
         }catch(IllegalArgumentException e){
             if(e.getMessage().contains("Account with this email already exists")){
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
 
-        if (newPerson == null) {
+        if (newPersonDTO == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        PersonDTO newPersonDto = new PersonDTO(newPerson);
-        return new ResponseEntity<>(newPersonDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(newPersonDTO, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -145,6 +149,71 @@ public class AccountController {
         }
         return new ResponseEntity<>(false, HttpStatus.I_AM_A_TEAPOT);
     }
+
+    /**
+     * 
+     * @param personDTO the PersonDTO object containing the person's information
+     * @return a ResponseEntity containing an error message and HTTP status code if the customer account could not be found, HTTP status code if successful
+     */
+    @DeleteMapping("/customers")
+    public ResponseEntity<?> deleteCustomerAccount(@RequestBody PersonDTO personDTO) {
+        // null check
+        ResponseEntity<?> nullCheckResponse = nullCheck(personDTO);
+        if (nullCheckResponse != null) {
+            return nullCheckResponse;
+        }
+        // password validation
+        ResponseEntity<?> passwordValidationResponse = passwordValidation(personDTO.getPassword());
+        if (passwordValidationResponse != null) {
+            return passwordValidationResponse;
+        }
+        // email
+        ResponseEntity<?> emailValidationResponse = emailValidation(personDTO.getEmail());
+        if (emailValidationResponse != null) {
+            return emailValidationResponse;
+        }
+
+        try {
+            accountService.deleteCustomerAccount(personDTO.getPersonId());
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Deletes a person.
+     * 
+     * @param personDTO
+     * @return a ResponseEntity containing an error message and HTTP status code if the person could not be found, HTTP status code if successful
+     * @author Behrad, Yuri
+     */
+    @DeleteMapping("/persons")
+    public ResponseEntity<?> deletePerson(@RequestBody PersonDTO personDTO) {
+        ResponseEntity<?> nullCheckResponse = nullCheck(personDTO);
+        if (nullCheckResponse != null) {
+            return nullCheckResponse;
+        }
+        // password validation
+        ResponseEntity<?> passwordValidationResponse = passwordValidation(personDTO.getPassword());
+        if (passwordValidationResponse != null) {
+            return passwordValidationResponse;
+        }
+        // email
+        ResponseEntity<?> emailValidationResponse = emailValidation(personDTO.getEmail());
+        if (emailValidationResponse != null) {
+            return emailValidationResponse;
+        }
+
+        try {
+            deletePerson(personDTO);
+        } catch(Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    
 
 
 // Helper methods

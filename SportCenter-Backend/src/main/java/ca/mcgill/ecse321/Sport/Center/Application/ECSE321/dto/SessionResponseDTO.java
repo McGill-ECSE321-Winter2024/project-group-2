@@ -27,8 +27,7 @@ public class SessionResponseDTO {
         this.maxParticipants = session.getMaxParticipants();
         this.classType = session.getClassType();
     }
-    public SessionResponseDTO(){
-    }
+
     public static SessionResponseDTO create(Session session) {
         return new SessionResponseDTO(session);
     }

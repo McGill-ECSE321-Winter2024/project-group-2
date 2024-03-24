@@ -20,28 +20,31 @@ public class ScheduleController {
 
     @PostMapping("/sessions")
     public ResponseEntity<?> createSession(@RequestBody SessionDTO request) {
-        Session newSession = service.createSession(request.getId(), request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
-        if (newSession == null) {
-            return new ResponseEntity<>("Session already exists", HttpStatus.CONFLICT);
+        Session newSession = null;
+        try {
+            newSession = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
+            newSession.setInstructor(request.getInstructor());
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(new SessionResponseDTO(newSession), HttpStatus.CREATED);
     }
 
     @PutMapping("/sessions/{id}")
     public ResponseEntity<?> updateSession (@PathVariable int id, @RequestBody SessionDTO request) {
-        service.updateSession(id, request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), null);
-        return new ResponseEntity<>("Session updated", HttpStatus.ACCEPTED);
+        SessionDTO newSession = null;
+        try {
+            newSession = service.updateSession(id, request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), request.getInstructor());
+            return new ResponseEntity<>(newSession,HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @DeleteMapping("/sessions/{id}")
-    public ResponseEntity<?> deleteSession (@PathVariable int id) {
+    @DeleteMapping("/sessions/{id}") 
+    public ResponseEntity<SessionDTO> deleteSession (@PathVariable int id) {
         service.deleteSession(id);
-        boolean deleted = (service.findSessionById(id) == null);
-        if (deleted) {
-            return new ResponseEntity<>("Session deleted", HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<>("Session not found", HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/sessions/{id}")
@@ -62,5 +65,4 @@ public class ScheduleController {
         return dtos;
     }
 }
-
 
