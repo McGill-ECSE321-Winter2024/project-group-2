@@ -209,7 +209,7 @@ public class SessionRegistrationIntegrationTest {
     @Test
     public void testViewSpecificSessionRegistrationInvalid() {
 
-        int invalidID = -1;
+        String invalidID = "invalid";
 
         String urlInvalid = String.format("/session/" + invalidID);
         ResponseEntity<SessionRegistrationDTO> responseInvalidId = client.getForEntity(urlInvalid,
@@ -293,11 +293,11 @@ public class SessionRegistrationIntegrationTest {
         assertTrue(responseNotFound.getBody().contains("No registration with given ID"));
 
         // not found registration ID
-        int notValid = -1;
+        String notValid = "Invalid";
 
         // test not found
         ResponseEntity<String> responseNotValid = client.exchange(
-                String.format("/cancel/" + notFoundRegistrationId),
+                String.format("/cancel/" + notValid),
                 HttpMethod.DELETE,
                 new HttpEntity<>(null), // No request body needed for this operation
                 String.class); // Assuming the error response might contain a message
@@ -343,7 +343,7 @@ public class SessionRegistrationIntegrationTest {
 
         assertTrue(responseNotFound.getBody().contains("No customer with given ID"));
 
-        int invalidID = -1;
+        String invalidID = "Invalid";
 
         ResponseEntity<String> responseInvalid = client.getForEntity(
                 "/registrations/customer/" + invalidID,
@@ -366,11 +366,7 @@ public class SessionRegistrationIntegrationTest {
 
         CustomerDTO customerDTO = createCustomerDTO();
 
-        SessionRegistrationDTO sessionRegistrationDTO = registerSession(customerDTO, sessionDTO); // Assume this
-                                                                                                  // registers
-                                                                                                  // the
-                                                                                                  // customer to
-                                                                                                  // the session
+        SessionRegistrationDTO sessionRegistrationDTO = registerSession(customerDTO, sessionDTO);
 
         ResponseEntity<SessionRegistrationDTO[]> response = client.getForEntity(
                 "/registrations/session/" + sessionDTO.getId(),
@@ -396,7 +392,8 @@ public class SessionRegistrationIntegrationTest {
 
         assertTrue(responseNotFound.getBody().contains("No session with given ID"));
 
-        int invalidID = -1;
+        // invalid
+        String invalidID = "invalid";
 
         ResponseEntity<String> responseInvalid = client.getForEntity(
                 "/registrations/session/" + invalidID,
