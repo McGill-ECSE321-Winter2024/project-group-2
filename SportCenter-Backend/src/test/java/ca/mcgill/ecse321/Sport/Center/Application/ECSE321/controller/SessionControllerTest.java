@@ -81,7 +81,6 @@ public class SessionControllerTest {
         assertEquals(session.getLength(), sessionResponse.getLength());
         assertEquals(session.getStartTime(), sessionResponse.getStartTime());
         assertEquals(session.getEndTime(), sessionResponse.getEndTime());
-        //assertEquals(session.getDate(), sessionResponse.getDate());
         assertEquals(session.getIsRepeating(), sessionResponse.getIsRepeating());
         assertEquals(session.getMaxParticipants(), sessionResponse.getMaxParticipants());
         assertEquals(session.getClassType().getClassType(), sessionResponse.getClassType().getClassType());
@@ -137,7 +136,6 @@ public class SessionControllerTest {
         assertEquals(session.getLength(), sessionResponse.getLength());
         assertEquals(session.getStartTime(), sessionResponse.getStartTime());
         assertEquals(session.getEndTime(), sessionResponse.getEndTime());
-        //assertEquals(session.getDate(), sessionResponse.getDate());
         assertEquals(session.getIsRepeating(), sessionResponse.getIsRepeating());
         assertEquals(session.getMaxParticipants(), sessionResponse.getMaxParticipants());
         assertEquals(session.getClassType().getClassType(), sessionResponse.getClassType().getClassType());
