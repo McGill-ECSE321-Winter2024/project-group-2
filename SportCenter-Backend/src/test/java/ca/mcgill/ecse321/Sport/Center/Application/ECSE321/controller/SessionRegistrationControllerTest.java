@@ -2,11 +2,8 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.Time;
 
@@ -22,12 +19,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.*;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.*;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistration;
@@ -35,8 +29,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
-
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SessionRegistrationControllerTest {
@@ -88,7 +80,7 @@ public class SessionRegistrationControllerTest {
     }
 
     @Test
-    public void testViewSpecificSessionRegistrationIDNotFound() {
+    public void testViewSpecificSessionRegistrationInvalidIDNotFound() {
 
         int notFound = Integer.MAX_VALUE;
 
@@ -183,7 +175,7 @@ public class SessionRegistrationControllerTest {
     }
 
     @Test
-    public void testCancelRegistrationNotFound() {
+    public void testCancelRegistrationInvalidNotFound() {
 
         String url = "/sessionRegistrations/404";
         HttpMethod method = HttpMethod.DELETE;
@@ -238,7 +230,7 @@ public class SessionRegistrationControllerTest {
     }
 
     @Test
-    public void testViewRegistrationsByCustomerNotFound() {
+    public void testViewRegistrationsInvalidByCustomerNotFound() {
 
         int notFound = Integer.MAX_VALUE;
 
@@ -324,7 +316,7 @@ public class SessionRegistrationControllerTest {
     }
 
     @Test
-    public void testViewRegistrationsBySessionNotFound() {
+    public void testViewRegistrationsInvalidBySessionNotFound() {
 
         int notFound = Integer.MAX_VALUE;
 

@@ -47,7 +47,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void testCreateSessionSuccess(){
+    public void testCreateSessionValid(){
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
         person = personRepository.save(person);
 
@@ -76,7 +76,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void testCreateSessionFail() {
+    public void testCreateSessionInvalid() {
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
         person = personRepository.save(person);
 
@@ -100,7 +100,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void testGetSessionByIdSuccess() {
+    public void testGetSessionByIdValid() {
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
         person = personRepository.save(person);
 
@@ -132,7 +132,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void testGetSessionByIdFail() {
+    public void testGetSessionByIdInvalid() {
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
         personRepository.save(person);
 
@@ -155,7 +155,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void testGetAllSessionsSuccess() {
+    public void testGetAllSessionsValid() {
         Person person = new Person("John Doe", "john.doe@mcgill.ca", "password");
         personRepository.save(person);
 
@@ -183,7 +183,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void testUpdateSessionSuccess() {
+    public void testUpdateSessionValid() {
         Person person = new Person();
         person.setEmail("valid@email.com");
         person.setPassword("password");
@@ -213,7 +213,7 @@ public class SessionControllerTest {
     }
     
     @Test
-    public void testUpdateSessionFail(){
+    public void testUpdateSessionInvalid(){
         Person person = new Person();
         person.setEmail("valid@email.com");
         person.setPassword("password");
@@ -249,7 +249,7 @@ public class SessionControllerTest {
     }
 
     @Test
-    public void testDeleteSessionSuccess(){
+    public void testDeleteSessionValid(){
         Session session = createDefaultSession();
         SessionDTO request = new SessionDTO(session);
 
@@ -263,6 +263,7 @@ public class SessionControllerTest {
         assertTrue(!sessionRepository.existsById(session.getId()));
     }
 
+    // Helper function
     public Session createDefaultSession(){
         Person person = new Person();
         person.setEmail("valid@email.com");

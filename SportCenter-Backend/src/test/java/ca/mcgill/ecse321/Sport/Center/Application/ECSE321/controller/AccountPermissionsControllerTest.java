@@ -69,14 +69,14 @@ public class AccountPermissionsControllerTest {
     }
 
     @Test
-    public void testGrantInstructorPermissionsIdNotFound(){ 
+    public void testGrantInstructorPermissionsInvalidIdNotFound(){ 
         ResponseEntity<?> response2 = client.postForEntity("/instructors" , 404, String.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
     }
 
     @Test
-    public void testGrantInstructorPermissionsAlreadyAnInstructor(){
+    public void testGrantInstructorPermissionsInvalidAlreadyAnInstructor(){
         Person person = new Person();
         person.setEmail("valid@email.com");
         person.setName("valid Name");
@@ -130,7 +130,7 @@ public class AccountPermissionsControllerTest {
     }
 
     @Test
-    public void testRevokeInstructorPermissionsIdNotFound(){
+    public void testRevokeInstructorPermissionsInvalidIdNotFound(){
         String url = "/instructors/404";
         HttpMethod method = HttpMethod.DELETE;
         HttpHeaders headers = new HttpHeaders();
