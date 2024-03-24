@@ -17,6 +17,7 @@ import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
 import java.util.List;
@@ -64,29 +65,29 @@ public class AccountServiceTests {
         };
     }
 
-    public void testPerson(Person person){
+    public void testPerson(PersonDTO person){
         assertEquals(PERSON_NAME, person.getName());
         assertEquals(PERSON_EMAIL, person.getEmail());
         assertEquals(PERSON_PASSWORD, person.getPassword());
     }
     @Test
     public void createValidCustomer(){
-        Person person = null;
+        PersonDTO personDTO = null;
         String error = null;
         try {
-            person = accountService.createPerson(PERSON_PASSWORD, PERSON_EMAIL, PERSON_NAME);
+            personDTO = accountService.createPerson(PERSON_PASSWORD, PERSON_EMAIL, PERSON_NAME);
         } catch (Exception e) {
             error = e.getMessage();
         }
         assertNull(error);
-        testPerson(person);
+        testPerson(personDTO);
     }
     @Test
     public void createNullCustomer(){
-        Person person = null;
+        PersonDTO personDTO = null;
         String error = null;
         try {
-            person = accountService.createPerson(null, null, null);
+            personDTO = accountService.createPerson(null, null, null);
         } catch (Exception e) {
             error = e.getMessage();
         }

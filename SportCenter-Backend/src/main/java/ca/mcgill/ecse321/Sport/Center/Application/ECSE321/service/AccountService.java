@@ -78,7 +78,7 @@ public class AccountService {
     }
 
     @Transactional
-    public Person createPerson(String password, String email, String name) {
+    public PersonDTO createPerson(String password, String email, String name) {
           //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
 
         if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
@@ -95,8 +95,8 @@ public class AccountService {
         person.setPassword(password);
         person = personRepository.save(person);
 
-        
-        return person;
+        PersonDTO personDTO = new PersonDTO(person);
+        return personDTO;
     }
     
     @Transactional
