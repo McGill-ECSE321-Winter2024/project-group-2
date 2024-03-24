@@ -86,15 +86,15 @@ public class SchedulingService {
     /**
      *Updates an existing session in the database
 
-     * @param sessionId
-     * @param length
-     * @param startTime
-     * @param endTime
-     * @param date
-     * @param isRepeating
-     * @param maxParticipants
-     * @param classType
-     * @param instructor
+     * @param sessionId The ID of the session to update
+     * @param length The length of the session in minutes
+     * @param startTime The start time of the session     
+     * @param endTime The end time of the session
+     * @param date The date of the session
+     * @param isRepeating Indicates if the session is repeating or not
+     * @param maxParticipants The maximum number of participants allowed in the session
+     * @param classType The class type of the session
+     * @param instructor The instructor teaching the session
      * @author Behrad
      */
     @Transactional
@@ -141,6 +141,12 @@ public class SchedulingService {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
+
+    /**
+     * Deletes a session from the database
+     * @param sessionId The ID of the session to delete
+     * @author Pei Yan
+     */
     @Transactional
     public void deleteSession(int sessionId){
         sessionRegistrationRepository.deleteAllBySessionId(sessionId);
@@ -240,6 +246,7 @@ public class SchedulingService {
      * 
      * @param id The ID of the session to find
      * @return The session with the specified ID
+     * @author Pei Yan
      */
     @Transactional
     public Session findSessionById(int id) {
@@ -250,6 +257,7 @@ public class SchedulingService {
      * Retrieves a list of all sessions in the database.
      * 
      * @return A list of all sessions
+     * @author Pei Yan
      */
     @Transactional
     public List<Session> findAllSessions() {
