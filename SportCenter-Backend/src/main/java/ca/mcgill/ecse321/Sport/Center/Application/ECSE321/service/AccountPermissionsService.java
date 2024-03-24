@@ -46,7 +46,7 @@ public class AccountPermissionsService {
     @Transactional
     public void revokeInstructorPermissions(int id) throws Exception{
         if(! instructorRepository.existsById(id)){
-            throw new Exception("not found");
+            throw new Exception("Instructor does not exist");
         }
 
         instructorRepository.deleteById(id);
