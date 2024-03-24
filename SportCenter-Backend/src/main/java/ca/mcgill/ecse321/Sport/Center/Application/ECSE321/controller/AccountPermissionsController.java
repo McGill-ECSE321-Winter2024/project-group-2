@@ -5,14 +5,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountPermissionsService;
 
 @RestController

@@ -4,8 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 
-import java.util.List;
-
 /**
  * This interface defines the repository for the CRUD functionalities relating
  * to the Session.

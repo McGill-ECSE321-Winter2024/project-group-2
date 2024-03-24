@@ -2,8 +2,6 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.*;
 

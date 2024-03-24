@@ -3,18 +3,14 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.atMost;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.HashMap;
-import java.util.ArrayList;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.*;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.*;
 
-import org.apache.catalina.connector.Response;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,12 +22,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
-
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SessionControllerTest {

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
@@ -20,8 +19,6 @@ public class SessionRegistrationService {
     private SessionRepository sessionRepository;
     @Autowired
     private CustomerRepository customerRepository;
-    @Autowired
-    private PersonRepository personRepository;
     @Autowired
     private SessionRegistrationRepository sessionRegistrationRepository;
     
