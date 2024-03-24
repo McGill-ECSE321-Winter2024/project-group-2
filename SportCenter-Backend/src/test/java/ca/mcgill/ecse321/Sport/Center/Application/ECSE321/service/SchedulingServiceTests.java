@@ -21,6 +21,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.springframework.util.Assert;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
@@ -162,7 +163,7 @@ public class SchedulingServiceTests {
 
     
     @Test
-    public void testCreateSession(){
+    public void testCreateSessionValid(){
         Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
@@ -179,7 +180,7 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void createSessionBadTime(){
+    public void createSessionInvalidBadTime(){
         Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
@@ -196,7 +197,7 @@ public class SchedulingServiceTests {
     }   
 
     @Test
-    public void createSessionBadType(){
+    public void createSessionInvalidBadType(){
         Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
@@ -215,7 +216,7 @@ public class SchedulingServiceTests {
     } 
 
     @Test
-    public void testUpdateSession(){
+    public void testUpdateSessionValid(){
         Person instructor = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         Instructor instructor1 = new Instructor(instructor);
         Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor1);
@@ -238,7 +239,7 @@ public class SchedulingServiceTests {
     
     
     @Test
-    public void updateSessionBadInputs(){
+    public void updateSessionInvalidBadInputs(){
         ClassType invalidType = new ClassType("fake", false);
         Person instructorPerson = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructorPerson);
@@ -259,25 +260,40 @@ public class SchedulingServiceTests {
         assertTrue(error.contains("Class type must be approved"));
     } 
 
-    /* 
     @Test
-    public void deleteSessionSuccess(){
-        Person instructorPerson = new Person(1,PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+    public void deleteSessionValid(){
+        Person instructorPerson = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
         personDao.save(instructorPerson);
         Instructor instructor = new Instructor(instructorPerson);
         instructorDao.save(instructor);
-        Session session = new Session(1, 10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor);
-        sessionDao.save(session);
-        schedulingService.deleteSession(1);
-        
-        assertNull(sessionDao.findById(1));
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor);
+        session = sessionDao.save(session);
+        String error = null;
+        try {
+            schedulingService.deleteSession(session.getId());
+        } catch (Exception e) {
+            error = e.getMessage();
+        }
+        assertNull(error);
     }
 
     @Test
-    public void deleteSessionBadId(){}*/
+    public void deleteSessionInvalidBadId(){
+        Person instructorPerson = new Person(PERSON_NAME, PERSON_EMAIL, PERSON_PASSWORD);
+        personDao.save(instructorPerson);
+        Instructor instructor = new Instructor(instructorPerson);
+        instructorDao.save(instructor);
+        Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor);
+        sessionDao.save(session);
+        try {
+            schedulingService.deleteSession(Integer.MAX_VALUE);
+        } catch (Exception e) {
+            assertEquals("No session with given ID", e.getMessage());
+        }
+    }
 
     @Test
-    public void approveClassTypeSuccess(){
+    public void approveClassTypeValid(){
         ClassType classType = new ClassType("fake", false);
         classTypeDao.save(classType);
         schedulingService.approveClassType("fake");
@@ -285,7 +301,7 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void approveClassTypeBadName(){
+    public void approveClassTypeInvalidBadName(){
         String error = null;
         try {
             schedulingService.approveClassType("fake");
@@ -295,6 +311,7 @@ public class SchedulingServiceTests {
         assertNotNull(error);
         assertEquals("No class type with given name", error);
     }
+    
     /* 
     @Test
     public void rejectClassTypeSuccess(){
@@ -305,7 +322,7 @@ public class SchedulingServiceTests {
     }*/
 
     @Test
-    public void rejectClassTypeBadName(){
+    public void rejectClassInvalidTypeBadName(){
         String error = null;
         try {
             schedulingService.rejectClassType("fake");
@@ -317,13 +334,13 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void suggestClassTypeSuccess(){
+    public void suggestClassTypeValid(){
         schedulingService.suggestClassType("fake");
         assertTrue(suggestedClassTypes.contains("fake"));
     }
 
     @Test
-    public void suggestExistingClassType(){
+    public void suggestExistingClassTypeInvalid(){
         ClassType classType = new ClassType("fake", false);
         classTypeDao.save(classType);
         String error = null;
@@ -347,7 +364,7 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void registerToTeachSessionSuccess(){
+    public void registerToTeachSessionValid(){
         
         Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
@@ -366,7 +383,7 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void registerToTeachSessionEmailNotPerson(){
+    public void registerToTeachSessionInvalidEmailNotPerson(){
         Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
@@ -384,7 +401,7 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void registerToTeachSessionEmailNotInstructor(){
+    public void registerToTeachSessionInvalidEmailNotInstructor(){
         Person placeholder = new Person("placeholder", "placeholder", "placeholder");
         personDao.save(placeholder);
         Instructor instructor2 = new Instructor(placeholder);
@@ -404,7 +421,7 @@ public class SchedulingServiceTests {
     }
 
     @Test
-    public void registerToTeachSessionBadId(){
+    public void registerToTeachSessionInvalidBadId(){
         String error = null;
         try {
             schedulingService.registerToTeachSession(PERSON_EMAIL, 1);

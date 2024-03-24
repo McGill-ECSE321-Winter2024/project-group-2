@@ -70,9 +70,13 @@ public class ScheduleController {
      * @author Pei Yan
      */
     @DeleteMapping("/sessions/{id}") 
-    public ResponseEntity<SessionDTO> deleteSession (@PathVariable int id) {
-        service.deleteSession(id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public ResponseEntity<?> deleteSession (@PathVariable int id) {
+        try {
+            service.deleteSession(id);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

@@ -84,7 +84,7 @@ public class AccountPermissionsServiceTests {
     }
 
     @Test
-    public void testGrantInstructorPermissions(){
+    public void testGrantInstructorPermissionsValidandInvalid(){
         Person person = new Person();
         person.setName(PERSON_NAME);
         person.setEmail(PERSON_EMAIL);
@@ -140,7 +140,7 @@ public class AccountPermissionsServiceTests {
     }
     
     @Test
-    public void failDemoteInstructorDoesNotExist(){
+    public void demoteInstructorInvalidDoesNotExist(){
         String email = "FakeEmail";
         String error = null;
         try {

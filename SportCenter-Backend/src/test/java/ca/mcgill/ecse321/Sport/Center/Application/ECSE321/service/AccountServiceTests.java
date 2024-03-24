@@ -21,7 +21,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -106,7 +105,7 @@ public class AccountServiceTests {
         testPerson(personDTO);
     }
     @Test
-    public void createNullCustomer(){
+    public void createInvalidNullCustomer(){
         PersonDTO personDTO = null;
         String error = null;
         try {

@@ -148,7 +148,10 @@ public class SchedulingService {
      * @author Pei Yan
      */
     @Transactional
-    public void deleteSession(int sessionId){
+    public void deleteSession(int sessionId) throws Exception {
+        if (!sessionRepository.existsById(sessionId)) {
+            throw new Exception("No session with given ID");
+        }
         sessionRegistrationRepository.deleteAllBySessionId(sessionId);
         
         // Delete session from repository
