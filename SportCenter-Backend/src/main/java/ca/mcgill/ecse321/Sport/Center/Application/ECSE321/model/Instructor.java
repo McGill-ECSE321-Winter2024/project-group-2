@@ -44,6 +44,7 @@ public class Instructor
   public int getId() {
     return id;
   }
+
   /* Code from template association_SetUnidirectionalOne */
   public boolean setPerson(Person aNewPerson)
   {
@@ -54,6 +55,9 @@ public class Instructor
       wasSet = true;
     }
     return wasSet;
+  }
+  public void setId(int id) {
+    this.id = id;
   }
 
   public void delete()

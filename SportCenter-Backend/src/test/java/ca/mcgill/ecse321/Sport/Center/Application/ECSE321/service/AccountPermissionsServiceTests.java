@@ -157,7 +157,7 @@ public class AccountPermissionsServiceTests {
         assertNull(error);
     }
     
-
+    @Test
     public void failDemoteInstructorDoesNotExist(){
         String email = "FakeEmail";
         String error = null;
@@ -166,7 +166,7 @@ public class AccountPermissionsServiceTests {
         } catch (Exception e) {
             error = e.getMessage();
         }
-        assertEquals(error, "Person does not have instructor permissions");
+        assertEquals( "Instructor does not exist", error);
     }
 
 }
