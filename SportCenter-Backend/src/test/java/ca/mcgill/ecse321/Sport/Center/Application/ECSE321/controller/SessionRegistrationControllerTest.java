@@ -63,8 +63,11 @@ public class SessionRegistrationControllerTest {
         sessionRegistrationRepository.deleteAll();
         sessionRepository.deleteAll();
         instructorRepository.deleteAll();
+        customerRepository.deleteAll();
         personRepository.deleteAll();
         classTypeRepository.deleteAll();
+ 
+        
     }
 
     @Test
@@ -101,36 +104,35 @@ public class SessionRegistrationControllerTest {
 
     }
 
-    // @Test
-    // public void testViewSpecificSessionRegistrationValid() {
+    @Test
+    public void testViewSpecificSessionRegistrationValid() {
 
-    // Session session = createSession();
+    Session session = createSession();
 
-    // session = sessionRepository.save(session);
+    session = sessionRepository.save(session);
 
-    // Person person = new Person("name", "nameemail@mcgill.ca", "password");
-    // person = personRepository.save(person);
+    Person person = new Person("name", "nameemail@mcgill.ca", "password");
+    person = personRepository.save(person);
 
-    // Customer customer = new Customer(person);
-    // customer = customerRepository.save(customer);
+    Customer customer = new Customer(person);
+    customer = customerRepository.save(customer);
 
-    // SessionRegistration sessionRegistration = new SessionRegistration(session,
-    // customer);
+    SessionRegistration sessionRegistration = new SessionRegistration(session,
+    customer);
+    sessionRegistration = sessionRegistrationRepository.save(sessionRegistration);
 
-    // String url = String.format("/sessionRegistrations/" +
-    // sessionRegistration.getId());
+    String url = String.format("/sessionRegistrations/" +
+    sessionRegistration.getId());
 
-    // ResponseEntity<SessionRegistration> response = client.getForEntity(url,
-    // SessionRegistration.class);
+    ResponseEntity<SessionRegistration> response = client.getForEntity(url,
+    SessionRegistration.class);
 
-    // assertEquals(HttpStatus.OK, response.getStatusCode());
-    // assertEquals(sessionRegistration.getId(), response.getBody().getId());
-    // assertEquals(sessionRegistration.getCustomer().getId(),
-    // response.getBody().getCustomer().getId());
-    // assertEquals(sessionRegistration.getSession().getId(),
-    // response.getBody().getSession().getId());
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(sessionRegistration.getId(), response.getBody().getId());
+    assertEquals(sessionRegistration.getCustomer().getId(), response.getBody().getCustomer().getId());
+    assertEquals(sessionRegistration.getSession().getId(), response.getBody().getSession().getId());
 
-    // }
+    }
 
     // @Test
     // public void testRegisterForSessionInvalidSessionID() {
