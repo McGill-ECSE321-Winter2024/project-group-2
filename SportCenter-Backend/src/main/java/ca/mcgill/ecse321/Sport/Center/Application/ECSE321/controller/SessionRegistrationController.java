@@ -27,17 +27,6 @@ public class SessionRegistrationController {
     @Autowired
     private SessionRegistrationService service;
 
-    // /**
-    // * Endpoint for retrieving all available sessions.
-    // *
-    // * @return an iterable list of sessions
-    // * @author Aurelia Bouliane
-    // */
-    // @GetMapping("/sessions")
-    // public Iterable<Session> viewSessions() {
-    // return service.viewSessions();
-    // }
-
     /**
      * Endpoint for registering a customer to a session.
      * 

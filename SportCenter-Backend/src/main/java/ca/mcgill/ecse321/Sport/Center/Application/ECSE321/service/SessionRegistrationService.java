@@ -24,16 +24,6 @@ public class SessionRegistrationService {
     
     /**
      * 
-     * @return
-     * @author Aurelia Bouliane
-     */
-    @Transactional
-    public Iterable<Session> viewSessions(){
-        return sessionRepository.findAll();
-    }
-    
-    /**
-     * 
      * @param aId
      * @param aSession
      * @param aCustomer
