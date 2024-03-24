@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionRegistrationRequestDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.SessionRegistration;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.SessionRegistrationService;
 
@@ -37,18 +38,18 @@ public class SessionRegistrationController {
      * @author Aurelia Bouliane
      */
     @PostMapping("/sessionRegistrations")
-    public ResponseEntity<?> registerForSession(@RequestBody String sessionId, @RequestBody String customerId) {
+    public ResponseEntity<?> registerForSession(@RequestBody SessionRegistrationRequestDTO request ) {
         SessionRegistration registration = null;
         try {
-            int sessionIdInt = Integer.parseInt(sessionId);
-            int customerIdInt = Integer.parseInt(customerId);
+            int sessionIdInt = Integer.parseInt(request.getSessionId());
+            int customerIdInt = Integer.parseInt(request.getCustomerId());
             registration = service.registerForSession(sessionIdInt, customerIdInt);
         } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body("Bad integer value for sessionId or customerId");
+            return new ResponseEntity<>("Bad integer value:"+e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             if (e.getMessage().contains("No session with given ID")
                     || e.getMessage().contains("No customer with given ID")) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+                return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
         }
         return new ResponseEntity<>(registration, HttpStatus.OK);
