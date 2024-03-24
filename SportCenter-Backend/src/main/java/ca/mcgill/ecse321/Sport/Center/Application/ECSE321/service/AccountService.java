@@ -112,12 +112,10 @@ public class AccountService {
     }
 
     @Transactional
-    public void deleteCustomerAccount(int pid) throws Exception{
-        PersonDTO personDTO = findPersonById(pid);
+    public void deleteCustomerAccount(int cid) throws Exception{        
 
-
-        if (customerRepository.findByPersonEmail(personDTO.getEmail()) != null) {
-            customerRepository.deleteById(customerRepository.findByPersonEmail(personDTO.getEmail()).getId());
+        if (customerRepository.existsById(cid)) {
+            customerRepository.deleteById(cid);
         } else {
             throw new Exception("There is no customer with this ID");
         }
@@ -128,7 +126,7 @@ public class AccountService {
         if (personRepository.existsById(personId)) {
             personRepository.deleteById(personId);
         } else {
-            throw new Exception("There is no peson with this ID");
+            throw new Exception("There is no person with this ID");
         }
 
     }
