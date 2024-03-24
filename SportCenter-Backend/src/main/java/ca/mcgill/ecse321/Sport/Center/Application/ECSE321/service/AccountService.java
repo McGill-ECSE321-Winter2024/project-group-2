@@ -14,6 +14,11 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionRegistratio
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
+/**
+ * This class provides services related to account management.
+ * 
+ * @author Behrad, Yuri
+ */
 @Service
 public class AccountService {
     
@@ -22,10 +27,29 @@ public class AccountService {
     @Autowired
     private CustomerRepository customerRepository;
     
+    /**
+     * Checks if a string is null or empty.
+     * 
+     * @param s the string to check
+     * @return true if the string is null or empty, false otherwise
+     * 
+     * @author Behrad, Yuri
+     */
     public boolean isNullOrEmpty(String s){
         return s == null || s.isBlank();
     }
     
+    /**
+     * Creates a new customer account.
+     * 
+     * @param password the password for the account
+     * @param email the email for the account
+     * @param name the name for the account
+     * @return the created customer account as a CustomerDTO object
+     * @throws IllegalArgumentException if the password, email, or name is empty
+     * 
+     * @author Behrad, Yuri
+     */
     @Transactional
     public CustomerDTO createCustomerAccount(String password, String email, String name) {
         if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
@@ -53,6 +77,13 @@ public class AccountService {
         return newCustomer;
     }
 
+    /**
+     * Retrieves a list of all people.
+     * 
+     * @return a list of PersonDTO objects representing all people
+     * 
+     * @author Behrad, Yuri
+     */
     @Transactional
     public List<PersonDTO> findAllPeople() {
         Iterable<Person> personList = personRepository.findAll();
@@ -65,6 +96,15 @@ public class AccountService {
         return personDTOList;
     }
 
+    /**
+     * Finds a person by their ID.
+     * 
+     * @param pid the ID of the person to find
+     * @return the found person as a PersonDTO object
+     * @throws Exception if no person with the given ID is found
+     * 
+     * @author Behrad, Yuri
+     */
     @Transactional
     public PersonDTO findPersonById(int pid) throws Exception {
         Person p = personRepository.findById(pid); // this is written as findPersonById in the tutorial
@@ -78,6 +118,17 @@ public class AccountService {
         return newPerson;
     }
 
+    /**
+     * Creates a new person.
+     * 
+     * @param password the password for the person
+     * @param email the email for the person
+     * @param name the name for the person
+     * @return the created person as a PersonDTO object
+     * @throws IllegalArgumentException if the password, email, or name is empty
+     * 
+     * @author Behrad, Yuri
+     */
     @Transactional
     public PersonDTO createPerson(String password, String email, String name) {
           //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
@@ -100,6 +151,15 @@ public class AccountService {
         return personDTO;
     }
     
+    /**
+     * Logs in a user with the given email and password.
+     * 
+     * @param email the email of the user
+     * @param password the password of the user
+     * @return true if the login is successful, false otherwise
+     * 
+     * @author Behrad, Yuri
+     */
     @Transactional
     public boolean login(String email, String password){
         if (personRepository.existsByEmail(email)) {
@@ -111,6 +171,14 @@ public class AccountService {
         return false;
     }
 
+    /**
+     * Deletes a customer account with the given ID.
+     * 
+     * @param cid the ID of the customer account to delete
+     * @throws Exception if no customer with the given ID is found
+     * 
+     * @author Behrad, Yuri
+     */
     @Transactional
     public void deleteCustomerAccount(int cid) throws Exception{        
 
@@ -122,6 +190,14 @@ public class AccountService {
         }
     }
 
+    /**
+     * Deletes a person with the given ID.
+     * 
+     * @param personId the ID of the person to delete
+     * @throws Exception if no person with the given ID is found
+     * 
+     * @author Behrad, Yuri
+     */
     @Transactional
     public void deletePerson(int personId) throws Exception{
         if (personRepository.existsById(personId)) {

@@ -13,11 +13,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represents the Schedule Controller, which handles the HTTP requests related to sessions.
+ * It provides endpoints for creating, updating, deleting, and retrieving sessions.
+ *
+ * @author Pei Yan
+ */
 @RestController
 public class ScheduleController {
     @Autowired
     private SchedulingService service;
 
+    /**
+     * Creates a new session based on the provided session data.
+     *
+     * @param request the session data
+     * @return the created session DTO
+     * @author Pei Yan
+     */
     @PostMapping("/sessions")
     public ResponseEntity<?> createSession(@RequestBody SessionDTO request) {
         SessionDTO newSessionDTO = null;
@@ -30,6 +43,14 @@ public class ScheduleController {
         return new ResponseEntity<>(newSessionDTO, HttpStatus.CREATED);
     }
 
+    /**
+     * Updates an existing session with the provided session data.
+     *
+     * @param id      the ID of the session to update
+     * @param request the updated session data
+     * @return the updated session DTO
+     * @author Pei Yan
+     */
     @PutMapping("/sessions/{id}")
     public ResponseEntity<?> updateSession (@PathVariable int id, @RequestBody SessionDTO request) {
         SessionDTO newSession = null;
@@ -41,12 +62,26 @@ public class ScheduleController {
         }
     }
 
+    /**
+     * Deletes the session with the specified ID.
+     *
+     * @param id the ID of the session to delete
+     * @return the HTTP response status
+     * @author Pei Yan
+     */
     @DeleteMapping("/sessions/{id}") 
     public ResponseEntity<SessionDTO> deleteSession (@PathVariable int id) {
         service.deleteSession(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Retrieves the session with the specified ID.
+     *
+     * @param id the ID of the session to retrieve
+     * @return the session DTO if found, or an error message if not found
+     * @author Pei Yan
+     */
     @GetMapping("/sessions/{id}")
     public ResponseEntity<?> findSessionById(@PathVariable int id) {
         Session session = service.findSessionById(id);
@@ -57,6 +92,12 @@ public class ScheduleController {
         return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
     }
 
+    /**
+     * Retrieves all sessions.
+     *
+     * @return a list of session response DTOs
+     * @author Pei Yan
+     */
     @GetMapping("/sessions")
     public List<SessionResponseDTO> findAllSessions() {
         List<SessionResponseDTO> dtos = new ArrayList<>();

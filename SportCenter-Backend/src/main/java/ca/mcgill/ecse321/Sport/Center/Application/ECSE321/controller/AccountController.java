@@ -19,13 +19,26 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountService
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;;
 
-
+/**
+ * The AccountController class is responsible for handling HTTP requests related to account management.
+ * It provides endpoints for creating, retrieving, updating, and deleting accounts.
+ * This class is annotated with @RestController to indicate that it is a controller class that handles RESTful requests.
+ * 
+ * @author Behrad, Yuri
+ */
 @RestController
 public class AccountController {
     @Autowired
     private AccountService accountService;
 
-
+    /**
+     * Retrieves a person by their ID.
+     * 
+     * @param pid the ID of the person to retrieve
+     * @return a ResponseEntity containing the PersonDTO if the person is found, or an error message and HTTP status code if not
+     * @throws Exception if the ID is not a valid integer
+     * @author Behrad, Yuri
+     */
     @GetMapping("/persons/{pid}") 
     public ResponseEntity<?> findPersonById(@PathVariable String pid) throws Exception {
         int id;
@@ -43,15 +56,27 @@ public class AccountController {
         }
 
         return new ResponseEntity<>(person, HttpStatus.OK);
-
     }
 
+    /**
+     * Retrieves all people.
+     * 
+     * @return a list of PersonDTO objects representing all people
+     * @author Behrad, Yuri
+     */
     @GetMapping("/persons")
     public List<PersonDTO> findAllPeople() {
         List<PersonDTO> people = accountService.findAllPeople();
         return people;
     }
-    // Might not need to 
+
+    /**
+     * Creates a customer account.
+     * 
+     * @param personDTO the PersonDTO object containing the customer's information
+     * @return a ResponseEntity containing the created CustomerDTO if successful, or an error message and HTTP status code if not
+     * @author Behrad, Yuri
+     */
     @PostMapping("/customers")
     public ResponseEntity<?> createCustomerAccount(@RequestBody PersonDTO personDTO) {
         // null check
@@ -126,6 +151,13 @@ public class AccountController {
         return new ResponseEntity<>(newPersonDTO, HttpStatus.CREATED);
     }
 
+    /**
+     * Logs in a user with the provided credentials.
+     * 
+     * @param credentials a map containing the email and password of the user
+     * @return a ResponseEntity containing true if the login is successful, false if not
+     * @author Behrad, Yuri
+     */
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
@@ -149,9 +181,11 @@ public class AccountController {
     }
 
     /**
+     * Deletes a customer account.
      * 
-     * @param personDTO the PersonDTO object containing the person's information
+     * @param id the ID of the customer account to delete
      * @return a ResponseEntity containing an error message and HTTP status code if the customer account could not be found, HTTP status code if successful
+     * @author Behrad, Yuri
      */
     @DeleteMapping("/customers/{id}")
     public ResponseEntity<?> deleteCustomerAccount(@PathVariable int id) {
@@ -167,7 +201,7 @@ public class AccountController {
     /**
      * Deletes a person.
      * 
-     * @param personDTO
+     * @param pid the ID of the person to delete
      * @return a ResponseEntity containing an error message and HTTP status code if the person could not be found, HTTP status code if successful
      * @author Behrad, Yuri
      */
@@ -181,10 +215,15 @@ public class AccountController {
         }
     }
 
-    
+    // Helper methods
 
-
-// Helper methods
+    /**
+     * Checks if the PersonDTO object is null or if any of its fields are null.
+     * 
+     * @param personDTO the PersonDTO object to check
+     * @return a ResponseEntity containing an error message and HTTP status code if the PersonDTO object or any of its fields are null, null if not
+     * @author Behrad, Yuri
+     */
     private ResponseEntity<?> nullCheck(PersonDTO personDTO) {
         if (personDTO == null) {
             return new ResponseEntity<>("PersonDTO object cannot be null.", HttpStatus.BAD_REQUEST);
@@ -201,6 +240,13 @@ public class AccountController {
         return null;
     }
 
+    /**
+     * Validates the password.
+     * 
+     * @param password the password to validate
+     * @return a ResponseEntity containing an error message and HTTP status code if the password is invalid, null if valid
+     * @author Behrad, Yuri
+     */
     private ResponseEntity<?> passwordValidation(String password) {
         if (password.length() < 8) {
             return new ResponseEntity<>("Password must be at least 8 characters long.", HttpStatus.BAD_REQUEST);
@@ -217,14 +263,21 @@ public class AccountController {
         return null;
     }
 
+    /**
+     * Validates the email.
+     * 
+     * @param email the email to validate
+     * @return a ResponseEntity containing an error message and HTTP status code if the email is invalid, null if valid
+     * @author Behrad, Yuri
+     */
     private ResponseEntity<?> emailValidation(String email) {
-    String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-    Pattern pattern = Pattern.compile(emailRegex);
-    if (!pattern.matcher(email).matches()) {
-        return new ResponseEntity<>("Email must be in a valid format.", HttpStatus.BAD_REQUEST);
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        if (!pattern.matcher(email).matches()) {
+            return new ResponseEntity<>("Email must be in a valid format.", HttpStatus.BAD_REQUEST);
+        }
+        return null;
     }
-    return null;
-}
 }
 
 
