@@ -44,24 +44,7 @@ public class AccountPermissionsServiceTests {
     
     @BeforeEach
     public void setMockOutput() {
-        /*lenient().when(personDao.findByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(PERSON_EMAIL)) {
-                Person person = new Person();
-                person.setName(PERSON_NAME);
-                person.setEmail(PERSON_EMAIL);
-                person.setPassword(PERSON_PASSWORD);
-                return person;
-            } else {
-                return null;
-            }
-        });*/
-        /*lenient().when(personDao.existsByEmail(anyString())).thenAnswer( (InvocationOnMock invocation) -> {
-            if(invocation.getArgument(0).equals(PERSON_EMAIL)) {
-                return true;
-            } else {
-                return false;
-            }
-        });*/
+
         lenient().when(personDao.existsById(anyInt())).thenAnswer((InvocationOnMock invocation) -> {
             if(invocation.getArgument(0).equals(PERSON_ID)) {
                 return true;

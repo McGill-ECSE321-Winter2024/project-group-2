@@ -14,6 +14,12 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
+/**
+ * This class provides services for managing account permissions.
+ * It allows granting and revoking instructor permissions for a person.
+ * 
+ * @author Sebastian
+ */
 @Service
 public class AccountPermissionsService {
     @Autowired
@@ -23,6 +29,13 @@ public class AccountPermissionsService {
     @Autowired
     OwnerRepository ownerRepository;
 
+    /**
+     * Grants instructor permissions to a person with the given ID.
+     * 
+     * @param id the ID of the person to grant instructor permissions to
+     * @return the DTO of the newly created instructor role
+     * @throws Exception if the person does not exist or is already an instructor
+     */
     @Transactional
     public InstructorDTO grantInstructorPermissions(int id) throws Exception{
         if(! personRepository.existsById(id)){
@@ -41,6 +54,12 @@ public class AccountPermissionsService {
         return new InstructorDTO(newInstructorRole.getId(), new ArrayList<SessionDTO>());
     }
 
+    /**
+     * Revokes instructor permissions from the instructor with the given ID.
+     * 
+     * @param id the ID of the instructor to revoke permissions from
+     * @throws Exception if the instructor does not exist
+     */
     @Transactional
     public void revokeInstructorPermissions(int id) throws Exception{
         if(! instructorRepository.existsById(id)){
