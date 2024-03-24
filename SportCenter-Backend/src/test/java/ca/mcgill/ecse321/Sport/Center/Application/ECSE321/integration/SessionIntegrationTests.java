@@ -343,6 +343,7 @@ public class SessionRegistrationIntegrationTest {
 
         assertTrue(responseNotFound.getBody().contains("No customer with given ID"));
 
+        // invalid
         String invalidID = "Invalid";
 
         ResponseEntity<String> responseInvalid = client.getForEntity(
@@ -358,7 +359,6 @@ public class SessionRegistrationIntegrationTest {
 
     @Test
     public void testViewRegistrationsBySessionValid() {
-        // Step 1: Create a session
         Session session = createSession();
         sessionRepository.save(session);
 
@@ -435,48 +435,36 @@ public class SessionRegistrationIntegrationTest {
         int customerId = customerDTO.getId();
         int sessionId = sessionDTO.getId();
 
-        // construct the URL for the registration endpoint
         String url = String.format("/register/session/%d/customer/%d", sessionId, customerId);
 
-        // Use TestRestTemplate to send a PUT request to register the session for the
-        // customer
         ResponseEntity<SessionRegistrationDTO> response = client.exchange(
                 url,
                 HttpMethod.PUT,
-                null, // You might need to send a specific HttpEntity if your endpoint requires a
-                      // request body
+                null,
                 SessionRegistrationDTO.class);
 
-        // Check the response status and body as needed
+        // check the response status and body as needed
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            return response.getBody(); // Successfully registered, return the SessionRegistrationDTO
+            return response.getBody(); // return sessionRegistrationDTO?
         } else {
-            // Handle error or unexpected response
+
             throw new RuntimeException("Failed to register session: " + response.getStatusCode());
         }
     }
 
     private CustomerDTO createCustomerDTO() {
-        // Assuming CustomerDTO has a constructor that accepts an ID and possibly other
-        // fields
-        // If your customer creation endpoint expects a payload, create and populate the
-        // request body accordingly
-        CustomerDTO requestCustomerDTO = new CustomerDTO();
-        // Set any required fields of the CustomerDTO for creation
 
-        // Make a POST request to the customer creation endpoint
+        CustomerDTO requestCustomerDTO = new CustomerDTO();
+        requestCustomerDTO.setId(0);
+
         ResponseEntity<CustomerDTO> response = client.postForEntity(
                 "/customers",
                 new HttpEntity<>(requestCustomerDTO),
                 CustomerDTO.class);
 
-        // Verify the response status to ensure the customer was created successfully
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            // Return the CustomerDTO from the response, which should include the generated
-            // ID and any other populated fields
-            return response.getBody();
+            return response.getBody(); // return CustomerDTO?
         } else {
-            // Handle error or unexpected response
             throw new RuntimeException("Failed to create customer: " + response.getStatusCode());
         }
     }
