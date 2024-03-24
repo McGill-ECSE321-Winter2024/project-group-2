@@ -45,30 +45,49 @@ public class SessionDTO {
         this.instructor = session.getInstructor();
     }
 
-    public int getId(){ //maybe remove this
+    public int getId(){ //maybe remove this //no keep it plz
         return id;
     }
     public int getLength(){
         return length;
     }
+    public void setLength(int length){
+        this.length = length;
+    }
     public Time getStartTime(){
         return startTime;
+    }
+    public void setStartTime(Time startTime){
+        this.startTime = startTime;
     }
     public Time getEndTime(){
         return endTime;
     }
+    public void setEndTime(Time endTime){
+        this.endTime = endTime;
+    }
     public Date getDate(){
         return date;
+    }
+    public void setDate(Date date){
+        this.date = date;
     }
     public boolean getIsRepeating(){
         return isRepeating;
     }
+    public void setIsRepeating(boolean isRepeating){
+        this.isRepeating = isRepeating;
+    }
     public int getMaxParticipants(){
         return maxParticipants;
     }
+    public void setMaxParticipants(int maxParticipants){
+        this.maxParticipants = maxParticipants;
+    }
 
     public ClassType getClassType() { return classType; }
-
+    public void setClassType(ClassType classType) { this.classType = classType; }
     public Instructor getInstructor() { return instructor; }
+    public void setInstructor(Instructor instructor) { this.instructor = instructor; }
 
 }

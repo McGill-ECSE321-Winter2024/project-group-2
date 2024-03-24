@@ -41,6 +41,9 @@ public class Instructor
   {
     return person;
   }
+  public int getId() {
+    return id;
+  }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setPerson(Person aNewPerson)
   {

@@ -16,6 +16,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorReposito
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
@@ -36,6 +37,7 @@ public class SchedulingService {
     SessionRegistrationRepository sessionRegistrationRepository;
     @Autowired
     PersonRepository personRepository;
+
 
     @Transactional
     public Session createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){
@@ -70,7 +72,7 @@ public class SchedulingService {
      * @author Behrad
      */
     @Transactional
-    public void updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){ //maybe
+    public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, Instructor instructor){ //maybe
         String error = "";
         if(startTime.after(endTime)){
             error += "Start time must be before end time";
@@ -78,26 +80,37 @@ public class SchedulingService {
         if(!classType.getIsApproved()){
             error += "Class type must be approved";
         }
+        if(classTypeRepository.findByClassType(classType.getClassType())==null){
+            error += "No class type with given name";
+        }
         
 
         Session session = sessionRepository.findById(sessionId);
         if(session==null){
             error+="No session with given ID";
         }
+        Instructor targetInstructor = instructorRepository.findById(instructor.getId());
+        if(targetInstructor==null){
+            error+="No instructor with given ID";
+        }
         if(error!=""){
             throw new IllegalArgumentException(error);
         }
-        
-        session.setLength(length);
-        session.setStartTime(startTime);
-        session.setEndTime(endTime);
-        session.setDate(date);
-        session.setIsRepeating(isRepeating);
-        session.setMaxParticipants(maxParticipants);
-        session.setClassType(classType);
-        session.setInstructor(instructor);
-        sessionRepository.save(session);
-        return;
+        try{
+            session.setLength(length);
+            session.setStartTime(startTime);
+            session.setEndTime(endTime);
+            session.setDate(date);
+            session.setIsRepeating(isRepeating);
+            session.setMaxParticipants(maxParticipants);
+            session.setClassType(classType);
+            session.setInstructor(targetInstructor);
+            session = sessionRepository.save(session);
+            return new SessionDTO(session);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
     }
     @Transactional
     public void deleteSession(int sessionId){

@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -222,6 +223,8 @@ public class SchedulingServiceTests {
         sessionDao.save(session);
 
         String error = null;
+        when(instructorDao.findById(0)).thenReturn(instructor1);
+        when(classTypeDao.findByClassType(CLASS_TYPE.getClassType())).thenReturn(CLASS_TYPE);
         try {
             schedulingService.updateSession(session.getId(), 10, START_TIME, END_TIME,DATE, false, 10000, CLASS_TYPE, instructor1);
         } catch (Exception e) {
