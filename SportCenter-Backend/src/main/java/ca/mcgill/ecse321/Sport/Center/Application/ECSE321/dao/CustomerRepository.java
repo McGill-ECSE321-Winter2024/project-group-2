@@ -24,4 +24,7 @@ public interface CustomerRepository extends CrudRepository<Customer, Integer> {
     public Customer findById(int id);
     public Customer findByPersonEmail(String email);
     public Customer findByPersonName(String name);
+
+    public Boolean existsByPersonEmail(String email);
+
 }

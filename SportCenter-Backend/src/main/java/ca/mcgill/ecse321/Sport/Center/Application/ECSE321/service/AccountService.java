@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
@@ -52,8 +53,15 @@ public class AccountService {
     }
 
     @Transactional
-    public Iterable<Person> findAllPeople() {
-        return personRepository.findAll();
+    public List<PersonDTO> findAllPeople() {
+        Iterable<Person> personList = personRepository.findAll();
+        List<PersonDTO> personDTOList = new ArrayList<PersonDTO>();
+    
+        for (Person person : personList) {
+            PersonDTO personDTO = new PersonDTO(person);
+            personDTOList.add(personDTO);
+        }
+        return personDTOList;
     }
 
     @Transactional
@@ -101,4 +109,28 @@ public class AccountService {
         }
         return false;
     }
+
+    @Transactional
+    public void deleteCustomerAccount(int pid) throws Exception{
+        PersonDTO personDTO = findPersonById(pid);
+
+
+        if (customerRepository.findByPersonEmail(personDTO.getEmail()) != null) {
+            customerRepository.deleteById(customerRepository.findByPersonEmail(personDTO.getEmail()).getId());
+        } else {
+            throw new Exception("There is no customer with this ID");
+        }
+    }
+
+    @Transactional
+    public void deletePerson(int personId) throws Exception{
+        if (personRepository.existsById(personId)) {
+            personRepository.deleteById(personId);
+        } else {
+            throw new Exception("There is no peson with this ID");
+        }
+
+    }
 }
+
+
