@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -194,6 +195,66 @@ public class AccountControllerTest {
         ResponseEntity<ArrayList> response = client.getForEntity("/persons", ArrayList.class);
         assertEquals(2,response.getBody().size());
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
 
+    @Test
+    public void testDeleteCustomerSuccess(){
+        Person person = new Person();
+        person.setName("Good Name");
+        person.setEmail("valid@email.com");
+        person.setPassword("aValidPassword2024");
+        person = personRepository.save(person);
+
+        Customer customer = new Customer();
+        customer.setPerson(person);
+        customer = customerRepository.save(customer);
+        
+        String url = "/customers/" + customer.getId();
+        HttpMethod method = HttpMethod.DELETE;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<?> response2 = client.exchange(url, method, entity, String.class);
+        assertEquals(HttpStatus.OK, response2.getStatusCode());
+        assertTrue(!customerRepository.existsById(customer.getId()));
+    }
+
+    @Test
+    public void testDeleteCustomerFailure(){   
+        String url = "/customers/1234";
+        HttpMethod method = HttpMethod.DELETE;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<?> response2 = client.exchange(url, method, entity, String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
+    }
+
+    @Test
+    public void testDeletePersonSuccess(){
+        Person person = new Person();
+        person.setName("Good Name");
+        person.setEmail("valid@email.com");
+        person.setPassword("ValidPass12324");
+        person = personRepository.save(person);
+
+        String url = "/persons/" + person.getId();
+        HttpMethod method = HttpMethod.DELETE;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<?> response = client.exchange(url, method, entity, String.class);
+        assertEquals(HttpStatus.ACCEPTED, response.getStatusCode());
+    }
+
+    @Test 
+    public void testDeletePersonFailure(){
+        String url = "/persons/1234" ;
+        HttpMethod method = HttpMethod.DELETE;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<?> response = client.exchange(url, method, entity, String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
 }

@@ -116,6 +116,7 @@ public class AccountService {
 
         if (customerRepository.existsById(cid)) {
             customerRepository.deleteById(cid);
+            return;
         } else {
             throw new Exception("There is no customer with this ID");
         }

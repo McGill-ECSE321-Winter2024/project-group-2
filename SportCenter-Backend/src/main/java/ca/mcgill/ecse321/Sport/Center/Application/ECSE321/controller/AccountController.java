@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountService;
@@ -152,30 +153,15 @@ public class AccountController {
      * @param personDTO the PersonDTO object containing the person's information
      * @return a ResponseEntity containing an error message and HTTP status code if the customer account could not be found, HTTP status code if successful
      */
-    @DeleteMapping("/customers")
-    public ResponseEntity<?> deleteCustomerAccount(@RequestBody PersonDTO personDTO) {
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<?> deleteCustomerAccount(@PathVariable int id) {
         // null check
-        ResponseEntity<?> nullCheckResponse = nullCheck(personDTO);
-        if (nullCheckResponse != null) {
-            return nullCheckResponse;
-        }
-        // password validation
-        ResponseEntity<?> passwordValidationResponse = passwordValidation(personDTO.getPassword());
-        if (passwordValidationResponse != null) {
-            return passwordValidationResponse;
-        }
-        // email
-        ResponseEntity<?> emailValidationResponse = emailValidation(personDTO.getEmail());
-        if (emailValidationResponse != null) {
-            return emailValidationResponse;
-        }
-
         try {
-            accountService.deleteCustomerAccount(personDTO.getPersonId());
+            accountService.deleteCustomerAccount(id);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch(Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     /**
@@ -185,29 +171,14 @@ public class AccountController {
      * @return a ResponseEntity containing an error message and HTTP status code if the person could not be found, HTTP status code if successful
      * @author Behrad, Yuri
      */
-    @DeleteMapping("/persons")
-    public ResponseEntity<?> deletePerson(@RequestBody PersonDTO personDTO) {
-        ResponseEntity<?> nullCheckResponse = nullCheck(personDTO);
-        if (nullCheckResponse != null) {
-            return nullCheckResponse;
-        }
-        // password validation
-        ResponseEntity<?> passwordValidationResponse = passwordValidation(personDTO.getPassword());
-        if (passwordValidationResponse != null) {
-            return passwordValidationResponse;
-        }
-        // email
-        ResponseEntity<?> emailValidationResponse = emailValidation(personDTO.getEmail());
-        if (emailValidationResponse != null) {
-            return emailValidationResponse;
-        }
-
+    @DeleteMapping("/persons/{pid}")
+    public ResponseEntity<?> deletePerson(@PathVariable int pid) {
         try {
-            deletePerson(personDTO);
+            accountService.deletePerson(pid);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch(Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     
