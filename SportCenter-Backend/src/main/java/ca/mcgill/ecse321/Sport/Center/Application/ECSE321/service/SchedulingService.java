@@ -7,7 +7,6 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
-
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
@@ -35,32 +34,33 @@ public class SchedulingService {
     @Autowired
     PersonRepository personRepository;
 
-
     @Transactional
-    public SessionDTO createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, int instructorId){
+    public SessionDTO createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating,
+            int maxParticipants, ClassType classType, int instructorId) {
         String error = "";
-        if(startTime.after(endTime)){
+        if (startTime.after(endTime)) {
             error += "Start time must be before end time";
         }
-        if(!classType.getIsApproved()){
+        if (!classType.getIsApproved()) {
             error += "Class type must be approved";
         }
-        if(instructorRepository.findById(instructorId)==null){
-            error+="No instructor with given ID";
+        if (instructorRepository.findById(instructorId) == null) {
+            error += "No instructor with given ID";
         }
-        if(error!=""){
+        if (error != "") {
             throw new IllegalArgumentException(error);
         }
         Instructor instructor = instructorRepository.findById(instructorId);
         // I think this needs checks for validity + exceptions thrown
-        Session session = new Session(length, startTime, endTime, date, isRepeating, maxParticipants, classType, instructor);
+        Session session = new Session(length, startTime, endTime, date, isRepeating, maxParticipants, classType,
+                instructor);
         session = sessionRepository.save(session);
         return new SessionDTO(session);
     }
 
     /**
-     *Updates an existing session in the database
-
+     * Updates an existing session in the database
+     * 
      * @param sessionId
      * @param length
      * @param startTime
@@ -73,33 +73,34 @@ public class SchedulingService {
      * @author Behrad
      */
     @Transactional
-    public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, int instructorId){ //maybe
+    public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date,
+            boolean isRepeating, int maxParticipants, ClassType classType, int instructorId) { // maybe
         String error = "";
-        if(startTime.after(endTime)){
+        if (startTime.after(endTime)) {
             error += "Start time must be before end time";
         }
-        if(!classType.getIsApproved()){
+        if (!classType.getIsApproved()) {
             error += "Class type must be approved";
         }
-        if(classTypeRepository.findByClassType(classType.getClassType())==null){
+        if (classTypeRepository.findByClassType(classType.getClassType()) == null) {
             error += "No class type with given name";
         }
-        if(instructorRepository.findById(instructorId)==null){
-            error+="No instructor with given ID";
+        if (instructorRepository.findById(instructorId) == null) {
+            error += "No instructor with given ID";
         }
 
         Session session = sessionRepository.findById(sessionId);
-        if(session==null){
-            error+="No session with given ID";
+        if (session == null) {
+            error += "No session with given ID";
         }
         Instructor targetInstructor = instructorRepository.findById(instructorId);
-        if(targetInstructor==null){
-            error+="No instructor with given ID";
+        if (targetInstructor == null) {
+            error += "No instructor with given ID";
         }
-        if(error!=""){
+        if (error != "") {
             throw new IllegalArgumentException(error);
         }
-        try{
+        try {
             session.setLength(length);
             session.setStartTime(startTime);
             session.setEndTime(endTime);
@@ -115,85 +116,95 @@ public class SchedulingService {
         }
 
     }
+
     @Transactional
-    public void deleteSession(int sessionId){
+    public void deleteSession(int sessionId) {
         sessionRegistrationRepository.deleteAllBySessionId(sessionId);
         sessionRepository.deleteById(sessionId);
     }
 
     /**
      * Approves and saves a suggested classtype
+     * 
      * @param classTypeName
      * @author Behrad
      */
     @Transactional
-    public void approveClassType(String classTypeName){
+    public void approveClassType(String classTypeName) {
         ClassType classType = classTypeRepository.findByClassType(classTypeName);
-        if(classType == null){
+        if (classType == null) {
             throw new IllegalArgumentException("No class type with given name");
         }
-        
+
         classType.setIsApproved(true);
         classTypeRepository.save(classType);
         return;
     }
+
     /**
      * Rejects and deletes a suggested class type
+     * 
      * @param classTypeName
      * @author Behrad
      */
     @Transactional
-    public void rejectClassType(String classTypeName){
+    public void rejectClassType(String classTypeName) {
         ClassType classType = classTypeRepository.findByClassType(classTypeName);
-        if(classType == null){
+        if (classType == null) {
             throw new IllegalArgumentException("No class type with given name");
         }
         classTypeRepository.delete(classType);
         return;
     }
+
     /**
      * Creates a new classtype with approval status false
+     * 
      * @param classTypeName
      * @author Behrad
      */
     @Transactional
-    public void suggestClassType(String classTypeName){
+    public void suggestClassType(String classTypeName) {
         ClassType classType = classTypeRepository.findByClassType(classTypeName);
-        if(classType!=null){
+        if (classType != null) {
             throw new IllegalArgumentException("Class type with given name already suggested");
         }
         classType = new ClassType(classTypeName, false);
         classTypeRepository.save(classType);
         return;
     }
+
     /**
      * Views all class types based on approval status
+     * 
      * @param isApproved
      * @return List<ClassType> targeted classtypes
      * @author Behrad
      */
     @Transactional
-    public List<ClassType> viewClassTypeByApproval(boolean isApproved){
+    public List<ClassType> viewClassTypeByApproval(boolean isApproved) {
         List<ClassType> classTypes = classTypeRepository.findByIsApproved(isApproved);
         return classTypes;
     }
+
     /**
      * Registers an instructor by their person's email to teach a session
+     * 
      * @param instructorEmail
      * @param sessionId
      * @author Behrad
      */
     @Transactional
-    public void registerToTeachSession(String instructorEmail, int sessionId){
+    public void registerToTeachSession(String instructorEmail, int sessionId) {
         Session targetSession = sessionRepository.findById(sessionId);
-        if(targetSession == null){
+        if (targetSession == null) {
             throw new IllegalArgumentException("No session with given ID");
         }
-        if(!personRepository.existsByEmail(instructorEmail)){
+        if (!personRepository.existsByEmail(instructorEmail)) {
             throw new IllegalArgumentException("No person with given email");
         }
         Instructor targetInstructor = instructorRepository.findByPersonEmail(instructorEmail);
-        if(targetInstructor == null){
+        if (targetInstructor == null) {
             throw new IllegalArgumentException("No instructor with given email");
         }
         targetSession.setInstructor(targetInstructor);
