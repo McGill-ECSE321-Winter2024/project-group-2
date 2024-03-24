@@ -45,7 +45,7 @@ public class SessionRegistrationService {
      */
     @Transactional
 
-    public SessionRegistration registerForSession(int aId, int sessionId, int customerId){
+    public SessionRegistration registerForSession(int sessionId, int customerId){
         if(!sessionRepository.existsById(sessionId)){
             throw new IllegalArgumentException("No session with given ID");
         }
@@ -69,7 +69,7 @@ public class SessionRegistrationService {
     @Transactional
     public SessionRegistration viewSpecificSession(int pid) throws Exception {
         if(!sessionRegistrationRepository.existsById(pid)){
-            throw new Exception("There is no registration with this ID.");
+            throw new Exception("No registration with given ID");
         }
         SessionRegistration s = sessionRegistrationRepository.findById(pid);
         
