@@ -38,6 +38,7 @@ public class AccountPermissionsService {
 
         Instructor newInstructorRole = new Instructor();
         newInstructorRole.setPerson(person);
+        instructorRepository.save(newInstructorRole);
 
         return new InstructorDTO(newInstructorRole.getId(), new ArrayList<SessionDTO>());
     }
