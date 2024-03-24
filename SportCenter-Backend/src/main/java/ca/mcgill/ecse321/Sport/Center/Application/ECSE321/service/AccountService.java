@@ -31,9 +31,10 @@ public class AccountService {
         if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
             throw new IllegalArgumentException("Password, email, and name cannot be empty");
         }      
-        Person person;
+        PersonDTO personDTO;
+        Person person = null;
         if(!personRepository.existsByEmail(email)){
-            person = createPerson(password, email, name);
+            personDTO = createPerson(password, email, name);
         } else {
             person = personRepository.findByEmail(email);
         }

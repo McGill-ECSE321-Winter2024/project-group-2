@@ -101,7 +101,7 @@ public class AccountController {
             if(e.getMessage().contains("Customer account already exists")) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-            Person newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
+            PersonDTO newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
             newCustomer = accountService.createCustomerAccount(newPerson.getPassword(), newPerson.getEmail(), newPerson.getName());
         }
         if (newCustomer == null) {
@@ -135,20 +135,19 @@ public class AccountController {
             return emailValidationResponse;
         }
 
-        Person newPerson = null;
+        PersonDTO newPersonDTO = null;
         try{
-            newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
+            newPersonDTO = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
         }catch(IllegalArgumentException e){
             if(e.getMessage().contains("Account with this email already exists")){
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
 
-        if (newPerson == null) {
+        if (newPersonDTO == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        PersonDTO newPersonDto = new PersonDTO(newPerson);
-        return new ResponseEntity<>(newPersonDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(newPersonDTO, HttpStatus.CREATED);
     }
 
     /**
