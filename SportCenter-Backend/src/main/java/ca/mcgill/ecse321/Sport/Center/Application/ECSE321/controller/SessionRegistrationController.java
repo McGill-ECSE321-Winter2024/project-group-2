@@ -78,7 +78,7 @@ public class SessionRegistrationController {
             return new ResponseEntity<>("Bad integer value for pid", HttpStatus.BAD_REQUEST);
          }
          catch (Exception e) {
-            if (e.getMessage().contains("No registration with this ID")) {
+            if (e.getMessage().contains("No registration with given ID")) {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
          }
