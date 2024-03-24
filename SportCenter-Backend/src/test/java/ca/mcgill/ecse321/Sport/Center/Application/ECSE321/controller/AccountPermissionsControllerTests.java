@@ -32,6 +32,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
+import org.springframework.http.HttpMethod;
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -39,14 +40,11 @@ public class AccountPermissionsControllerTests {
 
     @Autowired
     private TestRestTemplate client;
-
     @Autowired
     private PersonRepository personRepository;
     @Autowired
     private InstructorRepository instructorRepository;
 
-    @Autowired
-    private AccountPermissionsController controller;
 
     @BeforeEach
     @AfterEach
@@ -57,12 +55,13 @@ public class AccountPermissionsControllerTests {
 
     @Test
     public void testGrantInstructorPermissionsValidPerson(){
-        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
-        ResponseEntity<PersonDTO> response = client.postForEntity("/persons", person, PersonDTO.class);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        int personId = response.getBody().getPersonId();
+        Person person = new Person();
+        person.setEmail("valid@email.com");
+        person.setName("valid Name");
+        person.setPassword("validPass2024");
+        person = personRepository.save(person);
 
-        ResponseEntity<InstructorDTO> response2 = client.postForEntity("/instructors", personId, InstructorDTO.class);
+        ResponseEntity<InstructorDTO> response2 = client.postForEntity("/instructors", person.getId(), InstructorDTO.class);
 
         assertEquals(HttpStatus.OK, response2.getStatusCode());
         assertNotNull(response2.getBody());
@@ -74,44 +73,32 @@ public class AccountPermissionsControllerTests {
 
     @Test
     public void testGrantInstructorPermissionsInvalidId(){
-       PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
-       ResponseEntity<PersonDTO> response = client.postForEntity("/persons", person, PersonDTO.class);
-       assertEquals(HttpStatus.CREATED, response.getStatusCode());
-       int personId = response.getBody().getPersonId();
-
-       ResponseEntity<String> response2 = client.postForEntity("/instructors", "invalid int", String.class);
+       ResponseEntity<String> response2 = client.postForEntity("/instructors", "NOT_AN_INT", String.class);
 
        assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
        assertEquals("Bad integer value", response2.getBody());
     }
 
     @Test
-    public void testGrantInstructorPermissionsIdNotFound(){ //the second assert gives right message i think but with more shit we dont need and idk how to get rid of it
-        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
-        ResponseEntity<PersonDTO> response = client.postForEntity("/persons", person, PersonDTO.class);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        int personId = response.getBody().getPersonId();
-
-        ResponseEntity<?> response2 = client.postForEntity("/instructors" + 125, person, String.class);
+    public void testGrantInstructorPermissionsIdNotFound(){ 
+        ResponseEntity<?> response2 = client.postForEntity("/instructors" , 404, String.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
-        //assertEquals("Person does not exist", response2.getBody().toString());
     }
 
     @Test
     public void testGrantInstructorPermissionsAlreadyAnInstructor(){
-        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
-        ResponseEntity<PersonDTO> response = client.postForEntity("/persons", person, PersonDTO.class);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-
-        PersonDTO personFromRepo = response.getBody();
-        Person personAsPerson = new Person(personFromRepo.getPersonId(),personFromRepo.getName(), personFromRepo.getEmail(), personFromRepo.getPassword());
+        Person person = new Person();
+        person.setEmail("valid@email.com");
+        person.setName("valid Name");
+        person.setPassword("validPassword2024");
+        person = personRepository.save(person);
 
         Instructor instructorRole = new Instructor();
-        instructorRole.setPerson(personAsPerson);
-        instructorRepository.save(instructorRole);
+        instructorRole.setPerson(person);
+        instructorRole = instructorRepository.save(instructorRole);
 
-        ResponseEntity<String> response2 = client.postForEntity("/instructors", personAsPerson.getId(), String.class);
+        ResponseEntity<String> response2 = client.postForEntity("/instructors", person.getId(), String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
         assertEquals("Person is already an instructor", response2.getBody());
@@ -119,65 +106,48 @@ public class AccountPermissionsControllerTests {
 
     @Test
     public void testRevokeInstructorPermissionsValidInstructor(){
-        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
-        ResponseEntity<PersonDTO> response = client.postForEntity("/persons", person, PersonDTO.class);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-
-        PersonDTO personFromRepo = response.getBody();
-        Person person2 = new Person(personFromRepo.getPersonId(),personFromRepo.getName(), personFromRepo.getEmail(), personFromRepo.getPassword());
+        Person person = new Person();
+        person.setEmail("valid@email.com");
+        person.setPassword("aValidPassword2024");
+        person.setName("Good Name");
+        person = personRepository.save(person);
 
         Instructor instructorRole = new Instructor();
-        instructorRole.setPerson(person2);
-        instructorRepository.save(instructorRole);
-        InstructorDTO instructor = new InstructorDTO(instructorRole.getId(), new ArrayList<SessionDTO>());
+        instructorRole.setPerson(person);
+        instructorRole = instructorRepository.save(instructorRole);
 
-        //ResponseEntity<?> response2 = client.postForEntity("/instructors", instructor.getInstructorId(), null);
-        ResponseEntity<?> response2 = controller.revokeInstructorPermissions(String.valueOf(instructor.getInstructorId()));
+        String url = "/instructors/" + instructorRole.getId();
+        HttpMethod method = HttpMethod.DELETE;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<?> response2 = client.exchange(url, method, entity, String.class);
 
         assertEquals(HttpStatus.OK, response2.getStatusCode());
-        assertFalse(instructorRepository.existsById(instructor.getInstructorId()));
+        assertFalse(instructorRepository.existsById(instructorRole.getId()));
     }
 
     @Test
-    public void testRevokeInstructorPermissionsInvalidId(){ //just used the controller cuz i couldnt make it work any other way feel free to change
-        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
-        ResponseEntity<PersonDTO> response = client.postForEntity("/persons", person, PersonDTO.class);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-
-        PersonDTO personFromRepo = response.getBody();
-        Person person2 = new Person(personFromRepo.getPersonId(),personFromRepo.getName(), personFromRepo.getEmail(), personFromRepo.getPassword());
-
-        Instructor instructorRole = new Instructor();
-        instructorRole.setPerson(person2);
-        instructorRepository.save(instructorRole);
-        InstructorDTO instructor = new InstructorDTO(instructorRole.getId(), new ArrayList<SessionDTO>());
-
-        //ResponseEntity<String> response22 = client.postForEntity("/instructors/" + "invalid", instructor, String.class);
-        //client.delete("/instructors/" + "invalid id", instructor);
-
-        ResponseEntity<?> response2 = controller.revokeInstructorPermissions("invalid");
+    public void testRevokeInstructorPermissionsInvalidId(){ 
+        String url = "/instructors/NOT_AN_INT";
+        HttpMethod method = HttpMethod.DELETE;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<?> response2 = client.exchange(url, method, entity, String.class);
 
         assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
-       assertEquals("Bad integer value", response2.getBody());
+        assertEquals("Bad integer value", response2.getBody());
     }
 
     @Test
     public void testRevokeInstructorPermissionsIdNotFound(){
-        PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
-        ResponseEntity<PersonDTO> response = client.postForEntity("/persons", person, PersonDTO.class);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-
-        PersonDTO personFromRepo = response.getBody();
-        Person person2 = new Person(personFromRepo.getPersonId(),personFromRepo.getName(), personFromRepo.getEmail(), personFromRepo.getPassword());
-
-        Instructor instructorRole = new Instructor();
-        instructorRole.setPerson(person2);
-        instructorRepository.save(instructorRole);
-        InstructorDTO instructor = new InstructorDTO(instructorRole.getId(), new ArrayList<SessionDTO>());
-
-        //ResponseEntity<String> response2 = client.postForEntity("/instructors/" + 125, instructor, String.class);
-
-        ResponseEntity<?> response2 = controller.revokeInstructorPermissions("125");
+        String url = "/instructors/404";
+        HttpMethod method = HttpMethod.DELETE;
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        
+        ResponseEntity<?> response2 = client.exchange(url, method, entity, String.class);
 
         assertEquals(HttpStatus.NOT_FOUND, response2.getStatusCode());
         assertEquals("Instructor does not exist", response2.getBody().toString());
