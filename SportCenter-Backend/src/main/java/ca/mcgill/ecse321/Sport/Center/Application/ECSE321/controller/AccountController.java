@@ -64,10 +64,7 @@ public class AccountController {
      */
     @GetMapping("/persons")
     public List<PersonDTO> findAllPeople() {
-        List<PersonDTO> people = new ArrayList<PersonDTO>();
-        for (Person person : accountService.findAllPeople()) {
-            people.add(new PersonDTO(person));
-        }
+        List<PersonDTO> people = accountService.findAllPeople();
         return people;
     }
 
