@@ -131,8 +131,6 @@ public class AccountService {
      */
     @Transactional
     public PersonDTO createPerson(String password, String email, String name) {
-          //TODO make all valid checks for password, duplicate email, etc. Remember to throw a SportCenterException
-
         if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
             throw new IllegalArgumentException("Password, email, and name cannot be empty");
         }
