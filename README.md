@@ -57,23 +57,24 @@ Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-
 ## Deliverable 2
 | Name                | Individual efforts |
 | ------------------- | -------------------| 
-| Aurelia Bouliane    |                    |
-| Pei Yan Geng        |                    | 
-| Alice Godbout       |                    | 
-| Behrad Rezaie       |                    | 
-| Sebastian Reinhardt |                    |
-| Yuri Sorice         |                    |
+| Aurelia Bouliane    |         40         |
+| Pei Yan Geng        |         40         | 
+| Alice Godbout       |         39         | 
+| Behrad Rezaie       |         41         | 
+| Sebastian Reinhardt |         40         |
+| Yuri Sorice         |         37         |
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-2) will bring you to the report for deliverable 2.
 
 ### Detailed view of individual roles of the team for deliverable 2:
 
-* **Aurelia**: Write here.
-* **Pei Yan**: Write here.
-* **Alice**: Write here.
-* **Behrad**: Write here.
-* **Sebastian**: Write here.
-* **Yuri**: Write here.
+Each part was divided into certain sections in which the team divided into groups of 1-2 members.
+* **Aurelia**: Repository, DTOs, Services, Controllers, Testing, Documentation.
+* **Pei Yan**: Repository, DTOs, Services, Controllers, Testing, Documentation.
+* **Alice**: Repository, DTOs, Services, Controllers, Testing, Documentation.
+* **Behrad**: Repository, DTOs, Services, Controllers, Testing, Documentation.
+* **Sebastian**: Repository, DTOs, Services, Controllers, Testing, Documentation.
+* **Yuri**: Repository, DTOs, Services, Controllers, Testing, Documentation.
 
 ## Deliverable 3
 | Name                | Individual efforts |
