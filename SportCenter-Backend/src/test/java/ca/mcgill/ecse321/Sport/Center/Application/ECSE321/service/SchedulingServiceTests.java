@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
@@ -48,8 +49,11 @@ public class SchedulingServiceTests {
     private ClassTypeRepository classTypeDao;
     @Mock
     private SessionRepository sessionDao;
+    @Mock
+    private SessionRegistrationRepository sessionRegistrationRepository;
     @InjectMocks
     private SchedulingService schedulingService;
+
     
     private static final String PERSON_NAME = "TestPerson";
     private static final String PERSON_EMAIL = "TestEmail";
@@ -269,6 +273,7 @@ public class SchedulingServiceTests {
         Session session = new Session(10, START_TIME, END_TIME, DATE, false, 100, CLASS_TYPE, instructor);
         session = sessionDao.save(session);
         String error = null;
+        when(sessionDao.existsById(anyInt())).thenReturn(true);
         try {
             schedulingService.deleteSession(session.getId());
         } catch (Exception e) {
