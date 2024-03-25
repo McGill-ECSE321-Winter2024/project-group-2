@@ -1,9 +1,5 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.sql.Date;
 import java.sql.Time;
 
@@ -23,6 +19,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SessionControllerTest {
@@ -180,6 +178,16 @@ public class SessionControllerTest {
         SessionDTO[] sessions = response.getBody();
         assertNotNull(sessions);
         assertEquals(2, sessions.length);
+    }
+
+    @Test
+    public void testGetAllSessionsInvalid() {
+        ResponseEntity<Exception> response = client.getForEntity("/sessions", Exception.class);
+
+        assertNotNull(response);
+        assertThrows(Exception.class, () -> {
+            throw response.getBody();
+        });
     }
 
     @Test
