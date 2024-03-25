@@ -97,6 +97,7 @@ public class SchedulingService {
      * @param instructor The instructor teaching the session
      * @author Behrad
      */
+    @SuppressWarnings("null")
     @Transactional
     public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, int instructorId){ //maybe
         String error = "";

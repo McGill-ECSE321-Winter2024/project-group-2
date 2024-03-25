@@ -10,7 +10,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +23,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.*;
 import java.util.List;
 import java.util.ArrayList;
 
+@SuppressWarnings("null")
 @ExtendWith(MockitoExtension.class)
 public class AccountPermissionsServiceTests {
     @Mock
@@ -141,7 +141,6 @@ public class AccountPermissionsServiceTests {
     
     @Test
     public void demoteInstructorInvalidDoesNotExist(){
-        String email = "FakeEmail";
         String error = null;
         try {
             accountPermissionsService.revokeInstructorPermissions(PERSON_ID+1);

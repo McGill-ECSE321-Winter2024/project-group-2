@@ -23,7 +23,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 import org.springframework.http.HttpMethod;
 
-
+@SuppressWarnings("null")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class AccountPermissionsControllerTest {
 

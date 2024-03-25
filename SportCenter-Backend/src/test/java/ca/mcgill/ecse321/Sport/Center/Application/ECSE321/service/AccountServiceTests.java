@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
@@ -25,6 +24,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 import java.util.List;
 import java.util.ArrayList;
 
+@SuppressWarnings("null")
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceTests {
     @Mock
@@ -80,11 +80,6 @@ public class AccountServiceTests {
         lenient().when(customerDao.existsById(any(Integer.class))).thenAnswer( (InvocationOnMock invocation) -> {
             return customerIds.contains(invocation.getArgument(0));
         });
-
-
-        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-            return invocation.getArgument(0);
-        };
     }
 
     public void testPerson(PersonDTO person){
@@ -106,10 +101,9 @@ public class AccountServiceTests {
     }
     @Test
     public void createInvalidNullCustomer(){
-        PersonDTO personDTO = null;
         String error = null;
         try {
-            personDTO = accountService.createPerson(null, null, null);
+            accountService.createPerson(null, null, null);
         } catch (Exception e) {
             error = e.getMessage();
         }

@@ -48,8 +48,6 @@ public class AccountPermissionsController {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }else if (e.getMessage().contains("Person is already an instructor")){
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-            }else{
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_GATEWAY);
             }
         }
         return new ResponseEntity<>(instructor, HttpStatus.OK);

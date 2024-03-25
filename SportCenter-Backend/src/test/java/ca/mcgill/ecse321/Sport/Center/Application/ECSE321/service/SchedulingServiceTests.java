@@ -1,7 +1,6 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -12,7 +11,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +18,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
-import org.springframework.util.Assert;
-
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
@@ -39,6 +34,7 @@ import java.util.ArrayList;
 import java.sql.Time;
 import java.sql.Date;
 
+@SuppressWarnings("null")
 @ExtendWith(MockitoExtension.class)
 public class SchedulingServiceTests {
     @Mock
@@ -159,10 +155,6 @@ public class SchedulingServiceTests {
                 return suggestedClassTypes;
             }
         });
-        
-        Answer<?> returnParameterAsAnswer = (InvocationOnMock invocation) -> {
-            return invocation.getArgument(0);
-        };
     }
 
     
@@ -173,12 +165,10 @@ public class SchedulingServiceTests {
         Instructor instructor1 = new Instructor(instructor);
         instructor1 = instructorDao.save(instructor1);
         SessionDTO sessionDTO = null;
-        String error = null;
         when(instructorDao.findById(0)).thenReturn(instructor1);
         try {
             sessionDTO = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, CLASS_TYPE, instructor1.getId());
         } catch (Exception e) {
-            error = e.getMessage();
         }
         assertEquals(START_TIME, sessionDTO.getStartTime());
     }
@@ -189,10 +179,9 @@ public class SchedulingServiceTests {
         personDao.save(instructor);
         Instructor instructor1 = new Instructor(instructor);
         instructorDao.save(instructor1);
-        SessionDTO sessionDTO = null;
         String error = null;
         try {
-            sessionDTO = schedulingService.createSession(10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1.getId());
+            schedulingService.createSession(10, END_TIME, START_TIME,DATE, false, 100, CLASS_TYPE, instructor1.getId());
         } catch (Exception e) {
             error = e.getMessage();
         }
@@ -208,10 +197,9 @@ public class SchedulingServiceTests {
         instructorDao.save(instructor1);
         ClassType invalidType = new ClassType("fake", false);
 
-        SessionDTO sessionDTO = null;
         String error = null;
         try {
-            sessionDTO = schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1.getId());
+            schedulingService.createSession(10, START_TIME, END_TIME,DATE, false, 100, invalidType, instructor1.getId());
         } catch (Exception e) {
             error = e.getMessage();
         }

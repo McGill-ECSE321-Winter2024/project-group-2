@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SuppressWarnings("null")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SessionControllerTest {
     @Autowired

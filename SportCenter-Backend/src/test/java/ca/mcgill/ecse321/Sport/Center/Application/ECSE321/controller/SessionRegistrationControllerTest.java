@@ -1,13 +1,11 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Date;
 import java.sql.Time;
 
-// import org.checkerframework.checker.units.qual.Time;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +28,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
+@SuppressWarnings("null")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SessionRegistrationControllerTest {
 

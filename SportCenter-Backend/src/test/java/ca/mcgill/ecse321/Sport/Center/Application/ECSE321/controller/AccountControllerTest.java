@@ -28,7 +28,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
-
+@SuppressWarnings("null")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class AccountControllerTest {
     
@@ -47,6 +47,7 @@ public class AccountControllerTest {
         personRepository.deleteAll();
     }
 
+    
     @Test
     public void testCreateCustomerAccountValid() {
         PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
@@ -60,6 +61,7 @@ public class AccountControllerTest {
         assertEquals(person.getPassword(), customerRole.getPerson().getPassword());
     }
 
+    
     @Test
     public void testCreateCustomerAccountInvalid(){
         //Testing for null personDTO object
@@ -90,6 +92,7 @@ public class AccountControllerTest {
     
     }
 
+    
     @Test
     public void testCreatePersonValid(){
         PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com","good name");
@@ -103,6 +106,7 @@ public class AccountControllerTest {
         assertEquals(person.getPassword(), personInDB.getPassword());
     }
 
+    
     @Test
     public void testCreatePersonInvalid(){
         //Testing for null personDTO object
@@ -132,6 +136,7 @@ public class AccountControllerTest {
         assertEquals(HttpStatus.CONFLICT, response4.getStatusCode(),"Account with this email already exists");
     }
 
+    
     @Test
     public void testLoginValid() {
         PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
@@ -145,6 +150,7 @@ public class AccountControllerTest {
         assertTrue(response.getBody().toString().contains("true"));
     }
 
+    
     @Test
     public void testLoginInvalidPassword() {
         PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
