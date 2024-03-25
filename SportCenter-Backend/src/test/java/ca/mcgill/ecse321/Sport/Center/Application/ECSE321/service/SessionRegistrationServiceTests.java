@@ -147,7 +147,7 @@ public class SessionRegistrationServiceTests {
     
 
     @Test
-    public void testViewRegistrationBySessionId(){
+    public void testViewRegistrationBySessionIdValidAndInvalid(){
         int successfulSessionId = sessionList.getFirst().getId();
         int unsuccessfulSessionId = sessionList.getFirst().getId() + 1;
 
@@ -175,7 +175,7 @@ public class SessionRegistrationServiceTests {
     }
 
     @Test
-    public void testViewRegistrationByCustomerId(){
+    public void testViewRegistrationByCustomerIdValidAndInvalid(){
         int successfulCustomerId = customerList.getFirst().getId();
         int unsuccessfulCustomerId = customerList.getFirst().getId() + 1;
 
@@ -202,7 +202,7 @@ public class SessionRegistrationServiceTests {
     }
 
     @Test
-    public void testCancelRegistration(){
+    public void testCancelRegistrationValidAndInvalid(){
         String error = "";
         
         //Success scenario
@@ -226,7 +226,7 @@ public class SessionRegistrationServiceTests {
     }
 
     @Test
-    public void testViewSpecificSession(){
+    public void testViewSpecificSessionValidAndInvalid(){
         int successfulId = sessionList.getFirst().getId();
         int unsuccessfulId = sessionList.getFirst().getId() + 1;
 
@@ -257,7 +257,7 @@ public class SessionRegistrationServiceTests {
     }
     
     @Test
-    public void testRegisterForSession(){
+    public void testRegisterForSessionValidAndInvalid(){
         int successfulSessionId = sessionList.getFirst().getId();
         int successfulCustomerId = customerList.getFirst().getId();
         
