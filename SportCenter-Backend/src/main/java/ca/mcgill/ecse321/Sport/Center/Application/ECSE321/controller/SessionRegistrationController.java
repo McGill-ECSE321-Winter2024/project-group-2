@@ -38,18 +38,18 @@ public class SessionRegistrationController {
      * @author Aurelia Bouliane
      */
     @PostMapping("/sessionRegistrations")
-    public ResponseEntity<?> registerForSession(@RequestBody SessionRegistrationRequestDTO request ) {
+    public ResponseEntity<?> registerForSession(@RequestBody SessionRegistrationRequestDTO request) {
         SessionRegistration registration = null;
         try {
             int sessionIdInt = Integer.parseInt(request.getSessionId());
             int customerIdInt = Integer.parseInt(request.getCustomerId());
             registration = service.registerForSession(sessionIdInt, customerIdInt);
         } catch (NumberFormatException e) {
-            return new ResponseEntity<>("Bad integer value:"+e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Bad integer value:" + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             if (e.getMessage().contains("No session with given ID")
                     || e.getMessage().contains("No customer with given ID")) {
-                return  new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
         }
         return new ResponseEntity<>(registration, HttpStatus.OK);
@@ -61,7 +61,7 @@ public class SessionRegistrationController {
      * @param pid the registration ID
      * @return a ResponseEntity containing the session registration or an error
      *         message
-     * @author Aurelia Bouliane
+     * @author Aurelia Bouliane, Alice Godbout
      */
     @GetMapping("/sessionRegistrations/{pid}")
     public ResponseEntity<?> viewSpecificSession(@PathVariable("pid") String pid) {
@@ -84,7 +84,7 @@ public class SessionRegistrationController {
      * 
      * @param id the registration ID
      * @return a ResponseEntity indicating success or failure
-     * @author Aurelia Bouliane
+     * @author Aurelia Bouliane, Alice Godbout
      */
     @DeleteMapping("/sessionRegistrations/{id}")
     public ResponseEntity<?> cancelRegistration(@PathVariable("id") String id) {
