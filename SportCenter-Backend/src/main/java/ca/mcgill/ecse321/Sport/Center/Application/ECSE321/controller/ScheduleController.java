@@ -108,9 +108,6 @@ public class ScheduleController {
         for (Session s : service.findAllSessions()) {
             dtos.add(SessionResponseDTO.create(s));
         }
-        if (dtos.isEmpty()) {
-            throw new IllegalArgumentException("No sessions found");
-        }
         return dtos;
     }
 }
