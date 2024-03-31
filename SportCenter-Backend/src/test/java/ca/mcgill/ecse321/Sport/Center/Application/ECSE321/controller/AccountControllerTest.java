@@ -213,6 +213,7 @@ public class AccountControllerTest {
         client.postForEntity("/persons", person, PersonDTO.class);
         client.postForEntity("/persons", person2, PersonDTO.class);
 
+        @SuppressWarnings("rawtypes")
         ResponseEntity<ArrayList> response = client.getForEntity("/persons", ArrayList.class);
         assertEquals(2,response.getBody().size());
         assertEquals(HttpStatus.OK, response.getStatusCode());
