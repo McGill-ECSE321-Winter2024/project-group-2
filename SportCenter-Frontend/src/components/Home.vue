@@ -1,8 +1,8 @@
 <template>
     <div class="scrollable-content">
         <Navbar />
-        <h1>Welcome to our Sports Center!</h1>
-        <p>some body text</p>
+        <img <img src='@/assets/logo.png' alt="Logo" class="logo" />
+        <p>Montreal based sports center offering a variety of activities</p>
         <div class="grid">
             <router-link to='/sessions' class="grid-item">
                 <div class="image-container">
@@ -69,6 +69,11 @@ export default {
 
 
 <style scoped>
+.logo {
+    width: 400px;
+    height: relative;
+}
+
 .scrollable-content {
     width: 100%; /* or any specific width */
     overflow: visible;
@@ -84,14 +89,14 @@ export default {
 
 .grid-item img {
     width: 100%;
-    height: 220px;
+    height: 260px;
     object-fit: cover;
 }
 
 .grid-item .image-container {
     position: relative;
     width: 100%;
-    height: 220px;
+    height: 260px;
 }
 
 .overlay {
