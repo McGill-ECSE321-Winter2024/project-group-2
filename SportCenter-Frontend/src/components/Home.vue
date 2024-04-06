@@ -1,8 +1,13 @@
 <template>
     <div class="scrollable-content">
         <Navbar />
-        <img <img src='@/assets/logo.png' alt="Logo" class="logo" />
-        <p>Montreal based sports center offering a variety of activities</p>
+        <router-link to='/Home'>
+            <img <img src='@/assets/logo.png' alt="Logo" class="logo" />
+        </router-link>
+        <div class="description">
+            <h3>Montreal based sports center offering a variety of activities</h3>
+            <p>Address | Email | Phone Number</p>
+        </div>
         <div class="grid">
             <router-link to='/sessions' class="grid-item">
                 <div class="image-container">
@@ -53,6 +58,20 @@
                 </div>  
             </router-link>
         </div>
+        <div class="footer-grid">
+                <div class="contact-us">
+                    <h3>Contact</h3>
+                    <p>Montreal Sports</p>
+                    <p>Address</p>
+                    <p>Email</p>
+                    <p>Phone</p>
+                </div>
+                <div class="open-hours">
+                    <h3>Open Hours</h3>
+                    <p>Monday - Friday: 8:00am - 10:00pm</p>
+                    <p>Saturday - Sunday: 9:00am - 11:00pm</p>
+                </div>
+            </div>
     </div>
 </template>
 
@@ -73,6 +92,10 @@ export default {
     width: 400px;
     height: relative;
 }
+.description {
+    background-color: lightslategray;
+    padding: 25px 0px 10px;
+}
 
 .scrollable-content {
     width: 100%; /* or any specific width */
@@ -81,10 +104,22 @@ export default {
 }
 
 .grid {
+    margin-top: 40px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 10px;
+}
+
+.grid::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 33%;
+    background-color: rgb(33, 33, 33);
+    z-index: -1;
 }
 
 .grid-item img {
@@ -108,5 +143,30 @@ export default {
     color: white;
     padding: 50px 10px 10px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.footer-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background-color: rgb(33, 33, 33);
+    color: white;
+}
+
+.contact-us, .open-hours {
+    padding: 20px;
+}
+
+.contact-us h3, .open-hours h3 {
+    padding: 0px 10px 0px;
+    text-align: left; 
+    color: darkcyan;
+}
+
+.contact-us p, .open-hours p {
+    padding: 0px 10px 0px;
+    text-align: left;
+    color: white;
 }
 </style>
