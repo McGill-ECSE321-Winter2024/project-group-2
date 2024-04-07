@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
@@ -33,6 +34,8 @@ public class AccountServiceTests {
     private InstructorRepository instructorDao;
     @Mock
     private CustomerRepository customerDao;
+    @Mock
+    private OwnerRepository ownerDao;
 
     @InjectMocks
     private AccountService accountService;
@@ -118,19 +121,19 @@ public class AccountServiceTests {
         person.setName(PERSON_NAME);
         personDao.save(person);
 
-        boolean loggedIn = accountService.login(PERSON_EMAIL, PERSON_PASSWORD);
-        assertEquals(true, loggedIn);
+        int loggedIn = accountService.login(PERSON_EMAIL, PERSON_PASSWORD);
+        assertEquals(true, loggedIn != -1);
     }
     
     @Test
     public void loginInvalidEmail(){
-        boolean loggedIn = accountService.login("fake email", PERSON_PASSWORD);
-        assertEquals(false, loggedIn);
+        int loggedIn = accountService.login("fake email", PERSON_PASSWORD);
+        assertEquals(true, loggedIn == -1);
     }
     @Test
     public void loginInvalidPassword(){
-        boolean loggedIn = accountService.login(PERSON_EMAIL, "fake password");
-        assertEquals(false, loggedIn);
+        int loggedIn = accountService.login(PERSON_EMAIL, "fake password");
+        assertEquals(true, loggedIn == -1);
     }
 
     @Test

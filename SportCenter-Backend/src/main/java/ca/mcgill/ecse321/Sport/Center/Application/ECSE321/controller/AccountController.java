@@ -171,12 +171,12 @@ public class AccountController {
         if (emailValidationResponse != null) {
             return emailValidationResponse;
         }
-
-        boolean success = accountService.login(email, password);
-        if (success) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+        
+        int success = accountService.login(email, password);
+        if (success != -1) {
+            return new ResponseEntity<>(success, HttpStatus.OK);
         }
-        return new ResponseEntity<>(false, HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<>(success, HttpStatus.I_AM_A_TEAPOT);
     }
 
     /**

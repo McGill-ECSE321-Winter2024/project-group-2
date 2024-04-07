@@ -147,7 +147,7 @@ public class AccountControllerTest {
         credentials.put("password", person.getPassword());
         ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.getBody().toString().contains("true"));
+        assertTrue(!(response.getBody().toString().contains("-1")));
     }
 
     
@@ -161,7 +161,7 @@ public class AccountControllerTest {
         credentials.put("password", "wrongPassword2024");
         ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
         assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
-        assertTrue(response.getBody().toString().contains("false"));
+        assertTrue(response.getBody().toString().contains("-1"));
     }
 
     @Test
@@ -174,7 +174,7 @@ public class AccountControllerTest {
         credentials.put("password", person.getPassword());
         ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
         assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
-        assertTrue(response.getBody().toString().contains("false"));
+        assertTrue(response.getBody().toString().contains("-1"));
     }
 
     @Test

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
@@ -21,6 +23,10 @@ public class AccountService {
     private PersonRepository personRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private InstructorRepository instructorRepository;  
+    @Autowired
+    private OwnerRepository ownerRepository;
     
     public boolean isNullOrEmpty(String s){
         return s == null || s.isBlank();
@@ -95,15 +101,25 @@ public class AccountService {
         return personDTO;
     }
     
+    // 1 for owner, 2 for instructor, 3 for customer, -1 for no account, 0 for wrong password
     @Transactional
-    public boolean login(String email, String password){
+    public int login(String email, String password){
         if (personRepository.existsByEmail(email)) {
             Person toLogin = personRepository.findByEmail(email);
             if (toLogin.getPassword().equals(password)){
-                return true;
+                if (ownerRepository.findByPersonEmail(email) != null) {
+                    return 1;
+                }
+                if (instructorRepository.findByPersonEmail(email) != null) {
+                    return 2;
+
+                } else if (customerRepository.findByPersonEmail(email) != null) {
+                    return 3;
+                }
+                return 0; // no role
             }
         }
-        return false;
+        return -1;
     }
 
     @Transactional
