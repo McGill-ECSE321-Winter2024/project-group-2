@@ -26,7 +26,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;;
  * 
  * @author Behrad, Yuri
  */
-@CrossOrigin(origins="http://localhost:8087")
+@CrossOrigin(origins="*")
 @RestController
 public class AccountController {
     @Autowired

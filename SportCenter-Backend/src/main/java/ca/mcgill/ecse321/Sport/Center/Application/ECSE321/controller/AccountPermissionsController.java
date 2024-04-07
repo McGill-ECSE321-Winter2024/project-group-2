@@ -20,7 +20,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountPermiss
  * 
  * @author Sebastian
  */
-@CrossOrigin(origins="http://localhost:8087")
+@CrossOrigin(origins="*")
 @RestController
 public class AccountPermissionsController {
     @Autowired

@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Pei Yan
  */
-@CrossOrigin(origins="http://localhost:8087")
+@CrossOrigin(origins="*")
 @RestController
 public class ScheduleController {
     @Autowired
