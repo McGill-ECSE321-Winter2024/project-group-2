@@ -8,9 +8,52 @@
             <h3> Scheduled sessions </h3>
             <p> We offer a wide range of activities, use the filter tool to find specific class types! </p>
         </div>
-        <div class="grid">
-            <div class="">
-            </div>
+        <div className="Sessions-grid-content" class="session-grid">
+            <table>
+                <tr>
+                    <th>Session ID</th>
+                    <th>Duration</th>
+                    <th>Class Type</th>
+                    <th>Time</th>
+                    <th>Date</th>
+                    <th>Repeating</th>
+                    <th>Max Capacity</th>
+                    <th>Instructor</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>60</td>
+                    <td>Yoga</td>
+                    <td>14:00</td>
+                    <td>2024-04-04</td>
+                    <td>Yes</td>
+                    <td>15</td>
+                    <td>Alice</td>
+                    <td><button type="button" onClick={clicked}>Register</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>60</td>
+                    <td>Yoga</td>
+                    <td>14:00</td>
+                    <td>2024-04-05</td>
+                    <td>Yes</td>
+                    <td>15</td>
+                    <td>Bob</td>
+                    <td><button type="button" onClick={clicked}>Register</button></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>60</td>
+                    <td>Yoga</td>
+                    <td>14:00</td>
+                    <td>2024-04-06</td>
+                    <td>Yes</td>
+                    <td>15</td>
+                    <td>Charlie</td>
+                    <td><button type="button" onClick={clicked}>Register</button></td>
+                </tr>
+            </table>
         </div>
         <div class="footer-grid">
                 <div class="contact-us">
@@ -86,6 +129,19 @@ export default {
     position: relative;
     width: 100%;
     height: 260px;
+}
+
+.session-grid {
+  display: grid;
+  padding: 50px 50px 50px;
+}
+
+.session-grid table {
+  width: 100%;
+}
+
+.session-grid td, .session-grid th {
+  padding: 10px;
 }
 
 .overlay {
