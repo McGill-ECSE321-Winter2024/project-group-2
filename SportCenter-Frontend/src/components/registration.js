@@ -52,6 +52,7 @@ export default {
 
             approvedClassTypes: [],
             suggestedClassTypes: [],
+            newClassType: '',
             typeSuccessMessage: '',
             typeErrorMessage: '',
 
@@ -145,7 +146,7 @@ export default {
                 this.instructorErrorMessage = e
             })
         },
-        
+
         getInstructors: function(){
             this.instructors = []
             AXIOS.get('/instructors')
@@ -221,10 +222,12 @@ export default {
                     }
                 }
                 this.typeSuccessMessage = 'Class type approved successfully'
+                this.typeErrorMessage = ''
             })
             .catch(e => {
                 const errorMsg = e.response.data.message
                 this.typeErrorMessage = errorMsg
+                this.typeSuccessMessage = ''
                 console.log(errorMsg)
             })
         },
@@ -234,6 +237,7 @@ export default {
             .then(response =>{
                 console.log(response.data)
                 this.typeSuccessMessage = 'Class type rejected successfully'
+                this.typeErrorMessage = ''
                 for(let i=0; i<this.suggestedClassTypes.length; i++){
                     if(this.suggestedClassTypes[i].name == classTypeName){
                         this.suggestedClassTypes.splice(i,1)
@@ -243,6 +247,7 @@ export default {
             .catch(e => {
                 const errorMsg = e.response.data.message
                 this.typeErrorMessage = errorMsg
+                this.typeSuccessMessage = ''
                 console.log(errorMsg)
             })
         },
@@ -277,6 +282,26 @@ export default {
                 console.log(errorMsg)
             })
         },
+
+        suggestClassType: function(classTypeName){
+            if(classTypeName == ''){
+                this.typeErrorMessage = 'Please enter a class type name'
+                return
+            }
+            AXIOS.put('/classTypes/'.concat(classTypeName))
+            .then(response =>{
+                this.typeSuccessMessage = 'Class type suggested successfully, review to approve it below'
+                this.suggestedClassTypes.push(new classType(classTypeName))
+                this.newClassType = ''
+                this.typeErrorMessage = ''
+            })
+            .catch(e => {
+                const errorMsg = e.response.data.message
+                this.typeErrorMessage = errorMsg
+                this.typeSuccessMessage = ''
+                console.log(errorMsg)
+            })
+        }
 
 
     }

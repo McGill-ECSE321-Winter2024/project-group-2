@@ -129,6 +129,17 @@ public class ScheduleController {
         return new ResponseEntity<>(classTypes, HttpStatus.OK);
     }
 
+
+    @PutMapping("/classTypes/{name}")
+    public ResponseEntity<?> suggestClassType(@PathVariable String name){
+        try{
+            service.suggestClassType(name);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+    
     @PutMapping("/classTypes/{name}/{approval}")
     public ResponseEntity<?> approveDisapproveClassType(@PathVariable String name, @PathVariable String approval){
         Boolean approvalBoolean = null;

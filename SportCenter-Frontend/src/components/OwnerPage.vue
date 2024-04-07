@@ -37,7 +37,9 @@
             </p>
         </div>
         <div>
-            <h2>Approve/Disapprove Class Types</h2>
+            <h2>Manage Class Types</h2>
+            <input v-model="newClassType" type="text" placeholder="New Class Type">
+            <button @click="suggestClassType(newClassType)">Suggest New ClassType</button>
             <h4 class="error" v-if="suggestedClassTypes.length==0"> No suggested class types to review!</h4>
             <table v-else class="center">
 
@@ -54,6 +56,7 @@
                     </td>
                 </tr>
             </table>
+
             <p>
                 <span v-if="typeSuccessMessage" style="color:green">{{ typeSuccessMessage }}</span>
             </p>
@@ -72,18 +75,18 @@
                     <th>End Time</th>
                     <th>Session Duration</th>
                     <th>Session Capacity</th>
-                    <th>Session Instructor</th>
+                    <th>Instructor's ID</th>
                     <th>Class Type</th>
                 </tr>
                 <tr v-for="session in sessions">
                     <td>{{ session.id }}</td>
+                    <td>{{ session.classType }}</td>
                     <td>{{ session.date }}</td>
                     <td>{{ session.startTime }}</td>
                     <td>{{ session.endTime }}</td>
                     <td>{{ session.length }} minutes</td>
                     <td>{{ session.capacity }} </td>
                     <td>{{ session.instructorId }}</td>
-                    <td>{{ session.classType }}</td>
                     <td>
                         <button @click="deleteSession(session.id)">Cancel</button>
                     </td>
