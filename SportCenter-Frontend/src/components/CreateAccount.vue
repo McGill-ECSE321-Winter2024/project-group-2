@@ -1,20 +1,20 @@
 <template>
     <div class="login-container">
       <div class="login-card">
-        <h1>Login</h1>
-        <p class="login-subtitle">Stay updated with your training!</p>
-        <form @submit.prevent="login">
+        <h1>Create Account</h1>
+        <p class="login-subtitle">Join us and stay updated with your training!</p>
+        <form @submit.prevent="createAccount">
           <div class="form-group">
-            <input type="text" id="email" v-model="credentials.email" placeholder="Email" required>
+            <input type="text" id="email" v-model="accountDetails.email" placeholder="Email" required>
           </div>
           <div class="form-group">
-            <input :type="passwordType" id="password" v-model="credentials.password" placeholder="Password" required>
+            <input :type="passwordType" id="password" v-model="accountDetails.password" placeholder="Password" required>
             <button type="button" class="password-toggle" @click="togglePassword">{{ showPassword ? 'hide' : 'show' }}</button>
           </div>
-          <button type="submit" class="btn-login">Login</button>
+          <button type="submit" class="btn-login">Create Account</button>
         </form>
         <div class="signup-prompt">
-            New to Montreal Sport? <a href="#" @click.prevent="goToCreateAccount" class="signup-link">Join now</a>
+          Already have an account? <a href="#" @click="goToLogin" class="signup-link">Login</a>
         </div>
       </div>
     </div>
@@ -22,10 +22,10 @@
   
   <script>
   export default {
-    name: 'Login',
+    name: 'CreateAccount',
     data() {
       return {
-        credentials: {
+        accountDetails: {
           email: '',
           password: ''
         },
@@ -34,25 +34,23 @@
       };
     },
     methods: {
-      login() {
-       // I need to handle the login logic here lol
-       // To redirect to the home page after login, use this.$router.push('/Home')
-       this.$router.push('/Home')
+      createAccount() {
+        this.$router.push('/login');
       },
       togglePassword() {
         this.showPassword = !this.showPassword;
         this.passwordType = this.showPassword ? 'text' : 'password';
       },
-      goToCreateAccount() {
-      this.$router.push({ name: 'CreateAccount' });
+      goToLogin() {
+        this.$router.push('/login');
       }
     }
   }
   </script>
   
   <style scoped>
-  /* Styles */
-  .login-container {
+    /* Styles */
+    .login-container {
   display: flex;
   justify-content: center;
   align-items: center;

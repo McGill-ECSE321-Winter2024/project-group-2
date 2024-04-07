@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import Sessions from '@/components/Sessions'
 import Login from '@/components/Login'
 import MyAccount from '@/components/MyAccount'
+import CreateAccount from '@/components/CreateAccount';
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/MyAccount',
       name: 'MyAccount',
       component: MyAccount
+    },
+    {
+      path: '/CreateAccount',
+      name: 'CreateAccount',
+      component: CreateAccount
     }
   ]
 })
