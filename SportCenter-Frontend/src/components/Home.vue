@@ -9,53 +9,53 @@
             <p>Address | Email | Phone Number</p>
         </div>
         <div class="grid">
-            <router-link to='/sessions' class="grid-item">
+            <router-link to='/Sessions' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/pilatesClass.jpg' alt='Class 1'>
                     <div class="overlay">
                         <p>Pilates</p>
                     </div>
-                </div>  
+                </div>
             </router-link>
-            <router-link to='/sessions' class="grid-item">
+            <router-link to='/Sessions' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/resistanceTrainingClass.jpg' alt='Class 2'>
                     <div class="overlay">
                         <p>Resistance Training</p>
                     </div>
-                </div>  
+                </div>
             </router-link>
-            <router-link to='/sessions' class="grid-item">
+            <router-link to='/Sessions' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/spinClass.png' alt='Class 3'>
                     <div class="overlay">
                         <p>Spin</p>
                     </div>
-                </div>  
+                </div>
             </router-link>
-            <router-link to='/sessions' class="grid-item">
+            <router-link to='/Sessions' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/weightTrainingClass.jpg' alt='Class 4'>
                     <div class="overlay">
                         <p>Weight Training</p>
                     </div>
-                </div>  
+                </div>
             </router-link>
-            <router-link to='/sessions' class="grid-item">
+            <router-link to='/Sessions' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/yogaClass.jpg' alt='Class 5'>
                     <div class="overlay">
                         <p>Yoga</p>
                     </div>
-                </div>  
+                </div>
             </router-link>
-            <router-link to='/sessions' class="grid-item">
+            <router-link to='/Sessions' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/zumbaClass.jpg' alt='Class 6'>
                     <div class="overlay">
                         <p>Zumba</p>
                     </div>
-                </div>  
+                </div>
             </router-link>
         </div>
         <div class="footer-grid">
@@ -160,7 +160,7 @@ export default {
 
 .contact-us h3, .open-hours h3 {
     padding: 0px 10px 0px;
-    text-align: left; 
+    text-align: left;
     color: darkcyan;
 }
 
