@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import Users from '@/components/Users'
+import tutorialExample from '@/components/tutorialExample'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/Hello',
+      path: '/',
       name: 'Hello',
       component: Hello
     },
     {
-      path: '/',
-      name: 'Users',
-      component: Users
+      path: '/app',
+      name: 'EventRegistration',
+      component: tutorialExample
     }
   ]
 })

@@ -5,12 +5,18 @@ import java.util.List;
 public class InstructorDTO {
     private List<SessionDTO> sessions;
     private int instructorId;
+    private int personId;
 
     public InstructorDTO() {
     }
-    public InstructorDTO(int instructorId, List<SessionDTO> sessionDTOs) {
+    public InstructorDTO(int instructorId, List<SessionDTO> sessionDTOs, int associatedPersonId) {
         this.instructorId = instructorId;
+        this.personId = associatedPersonId;
         this.sessions = sessionDTOs;
+    }
+
+    public int getPersonId() {
+        return personId;
     }
 
     public int getInstructorId() {
