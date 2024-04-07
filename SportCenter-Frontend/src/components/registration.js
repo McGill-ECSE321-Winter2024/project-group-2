@@ -183,7 +183,6 @@ export default {
             AXIOS.put('/classTypes/'.concat(classTypeName).concat('/true'))
             .then(response =>{
                 console.log(response.data)
-                this.instructorSuccessMessage = 'Class type approved successfully'
                 for(let i=0; i<this.suggestedClassTypes.length; i++){
                     if(this.suggestedClassTypes[i].name == classTypeName){
                         this.approvedClassTypes.push(this.suggestedClassTypes[i])
