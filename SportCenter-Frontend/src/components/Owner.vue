@@ -59,8 +59,7 @@ export default {
                 this.newSessionRepeatsWeekly = false;
                 this.newSessionMaxParticipants = null;
             }
-        }
-    };
+        },
     computed: {
         isCreatebtnDisabled() {
             return !this.newSessionLength 
@@ -70,5 +69,5 @@ export default {
             || !this.newSessionMaxParticipants;
         }
     }
-};
+}
 </script>
