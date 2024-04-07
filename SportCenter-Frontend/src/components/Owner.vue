@@ -18,8 +18,12 @@
 import axios from "axios";
 import config from "../../config";
 
+const frontendUrl = 'http://${config.dev.host}:${config.dev.port}';
+const backendUrl = 'http://${config.dev.backendHost}:${config.dev.backendPort}';
+
 const client = axios.create({
-    baseURL: config.dev.backendBaseUrl
+    baseURL: backendUrl,
+    headers: { 'Access-Control-Allow-Origin': frontendUrl }
 })
 
 export default {
@@ -33,8 +37,12 @@ export default {
             newSessionMaxParticipants: null
         };
     },
+    created: function () {
+
+    },
+    
     methods: {
-        async createSession() {
+        createSession: async function () {
             const newSession = {
                 length: this.newSessionLength,
                 startTime: this.newSessionStartTime,
