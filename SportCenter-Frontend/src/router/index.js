@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import tutorialExample from '@/components/tutorialExample'
+import OwnerPage from '@/components/OwnerPage'
 
 Vue.use(Router)
 
@@ -14,8 +14,8 @@ export default new Router({
     },
     {
       path: '/app',
-      name: 'EventRegistration',
-      component: tutorialExample
+      name: 'OwnerPage',
+      component: OwnerPage
     }
   ]
 })
