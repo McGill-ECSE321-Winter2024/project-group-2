@@ -1,39 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '@/components/Home'
-import Sessions from '@/components/Sessions'
-import Login from '@/components/Login'
-import MyAccount from '@/components/MyAccount'
-import Owner from '@/components/Owner'
+
+import Hello from '@/components/Hello'
+import OwnerPage from '@/components/OwnerPage'
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/Login',
-      name: 'Login',
-      component: Login
+      path: '/',
+      name: 'Hello',
+      component: Hello
     },
     {
-      path: '/Home',
-      name: 'Home',
-      component: Home
-    },
-    {
-      path: '/Sessions',
-      name: 'Sessions',
-      component: Sessions
-    },
-    {
-      path: '/MyAccount',
-      name: 'MyAccount',
-      component: MyAccount
-    },
-    {
-      path: '/Owner',
-      name: 'Owner',
-      component: Owner
+      path: '/app',
+      name: 'OwnerPage',
+      component: OwnerPage
+
     }
   ]
 })

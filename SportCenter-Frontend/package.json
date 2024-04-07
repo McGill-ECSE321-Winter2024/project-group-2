@@ -1,8 +1,10 @@
 {
   "name": "sportcenter-frontend",
   "version": "1.0.0",
+
   "description": "A Vue.js project",
   "author": "YuriSorice <yuri.sorice@mail.mcgill.ca>",
+
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
