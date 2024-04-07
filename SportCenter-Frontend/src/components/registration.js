@@ -25,6 +25,18 @@ function classType(name){
     this.name = name;
 }
 
+function sessionDTO(session){
+    this.id = session.id;
+    this.date = session.date;
+    this.startTime = session.startTime;
+    this.endTime = session.endTime;
+    this.capacity = session.maxParticipants;
+    this.instructorId = session.instructorId;
+    this.classType = session.classType.classType;
+    this.length = session.length;
+
+}
+
 let customers = [];
 export default {
     name: 'eventregistration',
@@ -42,6 +54,9 @@ export default {
             suggestedClassTypes: [],
             typeSuccessMessage: '',
             typeErrorMessage: '',
+
+            sessions:[],
+            sessionErrorMessage: '',
 
             response: []
         }
@@ -96,6 +111,18 @@ export default {
             console.log(errorMsg)
         })
 
+        AXIOS.get("/sessions")
+        .then(response => {
+            console.log(response)
+            for(let i=0; i<response.data.length; i++){
+                this.sessions.push(new sessionDTO(response.data[i]))
+            }
+        })
+        .catch(e => {
+            console.log(e)
+            //this.sessionErrorMessage = errorMsg
+        })
+
     },
     methods: {
         getPersons: function() {
@@ -118,6 +145,7 @@ export default {
                 this.instructorErrorMessage = e
             })
         },
+        
         getInstructors: function(){
             this.instructors = []
             AXIOS.get('/instructors')
@@ -138,6 +166,7 @@ export default {
                 console.log(errorMsg)
             })
         },
+
         promoteToInstructor: function (personId) {
             console.log(typeof personId)
             AXIOS.post('/instructors',personId)
@@ -151,6 +180,7 @@ export default {
                         this.customers.splice(i,1)
                     }
                 }
+                this.currentView = this.customers
             }).catch(e =>{
                 console.log(e)
                 const errorMsg = e.response.data.message
@@ -158,6 +188,7 @@ export default {
                 this.instructorErrorMessage = errorMsg
             })
         },
+
         demoteInstructor: function (instructorId){
             for(let i=0; i<this.instructors.length; i++){
                 if(this.instructors[i].instructorId == instructorId){
@@ -208,7 +239,6 @@ export default {
                         this.suggestedClassTypes.splice(i,1)
                     }
                 }
-
             })
             .catch(e => {
                 const errorMsg = e.response.data.message
@@ -216,6 +246,38 @@ export default {
                 console.log(errorMsg)
             })
         },
+
+        getSessions: function(){
+            this.sessions = []
+            AXIOS.get("/sessions")
+            .then(response => {
+                for(let i=0; i<response.data.length; i++){
+                    this.sessions.push(response.data[i])
+                }
+            })
+            .catch(e => {
+                const errorMsg = e.response.data.message
+                this.sessionErrorMessage = errorMsg
+                console.log(errorMsg)
+            })
+        },
+
+        deleteSession: function(sessionId){
+            AXIOS.delete("/sessions/".concat(sessionId))
+            .then(response => {
+                for(let i=0; i<this.sessions.length; i++){
+                    if(this.sessions[i].id == sessionId){
+                        this.sessions.splice(i,1)
+                    }
+                }
+            })
+            .catch(e => {
+                const errorMsg = e.response.data.message
+                this.sessionErrorMessage = errorMsg
+                console.log(errorMsg)
+            })
+        },
+
 
     }
 }

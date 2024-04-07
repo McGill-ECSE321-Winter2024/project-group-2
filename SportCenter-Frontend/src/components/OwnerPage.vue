@@ -61,6 +61,36 @@
                 <span v-if="typeErrorMessage" style="color:red">Error: {{ typeErrorMessage }}</span>
             </p>
         </div>
+        <div class="center">
+            <h2>Manage sessions</h2>
+            <h4 class="error" v-if="sessions.length==0">No sessions exist in the system. Create one using the form below</h4>
+            <table v-else>
+                <tr>
+                    <th>Session ID</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Session Duration</th>
+                    <th>Session Capacity</th>
+                    <th>Session Instructor</th>
+                    <th>Class Type</th>
+                </tr>
+                <tr v-for="session in sessions">
+                    <td>{{ session.id }}</td>
+                    <td>{{ session.date }}</td>
+                    <td>{{ session.startTime }}</td>
+                    <td>{{ session.endTime }}</td>
+                    <td>{{ session.length }} minutes</td>
+                    <td>{{ session.capacity }} </td>
+                    <td>{{ session.instructorId }}</td>
+                    <td>{{ session.classType }}</td>
+                    <td>
+                        <button @click="deleteSession(session.id)">Cancel</button>
+                    </td>
+                </tr>
+            </table>
+        
+        </div>
     </div>
 </template>
 
@@ -77,8 +107,8 @@
   .rowName{
     margin-right: 300px;
   }
-  th{
-    padding-right:15px;
+  th, td{
+    padding-right:12px;
   }
   .error{
     color:red;

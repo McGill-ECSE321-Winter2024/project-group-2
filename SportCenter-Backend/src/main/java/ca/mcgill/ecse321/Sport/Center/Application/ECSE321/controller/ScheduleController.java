@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Pei Yan
  */
-@CrossOrigin(origins="http://localhost:8087")
+@CrossOrigin(origins="*")
 @RestController
 public class ScheduleController {
     @Autowired
@@ -105,15 +105,16 @@ public class ScheduleController {
      * @author Pei Yan
      */
     @GetMapping("/sessions")
-    public List<SessionResponseDTO> findAllSessions() {
-        List<SessionResponseDTO> dtos = new ArrayList<>();
-        for (Session s : service.findAllSessions()) {
-            dtos.add(SessionResponseDTO.create(s));
+    public ResponseEntity<?> findAllSessions() {
+        List<SessionDTO> dtos = new ArrayList<>();
+        try{
+            for (Session s : service.findAllSessions()) {
+                dtos.add(new SessionDTO(s));
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        if (dtos.isEmpty()) {
-            throw new IllegalArgumentException("No sessions found");
-        }
-        return dtos;
     }
 
     @GetMapping("/classTypes/{approval}")
