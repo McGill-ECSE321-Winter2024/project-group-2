@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.ClassTypeRepository;
@@ -12,6 +13,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorReposito
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.ClassTypeDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
@@ -215,9 +217,13 @@ public class SchedulingService {
      * @author Behrad
      */
     @Transactional
-    public List<ClassType> viewClassTypeByApproval(boolean isApproved){
+    public List<ClassTypeDTO> viewClassTypeByApproval(boolean isApproved){
         List<ClassType> classTypes = classTypeRepository.findByIsApproved(isApproved);
-        return classTypes;
+        List<ClassTypeDTO> classTypeDTOs = new ArrayList<>();
+        for (ClassType classType : classTypes) {
+            classTypeDTOs.add(new ClassTypeDTO(classType));
+        }
+        return classTypeDTOs;
     }
 
     /**
@@ -267,4 +273,5 @@ public class SchedulingService {
     public List<Session> findAllSessions() {
         return (List<Session>) sessionRepository.findAll();
     }
+
 }

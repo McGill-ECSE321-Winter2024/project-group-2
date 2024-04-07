@@ -23,6 +23,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorReposito
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRegistrationRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.ClassTypeDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
@@ -350,8 +351,8 @@ public class SchedulingServiceTests {
     public void viewClassTypeByApproval(){
         ClassType classType = new ClassType("fake", false);
         classTypeDao.save(classType);
-        List<ClassType> suggestedTypes = schedulingService.viewClassTypeByApproval(false);
-        List<ClassType> approvedTypes = schedulingService.viewClassTypeByApproval(true);
+        List<ClassTypeDTO> suggestedTypes = schedulingService.viewClassTypeByApproval(false);
+        List<ClassTypeDTO> approvedTypes = schedulingService.viewClassTypeByApproval(true);
         assertEquals(1, suggestedTypes.size());
         assertEquals(0, approvedTypes.size());
     }
