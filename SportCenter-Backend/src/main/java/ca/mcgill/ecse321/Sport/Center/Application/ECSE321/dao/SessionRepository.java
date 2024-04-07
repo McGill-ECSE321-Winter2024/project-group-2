@@ -20,4 +20,6 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
      */
     public Session getById(int id);
     public Session findById(int id);
+
+    public Iterable<Session> findByInstructorId(int id);
 }

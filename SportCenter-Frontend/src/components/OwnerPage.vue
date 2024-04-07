@@ -36,7 +36,7 @@
                 <span v-if="instructorErrorMessage" style="color:red">Error: {{ instructorErrorMessage }}</span>
             </p>
         </div>
-        <div>
+        <div class="center">
             <h2>Manage Class Types</h2>
             <input v-model="newClassType" type="text" placeholder="New Class Type">
             <button @click="suggestClassType(newClassType)">Suggest New ClassType</button>
@@ -67,7 +67,7 @@
         <div class="center">
             <h2>Manage sessions</h2>
             <h4 class="error" v-if="sessions.length==0">No sessions exist in the system. Create one using the form below</h4>
-            <table v-else>
+            <table class="center" v-else>
                 <tr>
                     <th>Session ID</th>
                     <th>Date</th>

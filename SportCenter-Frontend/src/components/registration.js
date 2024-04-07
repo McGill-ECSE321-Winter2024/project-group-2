@@ -74,6 +74,7 @@ export default {
                     for(let j=0; j<this.customers.length; j++){
                         if(this.customers[j].personId == person.data.personId){
                             this.customers.splice(j,1)
+                            break;
                         }
                     }
                 })
@@ -90,6 +91,7 @@ export default {
                 for(let j=0; j<this.instructors.length; j++){
                     if(this.customers[i].personId == this.instructors[j].personId){
                         this.customers.splice(i,1)
+                        break;
                     }
                 }
             }
@@ -137,6 +139,7 @@ export default {
                     for(let j=0; j<this.instructors.length; j++){
                         if(this.customers[i].personId == this.instructors[j].personId){
                             this.customers.splice(i,1)
+                            break;
                         }
                     }
                 }
@@ -170,20 +173,22 @@ export default {
 
         promoteToInstructor: function (personId) {
             console.log(typeof personId)
-            AXIOS.post('/instructors',personId)
+            AXIOS.post('/instructors',Number(personId))
             .then(response => {
                 console.log(response.data)
                 this.newInstructor = ''
                 this.instructorSuccessMessage = 'Instructor added successfully'
                 for(let i=0; i<this.customers.length; i++){
                     if(this.customers[i].personId == personId){
-                        this.instructors.push(this.customers[i])
+                        this.instructors.push(new InstructorDTO(response.data.instructorId, this.customers[i].name, personId))
                         this.customers.splice(i,1)
+                        break;
                     }
                 }
                 this.currentView = this.customers
             }).catch(e =>{
                 console.log(e)
+                console.log(e.response)
                 const errorMsg = e.response.data.message
                 console.log(errorMsg)
                 this.instructorErrorMessage = errorMsg
@@ -191,21 +196,25 @@ export default {
         },
 
         demoteInstructor: function (instructorId){
-            for(let i=0; i<this.instructors.length; i++){
-                if(this.instructors[i].instructorId == instructorId){
-                    this.instructors.splice(i,1)
-                }
-            }
+            
             AXIOS.delete('/instructors/'.concat(instructorId))
             .then(response => {
                 console.log(response.data)
-                this.successMessage = 'Instructor removed successfully'
-                if(response.status!=200){
-                    this.instructorErrorMessage = response.data.message
-                    console.log("hellooooo")
+                this.instructorSuccessMessage = 'Instructor demoted successfully'
+                this.instructorErrorMessage = ''
+                for(let i=0; i<this.instructors.length; i++){
+                    if(this.instructors[i].instructorId == instructorId){
+                        this.instructors.splice(i,1)
+                    }
+                }
+                for(let i=this.sessions.length-1; i>=0; i--){
+                    if(this.sessions[i].instructorId === instructorId){
+                        this.sessions.splice(i, 1);
+                    }
                 }
             }).catch(e =>{
                 const errorMsg = e.response.data.message
+                console.log(e)
                 this.instructorErrorMessage = errorMsg
                 console.log(errorMsg)
             })

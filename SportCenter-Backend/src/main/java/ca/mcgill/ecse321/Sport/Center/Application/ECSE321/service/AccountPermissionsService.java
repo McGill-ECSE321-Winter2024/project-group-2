@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.OwnerRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.SessionRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 
 /**
  * This class provides services for managing account permissions.
@@ -29,6 +31,8 @@ public class AccountPermissionsService {
     InstructorRepository instructorRepository;
     @Autowired
     OwnerRepository ownerRepository;
+    @Autowired
+    SessionRepository sessionRepository;
 
 
     @Transactional
@@ -73,6 +77,10 @@ public class AccountPermissionsService {
      */
     @Transactional
     public void revokeInstructorPermissions(int id) throws Exception{
+        Iterable<Session> session = sessionRepository.findByInstructorId(id);
+        for(Session s : session){
+            sessionRepository.delete(s);
+        }
         if(! instructorRepository.existsById(id)){
             throw new Exception("Instructor does not exist");
         }
