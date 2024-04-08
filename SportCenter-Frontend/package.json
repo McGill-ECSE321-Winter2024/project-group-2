@@ -1,10 +1,8 @@
 {
   "name": "sportcenter-frontend",
   "version": "1.0.0",
-
   "description": "A Vue.js project",
   "author": "YuriSorice <yuri.sorice@mail.mcgill.ca>",
-
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
@@ -17,7 +15,8 @@
     "bootstrap-vue": "latest",
     "popper.js": "^1.12.9",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-select": "^3.20.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
