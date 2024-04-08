@@ -2,7 +2,7 @@
     <div class="scrollable-content">
         <Navbar />
         <router-link to='/Home'>
-            <img <img src='@/assets/logo.png' alt="Logo" class="logo" />
+            <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
         <div class="description">
             <h3> Scheduled sessions </h3>
@@ -10,49 +10,32 @@
         </div>
         <div className="Sessions-grid-content" class="session-grid">
             <table>
+              <thead>
                 <tr>
-                    <th>Session ID</th>
-                    <th>Duration</th>
-                    <th>Class Type</th>
-                    <th>Time</th>
-                    <th>Date</th>
-                    <th>Repeating</th>
-                    <th>Max Capacity</th>
-                    <th>Instructor</th>
+                  <th>Session ID</th>
+                  <th>Duration</th>
+                  <th>Class Type</th>
+                  <th>Time</th>
+                  <th>Date</th>
+                  <th>Repeating</th>
+                  <th>Max Capacity</th>
+                  <th>Instructor</th>
+                  <th></th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>60</td>
-                    <td>Yoga</td>
-                    <td>14:00</td>
-                    <td>2024-04-04</td>
-                    <td>Yes</td>
-                    <td>15</td>
-                    <td>Alice</td>
-                    <td><button type="button" onClick={clicked}>Register</button></td>
+              </thead>
+              <tbody>
+                <tr v-for="session in sessions"> <comment>  :key="session.id" </comment>
+                  <td>{{ session.id }}</td>
+                  <td>{{ session.duration }}</td>
+                  <td>{{ session.classType }}</td>
+                  <td>{{ session.time }}</td>
+                  <td>{{ session.date }}</td>
+                  <td>{{ session.repeating }}</td>
+                  <td>{{ session.maxCapacity }}</td>
+                  <td>{{ session.instructor }}</td>
+                  <td><button type="button" @click="register(session.id)">Register</button></td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>60</td>
-                    <td>Yoga</td>
-                    <td>14:00</td>
-                    <td>2024-04-05</td>
-                    <td>Yes</td>
-                    <td>15</td>
-                    <td>Bob</td>
-                    <td><button type="button" onClick={clicked}>Register</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>60</td>
-                    <td>Yoga</td>
-                    <td>14:00</td>
-                    <td>2024-04-06</td>
-                    <td>Yes</td>
-                    <td>15</td>
-                    <td>Charlie</td>
-                    <td><button type="button" onClick={clicked}>Register</button></td>
-                </tr>
+              </tbody>
             </table>
         </div>
         <div class="footer-grid">
@@ -73,13 +56,39 @@
 </template>
 
 <script>
-import Navbar from './Navbar'
+import axios from "axios";
+var config = require('../../config')
+import Navbar from './Navbar';
+
+const frontendUrl = `http://${config.dev.host}:${config.dev.port}`;
+const backendUrl = `http://${config.dev.backendHost}:${config.dev.backendPort}`;
+
+const client = axios.create({
+  baseURL: backendUrl,
+  headers: { 'Access-Control-Allow-Origin': frontendUrl }
+})
 
 export default {
-    name: 'Home',
-    components: {
-        Navbar
+  name: 'Sessions',
+  components: {
+    Navbar
+  },
+  data () {
+    return {
+      sessions: [],
     }
+  },
+  created: async function () {
+    console.log('Fetching sessions...');
+    try {
+      const response = await client.get("/Sessions");
+      this.sessions = response.data;
+      console.log('Fetched sessions:', this.sessions);
+    }
+    catch (e) {
+      console.log('Error fetching sessions:', e);
+    }
+  },
 }
 </script>
 
@@ -87,7 +96,6 @@ export default {
 <style scoped>
 .logo {
     width: 400px;
-    height: relative;
 }
 .description {
     background-color: lightslategray;
