@@ -19,6 +19,7 @@ import java.util.List;
  *
  * @author Pei Yan
  */
+@CrossOrigin(origins = "*")
 @RestController
 public class ScheduleController {
     @Autowired
