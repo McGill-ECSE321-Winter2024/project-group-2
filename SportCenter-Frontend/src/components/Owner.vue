@@ -35,15 +35,15 @@
         </div>
         <div v-show="isUpdateModalOpen">
             <h2>Update Session</h2>
-            <input type="text" v-model="updateSession.length" placeholder="Length" />
             <input type="time" v-model="updateSession.startTime" placeholder="Start Time" />
             <input type="time" v-model="updateSession.endTime" placeholder="End Time" />
             <input type="date" v-model="updateSession.date" placeholder="Date" />
             <input type="checkbox" v-model="updateSession.repeatsWeekly" /> Repeats Weekly
-            <input type="text" v-model="updateSession.maxParticipants" placeholder="Max Participants" />
             <select v-model="updateSession.classType">
                 <option v-for="classType in classTypes" :value="classType">{{ classType.name }}</option>
             </select>
+            <input type="text" v-model="updateSession.length" placeholder="Length" />
+            <input type="text" v-model="updateSession.maxParticipants" placeholder="Max Participants" />
             <button @click="updateSessionData()">Update</button>
             <button @click="isUpdateModalOpen = false">Cancel</button>
         </div>
@@ -66,6 +66,7 @@ const client = axios.create({
 export default {
     data() {
         return {
+            // creating sessions and displaying
             sessions: [],
             classTypes: [],
             newSessionLength: null,
@@ -75,6 +76,7 @@ export default {
             newSessionRepeatsWeekly: false,
             newSessionMaxParticipants: null,
             newSessionClassType: null,
+            // updating session
             updateSession: {
                 length: null,
                 startTime: '',
