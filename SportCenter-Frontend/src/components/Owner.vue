@@ -28,11 +28,26 @@
                         <td>{{ s.date }} - {{ s.startTime }} - {{ s.endTime }}</td>
                         <td>{{ s.classType.classType }} ({{ s.classType.isApproved ? 'Approved' : 'Not Approved' }})</td>
                         <td>{{ s.maxParticipants }}</td>
+                        <td><button @click="openUpdateModal(s)">Update</button></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+        <div v-show="isUpdateModalOpen">
+            <h2>Update Session</h2>
+            <input type="text" v-model="updateSession.length" placeholder="Length" />
+            <input type="time" v-model="updateSession.startTime" placeholder="Start Time" />
+            <input type="time" v-model="updateSession.endTime" placeholder="End Time" />
+            <input type="date" v-model="updateSession.date" placeholder="Date" />
+            <input type="checkbox" v-model="updateSession.repeatsWeekly" /> Repeats Weekly
+            <input type="text" v-model="updateSession.maxParticipants" placeholder="Max Participants" />
+            <select v-model="updateSession.classType">
+                <option v-for="classType in classTypes" :value="classType">{{ classType.name }}</option>
+            </select>
+            <button @click="updateSessionData()">Update</button>
+            <button @click="isUpdateModalOpen = false">Cancel</button>
+        </div>
+    </div> 
 </template>
 
 <script>
@@ -60,6 +75,16 @@ export default {
             newSessionRepeatsWeekly: false,
             newSessionMaxParticipants: null,
             newSessionClassType: null,
+            updateSession: {
+                length: null,
+                startTime: '',
+                endTime: '',
+                date: '',
+                repeatsWeekly: false,
+                maxParticipants: null,
+                classType: null
+            },
+            isUpdateModalOpen: false
         };
     },
     created: async function () {
@@ -112,7 +137,32 @@ export default {
             console.log('Created session DTO:', sessionDto);
             return sessionDto;
         },
-        
+        createUpdateSessionDto() {
+            console.log('Creating update session DTO...');
+            const date = new Date(this.updateSession.date);
+            const formattedDate = date.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+
+            const startTime = this.updateSession.startTime + ':00'; // Append seconds
+            const endTime = this.updateSession.endTime + ':00'; // Append seconds
+
+            const sessionDto = {
+                id: 202,
+                length: parseInt(this.updateSession.length),
+                startTime: startTime,
+                endTime: endTime,
+                date: formattedDate,
+                isRepeating: this.updateSession.repeatsWeekly,
+                maxParticipants: parseInt(this.updateSession.maxParticipants),
+                classType: {
+                    classType: this.updateSession.classType.name,
+                    isApproved: true // Assuming all classes are approved by default
+                },
+                instructorId: 1 // Assuming the instructor ID is 1
+            };
+
+            console.log('Created update session DTO:', sessionDto);
+            return sessionDto;
+        },
         createSession: async function () {
             console.log('Creating session...');
             const newSession = this.createSessionDto();
@@ -124,6 +174,25 @@ export default {
             }
             catch (e) {
                 console.log('Error creating session:', e.message);
+            }
+        },
+        openUpdateModal(session) {
+            console.log('Opening update modal for session:', session);
+            this.updateSession = Object.assign({}, session);
+            this.isUpdateModalOpen = true;
+        },
+        updateSessionData: async function () {
+            console.log('Updating session...');
+            try {
+                const updatedSession = this.createUpdateSessionDto();
+                const response = await client.put(`/sessions/${this.updateSession.id}`, updatedSession);
+                const index = this.sessions.findIndex(s => s.id === this.updateSession.id);
+                this.sessions.splice(index, 1, response.data); // Replace the old session with the updated one
+                this.isUpdateModalOpen = false; // Close the update modal
+                console.log('Updated session:', response.data);
+            }
+            catch (e) {
+                console.log('Error updating session:', e.message);
             }
         },
         clearInputs() {
