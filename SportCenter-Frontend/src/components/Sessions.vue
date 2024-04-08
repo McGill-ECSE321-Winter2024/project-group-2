@@ -56,12 +56,12 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 var config = require('../../config')
-import Navbar from './Navbar';
+import Navbar from './Navbar'
 
-const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port;
-const backendUrl = 'http://' + config.dev.backendHost+':' + config.dev.backendPort;
+const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
+const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
 const client = axios.create({
   baseURL: backendUrl,
@@ -75,7 +75,7 @@ export default {
   },
   data () {
     return {
-      sessions: [],
+      sessions: []
     }
   },
   created: function () {
@@ -86,7 +86,7 @@ export default {
       .catch(e => {
         console.log(e)
       })
-  },
+  }
 }
 </script>
 
