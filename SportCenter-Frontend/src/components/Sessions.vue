@@ -60,8 +60,8 @@ import axios from "axios";
 var config = require('../../config')
 import Navbar from './Navbar';
 
-const frontendUrl = `http://${config.dev.host}:${config.dev.port}`;
-const backendUrl = `http://${config.dev.backendHost}:${config.dev.backendPort}`;
+const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port;
+const backendUrl = 'http://' + config.dev.backendHost+':' + config.dev.backendPort;
 
 const client = axios.create({
   baseURL: backendUrl,
@@ -78,16 +78,14 @@ export default {
       sessions: [],
     }
   },
-  created: async function () {
-    console.log('Fetching sessions...');
-    try {
-      const response = await client.get("/Sessions");
-      this.sessions = response.data;
-      console.log('Fetched sessions:', this.sessions);
-    }
-    catch (e) {
-      console.log('Error fetching sessions:', e);
-    }
+  created: function () {
+    client.get('/sessions')
+      .then(response => {
+        this.sessions = response.data
+      })
+      .catch(e => {
+        console.log(e)
+      })
   },
 }
 </script>
