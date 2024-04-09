@@ -15,25 +15,25 @@
                   <th>Session ID</th>
                   <th>Duration</th>
                   <th>Class Type</th>
-                  <th>Time</th>
                   <th>Date</th>
+                  <th>Time</th>
                   <th>Repeating</th>
                   <th>Max Capacity</th>
-                  <th>Instructor</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="session in sessions"> <comment>  :key="session.id" </comment>
+                <tr v-for="session in sessions">
                   <td>{{ session.id }}</td>
-                  <td>{{ session.duration }}</td>
-                  <td>{{ session.classType }}</td>
-                  <td>{{ session.time }}</td>
+                  <td>{{ session.length }}</td>
+                  <td>{{ session.classType.classType }}</td>
                   <td>{{ session.date }}</td>
-                  <td>{{ session.repeating }}</td>
-                  <td>{{ session.maxCapacity }}</td>
-                  <td>{{ session.instructor }}</td>
-                  <td><button type="button" @click="register(session.id)">Register</button></td>
+                  <td>{{ session.startTime }}</td>
+                  <td>{{ session.isRepeating ? 'Yes' : 'No' }}</td>
+                  <td>{{ session.maxParticipants }}</td>
+                  <td>
+                    <button type="button" @click="register(session.id)">Register</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
