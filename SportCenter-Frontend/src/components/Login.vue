@@ -21,7 +21,18 @@
   </template>
   
   <script>
-  export default {
+  import axios, { Axios } from 'axios'
+import config from "../../config"
+
+const frontendUrl = 'http://'+config.dev.host+':'+config.dev.port
+const backendUrl = 'http://'+config.dev.backendHost+':'+config.dev.backendPort
+
+const AXIOS = axios.create({
+    baseURL: backendUrl,
+    headers: {'Access-Control-Allow-Origin':frontendUrl}
+})
+
+export default {
     name: 'Login',
     data() {
       return {
@@ -34,10 +45,22 @@
       };
     },
     methods: {
-      login() {
-       // I need to handle the login logic here lol
-       // To redirect to the home page after login, use this.$router.push('/Home')
-       this.$router.push('/Home')
+      login(info) {
+        AXIOS.post('/login',info).then(response => {
+            this.credentials.email = '';
+        this.credentials.password = '';
+            if (response.data !== -1 && response.status === 200){
+                this.$router.push('/Home')
+            }
+            
+        }).catch(e =>{
+            console.log(e)
+            console.log(e.response)
+            const errorMsg = e.response.data.message
+            console.log(errorMsg)
+            this.instructorErrorMessage = errorMsg
+        })
+       
       },
       togglePassword() {
         this.showPassword = !this.showPassword;
