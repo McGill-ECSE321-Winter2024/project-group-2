@@ -45,11 +45,16 @@ export default {
       };
     },
     methods: {
-      login(info) {
-        AXIOS.post('/login',info).then(response => {
+      login() {
+        let myMap = new Map();
+
+        // Adding key-value pairs to the map
+        myMap.set("email", this.credentials.email);
+        myMap.set("password", this.credentials.password);
+        AXIOS.post('/login',Object.fromEntries(myMap)).then(response => {
             this.credentials.email = '';
         this.credentials.password = '';
-            if (response.data !== -1 && response.status === 200){
+            if (response.data !== -1){
                 this.$router.push('/Home')
             }
             
