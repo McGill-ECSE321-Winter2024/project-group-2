@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountService;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;;
 
 /**
@@ -87,6 +88,46 @@ public class AccountController {
         }
 
         return new ResponseEntity<>(instructor, HttpStatus.OK);
+    }
+
+    @GetMapping("/customers/{pid}")
+    public ResponseEntity<?> findCustomerById(@PathVariable String pid) throws Exception {
+        int id;
+        try {
+            id = Integer.parseInt(pid);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        CustomerDTO customer;
+        try {
+            customer = accountService.findCustomerById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
+
+    /**
+     * Retrieves a person by their email.
+     * 
+     * @param email the email of the person to retrieve
+     * @return a ResponseEntity containing the id of the person if the person is
+     *         found, or
+     *         an error message and HTTP status code if not
+     * @author Sebastian, Alice
+     */
+    @GetMapping("/persons/{email}")
+    public ResponseEntity<?> findPersonByEmail(@PathVariable String email) throws Exception {
+        PersonDTO person;
+        try {
+            person = accountService.findPersonByEmail(email);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(person.getPersonId(), HttpStatus.OK);
     }
 
     /**

@@ -99,6 +99,33 @@ public class AccountService {
     }
 
     @Transactional
+    public CustomerDTO findCustomerById(int pid) throws Exception {
+        Person p = personRepository.findById(pid); // this is written as findPersonById in the tutorial
+
+        if (p == null) {
+            // need to make this a SportCenterApplicationException
+            throw new Exception("There is no person with this ID");
+        }
+        Customer c = customerRepository.findByPersonEmail(p.getEmail());
+        CustomerDTO newCustomer = new CustomerDTO(c.getId(), new ArrayList<SessionRegistrationDTO>());
+
+        return newCustomer;
+    }
+
+    @Transactional
+    public PersonDTO findPersonByEmail(String email) throws Exception {
+        Person p = personRepository.findByEmail(email); // this is written as findPersonById in the tutorial
+
+        if (p == null) {
+            // need to make this a SportCenterApplicationException
+            throw new Exception("There is no person with this email");
+        }
+        PersonDTO newPerson = new PersonDTO(p);
+
+        return newPerson;
+    }
+
+    @Transactional
     public PersonDTO createPerson(String password, String email, String name) {
         if (isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)) {
             throw new IllegalArgumentException("Password, email, and name cannot be empty");

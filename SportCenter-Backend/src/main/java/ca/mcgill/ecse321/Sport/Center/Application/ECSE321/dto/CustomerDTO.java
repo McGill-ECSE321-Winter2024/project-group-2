@@ -13,6 +13,11 @@ public class CustomerDTO {
         this.sessions = sessionRegistrationDTOs;
     }
 
+    public CustomerDTO(int id, List<SessionRegistrationDTO> sessionRegistrationDTOs) {
+        this.sessions = sessionRegistrationDTOs;
+        this.customerId = id;
+    }
+
     public List<SessionRegistrationDTO> getSessions() {
         return sessions;
     }
