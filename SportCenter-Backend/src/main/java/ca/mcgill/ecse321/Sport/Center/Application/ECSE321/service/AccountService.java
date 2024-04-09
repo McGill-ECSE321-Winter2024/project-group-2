@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.CustomerRepository;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.InstructorRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao.PersonRepository;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionRegistrationDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
 
 @Service
@@ -21,6 +25,8 @@ public class AccountService {
     private PersonRepository personRepository;
     @Autowired
     private CustomerRepository customerRepository;
+    @Autowired
+    private InstructorRepository instructorRepository;
     
     public boolean isNullOrEmpty(String s){
         return s == null || s.isBlank();
@@ -73,6 +79,20 @@ public class AccountService {
         PersonDTO newPerson = new PersonDTO(p);
 
         return newPerson;
+    }
+
+    @Transactional
+    public InstructorDTO findInstructorById(int pid) throws Exception {
+        Person p = personRepository.findById(pid); // this is written as findPersonById in the tutorial
+
+        if (p == null) {
+            // need to make this a SportCenterApplicationException
+            throw new Exception("There is no person with this ID");
+        }
+        Instructor i = instructorRepository.findByPersonEmail(p.getEmail());
+        InstructorDTO newInstructor = new InstructorDTO(i.getId(), new ArrayList<SessionDTO>(), i.getPerson().getId());
+
+        return newInstructor;
     }
 
     @Transactional

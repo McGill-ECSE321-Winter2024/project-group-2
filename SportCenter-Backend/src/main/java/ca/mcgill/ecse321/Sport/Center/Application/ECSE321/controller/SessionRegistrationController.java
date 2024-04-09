@@ -24,7 +24,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.SessionRegistr
  * It provides endpoints for registering sessions, viewing sessions, and
  * managing registrations.
  */
-@CrossOrigin(origins="http://localhost:8087")
+@CrossOrigin(origins="*")
 @RestController
 public class SessionRegistrationController {
     @Autowired

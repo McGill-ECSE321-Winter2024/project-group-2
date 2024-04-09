@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountService;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;;
 
 /**
@@ -57,6 +58,25 @@ public class AccountController {
         }
 
         return new ResponseEntity<>(person, HttpStatus.OK);
+    }
+
+    @GetMapping("/instructors/{pid}") 
+    public ResponseEntity<?> findInstructorById(@PathVariable String pid) throws Exception {
+        int id;
+        try {
+            id = Integer.parseInt(pid);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        InstructorDTO instructor;
+        try {
+            instructor = accountService.findInstructorById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(instructor, HttpStatus.OK);
     }
 
     /**
