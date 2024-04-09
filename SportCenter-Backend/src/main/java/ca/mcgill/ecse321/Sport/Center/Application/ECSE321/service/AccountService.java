@@ -15,41 +15,44 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionRegistrationDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Person;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 
 @Service
 public class AccountService {
-    
+
     @Autowired
     private PersonRepository personRepository;
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
-    private InstructorRepository instructorRepository;  
+    private InstructorRepository instructorRepository;
     @Autowired
     private OwnerRepository ownerRepository;
-    
-    public boolean isNullOrEmpty(String s){
+
+    public boolean isNullOrEmpty(String s) {
         return s == null || s.isBlank();
     }
-    
+
     @Transactional
     public CustomerDTO createCustomerAccount(String password, String email, String name) {
-        if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
+        if (isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)) {
             throw new IllegalArgumentException("Password, email, and name cannot be empty");
-        }      
-        if(!personRepository.existsByEmail(email)){
+        }
+        if (!personRepository.existsByEmail(email)) {
             createPerson(password, email, name);
         }
-        if(customerRepository.findByPersonEmail(email)!=null){
+        if (customerRepository.findByPersonEmail(email) != null) {
             throw new IllegalArgumentException("Customer account already exists");
         }
 
         Person person = personRepository.findByEmail(email);
-        Customer newCustomerRole =  new Customer(person);
+        Customer newCustomerRole = new Customer(person);
         newCustomerRole = customerRepository.save(newCustomerRole);
-        
+
         // Making customer DTO to return
-        CustomerDTO newCustomer = new CustomerDTO(); 
+        CustomerDTO newCustomer = new CustomerDTO();
         newCustomer.setId(newCustomerRole.getId());
         newCustomer.setSessions(new ArrayList<SessionRegistrationDTO>());
 
@@ -60,7 +63,7 @@ public class AccountService {
     public List<PersonDTO> findAllPeople() {
         Iterable<Person> personList = personRepository.findAll();
         List<PersonDTO> personDTOList = new ArrayList<PersonDTO>();
-    
+
         for (Person person : personList) {
             PersonDTO personDTO = new PersonDTO(person);
             personDTOList.add(personDTO);
@@ -82,15 +85,29 @@ public class AccountService {
     }
 
     @Transactional
+    public InstructorDTO findInstructorById(int pid) throws Exception {
+        Person p = personRepository.findById(pid); // this is written as findPersonById in the tutorial
+
+        if (p == null) {
+            // need to make this a SportCenterApplicationException
+            throw new Exception("There is no person with this ID");
+        }
+        Instructor i = instructorRepository.findByPersonEmail(p.getEmail());
+        InstructorDTO newInstructor = new InstructorDTO(i.getId(), new ArrayList<SessionDTO>(), i.getPerson().getId());
+
+        return newInstructor;
+    }
+
+    @Transactional
     public PersonDTO createPerson(String password, String email, String name) {
-        if(isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)){
+        if (isNullOrEmpty(password) || isNullOrEmpty(email) || isNullOrEmpty(name)) {
             throw new IllegalArgumentException("Password, email, and name cannot be empty");
         }
 
-        if(personRepository.existsByEmail(email)){
+        if (personRepository.existsByEmail(email)) {
             throw new IllegalArgumentException("Account with this email already exists");
         }
-        
+
         Person person = new Person();
         person.setEmail(email);
         person.setName(name);
@@ -100,13 +117,14 @@ public class AccountService {
         PersonDTO personDTO = new PersonDTO(person);
         return personDTO;
     }
-    
-    // 1 for owner, 2 for instructor, 3 for customer, -1 for no account, 0 for wrong password
+
+    // 1 for owner, 2 for instructor, 3 for customer, -1 for no account, 0 for wrong
+    // password
     @Transactional
-    public int login(String email, String password){
+    public int login(String email, String password) {
         if (personRepository.existsByEmail(email)) {
             Person toLogin = personRepository.findByEmail(email);
-            if (toLogin.getPassword().equals(password)){
+            if (toLogin.getPassword().equals(password)) {
                 if (ownerRepository.findByPersonEmail(email) != null) {
                     return 1;
                 }
@@ -123,7 +141,7 @@ public class AccountService {
     }
 
     @Transactional
-    public void deleteCustomerAccount(int cid) throws Exception{        
+    public void deleteCustomerAccount(int cid) throws Exception {
 
         if (customerRepository.existsById(cid)) {
             customerRepository.deleteById(cid);
@@ -134,7 +152,7 @@ public class AccountService {
     }
 
     @Transactional
-    public void deletePerson(int personId) throws Exception{
+    public void deletePerson(int personId) throws Exception {
         if (personRepository.existsById(personId)) {
             personRepository.deleteById(personId);
         } else {
@@ -143,5 +161,3 @@ public class AccountService {
 
     }
 }
-
-
