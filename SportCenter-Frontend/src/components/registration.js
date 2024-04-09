@@ -1,5 +1,6 @@
 import axios, { Axios } from 'axios'
 import config from "../../config"
+import Navbar from './Navbar.vue'
 
 const frontendUrl = 'http://'+config.dev.host+':'+config.dev.port
 const backendUrl = 'http://'+config.dev.backendHost+':'+config.dev.backendPort
@@ -39,6 +40,9 @@ function sessionDTO(session){
 
 let customers = [];
 export default {
+    components: {
+        Navbar
+    },
     name: 'eventregistration',
     data() {
         return {

@@ -1,6 +1,7 @@
 
 <template>
     <div id="sportcenter">
+        <Navbar />
         <div id="grantAccountPermissions">
             <h2>Promote/Demote Instructors</h2>
             <button @click="getPersons()">View non-instructor accounts</button>
