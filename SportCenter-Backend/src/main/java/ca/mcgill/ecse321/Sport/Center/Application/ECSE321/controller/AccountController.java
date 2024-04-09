@@ -87,7 +87,7 @@ public class AccountController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(instructor, HttpStatus.OK);
+        return new ResponseEntity<>(instructor.getInstructorId(), HttpStatus.OK);
     }
 
     @GetMapping("/customers/{pid}")
@@ -106,7 +106,7 @@ public class AccountController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        return new ResponseEntity<>(customer.getId(), HttpStatus.OK);
     }
 
     /**
@@ -118,7 +118,7 @@ public class AccountController {
      *         an error message and HTTP status code if not
      * @author Sebastian, Alice
      */
-    @GetMapping("/persons/{email}")
+    @GetMapping("/personslogin/{email}")
     public ResponseEntity<?> findPersonByEmail(@PathVariable String email) throws Exception {
         PersonDTO person;
         try {

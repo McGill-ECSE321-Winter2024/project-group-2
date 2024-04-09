@@ -54,8 +54,30 @@ export default {
         AXIOS.post('/login',Object.fromEntries(myMap)).then(response => {
             this.credentials.email = '';
         this.credentials.password = '';
-            if (response.data !== -1){
-                this.$router.push('/Home')
+            if (response.data !== -1 && response.status===200){
+              localStorage.setItem('customerVsInstructor', response.data)
+              AXIOS.get('/personslogin/'.concat(myMap.get('email'))).then(person =>{
+                let id = person.data;
+                console.log(id);
+                if (response.data === 2 ){
+                AXIOS.get('/instructors/'.concat(id)).then(ins => {
+                  localStorage.setItem('roleId',ins.data);
+                })
+              }
+              else if (response.data===3){
+                AXIOS.get('/customers/'.concat(id)).then(cust => {
+                  
+                  localStorage.setItem('roleId',cust.data);
+                })
+              }
+              else if (response.data === 1){
+                localStorage.setItem('roleId',0);
+              }
+              })
+                this.$router.push('/Home');
+            }
+            else{
+              this.$router.push('/Login');
             }
             
         }).catch(e =>{
