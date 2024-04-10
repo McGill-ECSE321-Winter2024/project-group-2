@@ -93,7 +93,11 @@ export default {
         classType: ''
       },
       filteredSessions: [],
-      uniqueClassTypes: []
+      uniqueClassTypes: [],
+      customer: {
+        id: '',
+        person_id: ''
+      }
     }
   },
   created: function () {
@@ -112,9 +116,25 @@ export default {
   methods: {
     filterSessions () {
       this.filteredSessions = this.sessions.filter(session => {
-        if (!this.filters.classType) return true // Skip if the filter is not set
+        if (!this.filters.classType) return true
         return session.classType.classType.includes(this.filters.classType)
       })
+    },
+    createSessionRegistrationDTO (sessionId) {
+      const sessionRegistrationDTO = {
+        sessionId: sessionId,
+        customerId: '1'
+      }
+      console.log(sessionRegistrationDTO)
+      return sessionRegistrationDTO
+    },
+    register (sessionId) {
+      try {
+        const newSessionRegistration = this.createSessionRegistrationDTO(sessionId)
+        client.post('/sessionRegistrations', newSessionRegistration)
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   watch: {
@@ -140,7 +160,7 @@ export default {
 }
 
 .scrollable-content {
-    width: 100%; /* or any specific width */
+    width: 100%;
     overflow: visible;
     position: static;
 }
