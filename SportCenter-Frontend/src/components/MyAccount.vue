@@ -59,10 +59,10 @@
                     </td>
                 </tr>
             </table>
-            <h2 v-if="currentRegistrationsToTeach.length==0" style="display: none">Your Registrations to Teach</h2>
+            <h2 v-if="loadSecondTable" class="center">Your Registrations to Teach</h2>
             <br>
-            <h4 class="error" v-if="currentRegistrations.length==0">No registrations found!</h4>
-            <table v-if="currentRegistrationsToTeach.length==0" style="display: none" class="center">
+            <h4 v-if="loadSecondTable && currentRegistrationsToTeach.length==0" class="center">No registrations found!</h4>
+            <table v-if="loadSecondTable && currentRegistrationsToTeach.length!=0" class="center">
                 <tr>
                     <th>Session Id</th>
                     <th>Length</th>
@@ -176,6 +176,7 @@ export default {
                 email: '',
                 name: ''
         },
+        loadSecondTable: true,
 
             approvedClassTypes: [],
             suggestedClassTypes: [],
@@ -187,6 +188,10 @@ export default {
     },
     created: function () {
         let whatToLoad = localStorage.getItem('customerVsInstructor');
+        if (whatToLoad == 3){
+            this.loadSecondTable = false;
+        }
+        console.log(this.loadSecondTable);
         console.log(whatToLoad);
         console.log(localStorage.getItem('personId'));
         if (whatToLoad === null || whatToLoad == -1 || whatToLoad == 0){this.$router.push('/Home');}
@@ -230,13 +235,16 @@ export default {
               }
               else if (whatToLoad == 2){
                 AXIOS.get('/sessions').then(sessions => {
-                    console.log(sessions.data);
+                    console.log('hello');
                     console.log(localStorage.getItem('roleId'));
+                    console.log(sessions.data.length);
                         for (let i = 0; i<sessions.data.length; i++){
+                            console.log(sessions.data[i].instructorId == localStorage.getItem('roleId'));
                             if (sessions.data[i].instructorId == localStorage.getItem('roleId')){
                                 this.currentRegistrationsToTeach.push(new SessionDto(sessions.data[i].id, sessions.data[i].length, sessions.data[i].startTime, sessions.data[i].endTime, sessions.data[i].date, sessions.data[i].classType.classType, sessions.data[i].instructorId));
                             }
                         }
+                        console.log(this.currentRegistrationsToTeach.length);
                     })
               }
         }

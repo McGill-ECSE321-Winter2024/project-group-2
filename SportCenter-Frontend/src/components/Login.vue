@@ -95,7 +95,7 @@ export default {
         this.passwordType = this.showPassword ? 'text' : 'password';
       },
       goToCreateAccount() {
-      this.$router.push({ name: 'CreateAccount' });
+      this.$router.push('/CreateAccount');
       }
     }
   }
