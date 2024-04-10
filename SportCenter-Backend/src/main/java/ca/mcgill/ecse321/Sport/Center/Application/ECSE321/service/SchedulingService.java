@@ -278,7 +278,7 @@ public class SchedulingService {
      * @author Pei Yan
      */
     @Transactional
-    public List<Session> findSessionByInstructor(int id) {
+    public List<Session> findSessionsByInstructor(int id) {
 
         return sessionRepository.findByinstructorId(id);
     }
