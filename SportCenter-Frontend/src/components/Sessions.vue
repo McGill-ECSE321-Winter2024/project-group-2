@@ -47,6 +47,9 @@
                   <td>
                     <button type="button" @click="register(session.id)">Register</button>
                   </td>
+                  <td>
+                    <button v-if="loadRegisterToTeach" class="center" type="button" @click="registerToTeachSession(session.date, session.startTime, session.endTime, session.id, session.length, session.isRepeating, session.maxParticipants, session.classType.classType)">Register To Teach</button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -92,6 +95,7 @@ export default {
       filters: {
         classType: ''
       },
+      loadRegisterToTeach:false,
       filteredSessions: [],
       uniqueClassTypes: [],
       customer: {
@@ -101,6 +105,9 @@ export default {
     }
   },
   created: function () {
+    if (localStorage.getItem('customerVsInstructor')==2){
+      this.loadRegisterToTeach=true;
+    }
     client.get('/sessions')
       .then(response => {
         this.sessions = response.data.sort((a, b) => {
@@ -120,22 +127,94 @@ export default {
         return session.classType.classType.includes(this.filters.classType)
       })
     },
+    getId (customerId) {
+      client.get('/customers/'.concat(customerId)).then(result => {
+          console.log(result.data);
+          return result.data;
+        })
+    },
     createSessionRegistrationDTO (sessionId) {
+      if (localStorage.getItem('customerVsInstructor')==3){
+        console.log('entering customer');
+        let customerId = localStorage.getItem('roleId');
       const sessionRegistrationDTO = {
         sessionId: sessionId,
-        customerId: '1'
+        customerId: Number(localStorage.getItem('roleId'))
       }
-      console.log(sessionRegistrationDTO)
-      return sessionRegistrationDTO
+      return sessionRegistrationDTO;
+    }
+      else if (localStorage.getItem('customerVsInstructor')==2){
+        const sessionRegistrationDTO = {
+        sessionId: sessionId,
+        customerId: localStorage.getItem('instructorsCustomersId')
+      }
+      return sessionRegistrationDTO;
+      }
+
+      else if (localStorage.getItem('customerVsInstructor')==1){
+      const sessionRegistrationDTO = {
+        sessionId: sessionId,
+        customerId: 0
+      }
+      return sessionRegistrationDTO;
+    }
+
     },
     register (sessionId) {
       try {
-        const newSessionRegistration = this.createSessionRegistrationDTO(sessionId)
-        client.post('/sessionRegistrations', newSessionRegistration)
+        const newSessionRegistration = this.createSessionRegistrationDTO(sessionId);
+        console.log(newSessionRegistration);
+        client.post('/sessionRegistrations', newSessionRegistration).then(registered => {
+          if (registered.status == 200){
+            console.log('hello');
+          }
+        });
       } catch (e) {
         console.log(e)
       }
-    }
+    },
+    createUpdateSessionDto(sessionDate, startTime, endTime, id, length, isRepeating, maxParticipants, classType){
+      const date = new Date(sessionDate);
+      const formattedDate = date.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
+    console.log(formattedDate);
+    console.log(startTime);
+    console.log(endTime);
+    console.log(parseInt(length));
+    console.log(id);
+    console.log(isRepeating);
+    console.log(parseInt(maxParticipants));
+    console.log(classType);
+    console.log(parseInt(localStorage.getItem('roleId')));
+    const sessionDto = {
+                id: id,
+                length: parseInt(length),
+                startTime: startTime,
+                endTime: endTime,
+                date: formattedDate,
+                isRepeating: isRepeating,
+                maxParticipants: parseInt(maxParticipants),
+                classType: {
+                    classType: classType,
+                    isApproved: true // Assuming all classes are approved by default
+                },
+                instructorId: parseInt(localStorage.getItem('roleId')) // Assuming the instructor ID is 1
+            };
+            return sessionDto;
+  },
+  registerToTeachSession: async function (sessionDate, startTime, endTime, id, length, isRepeating, maxParticipants, classType) {
+            console.log('Updating session...');
+            try {
+                const updatedSession = this.createUpdateSessionDto(sessionDate, startTime, endTime, id, length, isRepeating, maxParticipants, classType);
+                console.log('Created update session DTO:', updatedSession);
+                const response = await client.put(`/sessions/${id}`, updatedSession);
+                console.log(response.status);
+                const index = this.sessions.findIndex(s => s.id == id);
+                this.sessions.splice(index, 1, response.data); // Replace the old session with the updated one
+            }
+            catch (e) {
+                console.log('Error updating session:', e.message);
+            }
+        }
   },
   watch: {
     'filters.classType': function () {

@@ -60,19 +60,24 @@ export default {
                 let id = person.data;
                 localStorage.setItem('personId',id);
                 console.log(id);
-                if (response.data === 2 ){
+                if (response.data == 2 ){
                 AXIOS.get('/instructors/'.concat(id)).then(ins => {
                   localStorage.setItem('roleId',ins.data);
                 })
+                AXIOS.get('/customers/'.concat(id)).then(response => {
+                  localStorage.setItem('instructorsCustomersId', response.data);
+                })
               }
-              else if (response.data===3){
+              else if (response.data==3){
                 AXIOS.get('/customers/'.concat(id)).then(cust => {
                   
                   localStorage.setItem('roleId',cust.data);
                 })
+                localStorage.setItem('instructorsCustomersId', -1);
               }
-              else if (response.data === 1){
+              else if (response.data == 1){
                 localStorage.setItem('roleId',0);
+                localStorage.setItem('instructorsCustomersId', -1);
               }
               })
                 this.$router.push('/Home');
