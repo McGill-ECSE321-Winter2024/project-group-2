@@ -14,6 +14,7 @@ public class SessionResponseDTO {
     private boolean isRepeating;
     private int maxParticipants;
     private ClassType classType;
+    private int instructorId;
 
     public SessionResponseDTO(Session session) {
         this.id = session.getId();
@@ -24,11 +25,14 @@ public class SessionResponseDTO {
         this.isRepeating = session.getIsRepeating();
         this.maxParticipants = session.getMaxParticipants();
         this.classType = session.getClassType();
+        this.instructorId = session.getInstructor().getId();
+
     }
 
     public static SessionResponseDTO create(Session session) {
         return new SessionResponseDTO(session);
     }
+
     public int getId() {
         return id;
     }
@@ -85,7 +89,12 @@ public class SessionResponseDTO {
         this.maxParticipants = maxParticipants;
     }
 
-    public ClassType getClassType() { return classType; }
-    public void setClassType(ClassType classType) { this.classType = classType; }
+    public ClassType getClassType() {
+        return classType;
+    }
+
+    public void setClassType(ClassType classType) {
+        this.classType = classType;
+    }
 
 }
