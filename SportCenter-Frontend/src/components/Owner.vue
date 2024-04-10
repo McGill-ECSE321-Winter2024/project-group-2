@@ -13,7 +13,7 @@
             <input type="text" placeholder="Length" v-model="newSessionLength" />
             <input type="text" placeholder="Max Participants" v-model="newSessionMaxParticipants" />
             <button @click="createSession()" :disabled="isCreatebtnDisabled">Create Session</button>
-            
+
         </div>
         <div>
             <h2>Current Sessions</h2>
@@ -47,13 +47,12 @@
             <button @click="updateSessionData()">Update</button>
             <button @click="isUpdateModalOpen = false">Cancel</button>
         </div>
-    </div> 
+    </div>
 </template>
 
 <script>
 import axios, { Axios } from "axios";
 import config from "../../config";
-import vSelect from "vue-select";
 
 const frontendUrl = `http://${config.dev.host}:${config.dev.port}`;
 const backendUrl = `http://${config.dev.backendHost}:${config.dev.backendPort}`;
@@ -112,7 +111,7 @@ export default {
             console.log('Error fetching class types:', e);
         }
     },
-    
+
     methods: {
         createSessionDto () {
             console.log('Creating session DTO...');
@@ -142,7 +141,7 @@ export default {
                     classType: this.newSessionClassType.name,
                     isApproved: true // Assuming all classes are approved by default
                 },
-                instructorId: 1 
+                instructorId: 1
             };
 
             console.log('Created session DTO:', sessionDto);
@@ -228,10 +227,10 @@ export default {
     },
     computed: {
         isCreatebtnDisabled() {
-            const disabled = !this.newSessionLength 
-            || !this.newSessionStartTime 
-            || !this.newSessionEndTime 
-            || !this.newSessionDate 
+            const disabled = !this.newSessionLength
+            || !this.newSessionStartTime
+            || !this.newSessionEndTime
+            || !this.newSessionDate
             || !this.newSessionMaxParticipants
             || !this.newSessionClassType;
             console.log('Create button disabled:', disabled);
