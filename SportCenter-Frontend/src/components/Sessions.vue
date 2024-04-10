@@ -8,10 +8,19 @@
             <h3> Scheduled sessions </h3>
             <p> We offer a wide range of activities, use the filter tool to find specific class types! </p>
         </div>
-      <select v-model="filters.classType">
-        <option value="">All</option>
-        <option v-for="type in uniqueClassTypes" :value="type">{{ type }}</option>
-      </select>
+      <div class="filter">
+        <table>
+          <tr>
+            <td> Select class type:</td>
+            <td>
+              <select v-model="filters.classType">
+                <option value="">All</option>
+                <option v-for="type in uniqueClassTypes" :value="type">{{ type }}</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
         <div className="Sessions-grid-content" class="session-grid">
             <table>
               <thead>
@@ -125,6 +134,10 @@ export default {
     background-color: lightslategray;
     padding: 25px 0px 10px;
 }
+.filter {
+    float: right;
+    padding: 30px 20px 0px 0px;
+}
 
 .scrollable-content {
     width: 100%; /* or any specific width */
@@ -165,7 +178,7 @@ export default {
 
 .session-grid {
   display: grid;
-  padding: 50px 50px 50px;
+  padding: 20px 50px 50px;
 }
 
 .session-grid table {
