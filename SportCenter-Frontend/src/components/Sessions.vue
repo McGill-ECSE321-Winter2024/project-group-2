@@ -8,27 +8,31 @@
             <h3> Scheduled sessions </h3>
             <p> We offer a wide range of activities, use the filter tool to find specific class types! </p>
         </div>
+      <select v-model="filters.classType">
+        <option value="">All</option>
+        <option v-for="type in uniqueClassTypes" :value="type">{{ type }}</option>
+      </select>
         <div className="Sessions-grid-content" class="session-grid">
             <table>
               <thead>
                 <tr>
                   <th>Session ID</th>
-                  <th>Duration</th>
                   <th>Class Type</th>
                   <th>Date</th>
                   <th>Time</th>
+                  <th>Duration</th>
                   <th>Repeating</th>
                   <th>Max Capacity</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="session in sessions">
+                <tr v-for="session in filteredSessions">
                   <td>{{ session.id }}</td>
-                  <td>{{ session.length }}</td>
                   <td>{{ session.classType.classType }}</td>
                   <td>{{ session.date }}</td>
                   <td>{{ session.startTime }}</td>
+                  <td>{{ session.length }}</td>
                   <td>{{ session.isRepeating ? 'Yes' : 'No' }}</td>
                   <td>{{ session.maxParticipants }}</td>
                   <td>
@@ -75,17 +79,39 @@ export default {
   },
   data () {
     return {
-      sessions: []
+      sessions: [],
+      filters: {
+        classType: ''
+      },
+      filteredSessions: [],
+      uniqueClassTypes: []
     }
   },
   created: function () {
     client.get('/sessions')
       .then(response => {
-        this.sessions = response.data
+        this.sessions = response.data.sort((a, b) => {
+          return new Date(a.date) - new Date(b.date)
+        })
+        this.filteredSessions = [...this.sessions]
+        this.uniqueClassTypes = [...new Set(this.sessions.map(session => session.classType.classType))]
       })
       .catch(e => {
         console.log(e)
       })
+  },
+  methods: {
+    filterSessions () {
+      this.filteredSessions = this.sessions.filter(session => {
+        if (!this.filters.classType) return true // Skip if the filter is not set
+        return session.classType.classType.includes(this.filters.classType)
+      })
+    }
+  },
+  watch: {
+    'filters.classType': function () {
+      this.filterSessions()
+    }
   }
 }
 </script>
