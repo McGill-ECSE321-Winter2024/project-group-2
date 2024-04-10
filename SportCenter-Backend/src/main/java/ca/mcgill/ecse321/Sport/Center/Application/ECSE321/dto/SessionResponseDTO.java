@@ -37,6 +37,10 @@ public class SessionResponseDTO {
         return id;
     }
 
+    public int getInstructorId(){
+        return instructorId;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

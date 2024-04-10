@@ -110,8 +110,8 @@ public class ScheduleController {
      * @return the session DTO if found, or an error message if not found
      * @author Alice, Seb
      */
-    @GetMapping("/sessions/{id}")
-    public ResponseEntity<?> findSessionByInstructor(@PathVariable int id) {
+    @GetMapping("/sessions/instructors/{id}")
+    public ResponseEntity<?> findSessionsByInstructor(@PathVariable int id) {
         List<Session> sessions = service.findSessionsByInstructor(id);
         if (sessions.size() == 0) {
             return new ResponseEntity<>("No sessions found", HttpStatus.NOT_FOUND);

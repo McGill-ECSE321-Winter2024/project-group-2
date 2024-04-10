@@ -58,6 +58,7 @@ export default {
               localStorage.setItem('customerVsInstructor', response.data)
               AXIOS.get('/personslogin/'.concat(myMap.get('email'))).then(person =>{
                 let id = person.data;
+                localStorage.setItem('personId',id);
                 console.log(id);
                 if (response.data === 2 ){
                 AXIOS.get('/instructors/'.concat(id)).then(ins => {
