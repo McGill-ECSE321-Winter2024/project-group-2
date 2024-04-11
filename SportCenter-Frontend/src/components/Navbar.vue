@@ -24,18 +24,29 @@ export default {
     created() {
         this.checkLoginStatus();
     },
+    mounted() {
+        this.checkLoginStatus();
+    },
     watch: {
         '$route': 'checkLoginStatus'
     },
     methods: {
         checkLoginStatus() {
-            this.isLoggedIn = !!localStorage.getItem('customerVsInstructor');
+            this.isLoggedIn = localStorage.getItem('personId')!=-1;
             this.isOwner = localStorage.getItem('roleId') === '0';
         },
         logout() {
+            console.log("BEFORE")
+            console.log(localStorage.getItem('personId'));
+            console.log(localStorage.getItem('customerVsInstructor'));
+            console.log(localStorage.getItem('roleId'));
             localStorage.setItem('personId',-1);
             localStorage.setItem('customerVsInstructor',-1);
             localStorage.setItem('roleId',-1);
+            console.log("AFTER")
+            console.log(localStorage.getItem('personId'));
+            console.log(localStorage.getItem('customerVsInstructor'));
+            console.log(localStorage.getItem('roleId'));
             this.isLoggedIn = false;
             this.isOwner = false;
         }
