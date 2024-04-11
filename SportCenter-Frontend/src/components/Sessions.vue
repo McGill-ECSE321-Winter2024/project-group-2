@@ -1,7 +1,7 @@
 <template>
     <div class="scrollable-content">
         <Navbar />
-        <router-link to='/Home'>
+        <router-link to='/'>
             <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
         <div class="description">

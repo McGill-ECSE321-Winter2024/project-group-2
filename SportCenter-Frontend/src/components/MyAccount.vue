@@ -98,7 +98,7 @@
                 </tr>
             </table>
             <p>
-                <span v-if="instructorSuccessMessage" style="color:green">{{ instructorSuccessMessage }}</span> 
+                <span v-if="instructorSuccessMessage" style="color:green">{{ instructorSuccessMessage }}</span>
             </p>
             <p>
                 <span v-if="instructorErrorMessage" style="color:red">Error: {{ instructorErrorMessage }}</span>
@@ -199,7 +199,7 @@ export default {
         console.log(this.loadSecondTable);
         console.log(whatToLoad);
         console.log(localStorage.getItem('personId'));
-        if (whatToLoad === null || whatToLoad == -1 || whatToLoad == 0){this.$router.push('/Home');}
+        if (whatToLoad === null || whatToLoad == -1 || whatToLoad == 0){this.$router.push('/');}
 
         if (whatToLoad ==2 || whatToLoad == 1){
             let personId = localStorage.getItem('personId');
@@ -222,7 +222,7 @@ export default {
                 this.instructorErrorMessage = errorMsg
                 console.log(errorMsg)
             })
-            
+
 
               })
               if (whatToLoad == 1){
@@ -304,7 +304,7 @@ export default {
 }
 </script>
 <style>
- 
+
   span {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     color: #2c3e50;

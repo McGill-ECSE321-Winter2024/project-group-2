@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <router-link to='/Home'>
+        <router-link to='/'>
             <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
         <router-link to='/Sessions'>Register for a session</router-link>
