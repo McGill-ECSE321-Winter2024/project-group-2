@@ -19,9 +19,10 @@ export default new Router({
       component: Home
     },
     {
-      path:'/sessions',
+      path: '/Sessions/:classType?',
       name: 'Sessions',
-      component: Sessions
+      component: Sessions,
+      props: true
     },
     {
       path: '/login',

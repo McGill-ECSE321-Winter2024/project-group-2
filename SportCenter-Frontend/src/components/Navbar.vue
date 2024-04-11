@@ -4,7 +4,7 @@
             <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
         <router-link v-if="!isLoggedIn" to='/Sessions'>View Sessions</router-link>
-        <router-link v-else to='/RegisterSession'>Register for a Session</router-link>
+        <router-link v-else to='/Sessions'>Register for a Session</router-link>
         <router-link v-if="!isLoggedIn" to='/Login'>Login or Sign up</router-link>
         <router-link v-if="isLoggedIn" to='/MyAccount'>My Account</router-link>
         <router-link v-if="isOwner" to='/Owner'>Owner Dashboard</router-link>

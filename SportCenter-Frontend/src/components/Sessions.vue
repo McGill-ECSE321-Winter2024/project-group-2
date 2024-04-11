@@ -105,15 +105,19 @@ export default {
     }
   },
   created: function () {
+    console.log('In created...'); // Add this line
+    this.filters.classType = this.$route.params.classType || '';
+    this.updateFilteredSessions(); // Move this to the top
     if (localStorage.getItem('customerVsInstructor')==2){
       this.loadRegisterToTeach=true;
     }
     client.get('/sessions')
       .then(response => {
+        console.log('Fetched sessions:', response.data); // Add this line
         this.sessions = response.data.sort((a, b) => {
           return new Date(a.date) - new Date(b.date)
         })
-        this.filteredSessions = [...this.sessions]
+        //this.updateFilteredSessions(); // Call this after fetching the sessions data
         this.uniqueClassTypes = [...new Set(this.sessions.map(session => session.classType.classType))]
       })
       .catch(e => {
@@ -122,10 +126,16 @@ export default {
   },
   methods: {
     filterSessions () {
+      this.filters.classType = this.$route.params.classType || '';
+    },
+    updateFilteredSessions() {
+      console.log('Updating filtered sessions...'); // Add this line
       this.filteredSessions = this.sessions.filter(session => {
-        if (!this.filters.classType) return true
-        return session.classType.classType.includes(this.filters.classType)
-      })
+        if (!this.filters.classType) return true;
+        if (!session.classType) return false; // Add this line
+        return session.classType.classType === this.filters.classType;
+      });
+      console.log('Filtered sessions:', this.filteredSessions); // Add this line
     },
     getId (customerId) {
       client.get('/customers/'.concat(customerId)).then(result => {
@@ -217,8 +227,14 @@ export default {
         }
   },
   watch: {
+    'sessions': function () {
+      this.updateFilteredSessions();
+    },
     'filters.classType': function () {
-      this.filterSessions()
+      this.updateFilteredSessions();
+    },
+    '$route.params.classType': function () {
+      this.filterSessions();
     }
   }
 }
