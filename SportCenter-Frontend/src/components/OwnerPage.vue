@@ -143,9 +143,15 @@
   th, td{
     padding-right:12px;
   }
-  .error{
-    color:red;
-  }
+  .error {
+    color: #a94442; /* red color */
+    background-color: #f2dede; /* light red background */
+    border: 1px solid #ebccd1; /* red border */
+    padding: 15px; /* space inside the box */
+    margin-bottom: 20px; /* space below the box */
+    border-radius: 5px; /* rounded corners */
+    text-align: center; /* center the text */
+}
   .center{
     margin-left: auto;
     margin-right: auto;

@@ -4,7 +4,7 @@
       <div class="login-card">
         <h1>Login</h1>
         <p class="login-subtitle">Stay updated with your training!</p>
-        <form @submit.prevent="login">
+        <form @submit.prevent="login" >
           <div class="form-group">
             <input type="text" id="email" v-model="credentials.email" placeholder="Email" required>
           </div>
@@ -86,11 +86,13 @@ export default {
                 localStorage.setItem('roleId',0);
                 localStorage.setItem('instructorsCustomersId', -1);
               }
+              this.$router.push('/');
               })
-                this.$router.push('/');
-                this.loginError = false;
-            }
+              this.loginError = false;
+              
+              }
             else{
+              
               this.loginError = true;
               //this.$router.push('/Login');
             }

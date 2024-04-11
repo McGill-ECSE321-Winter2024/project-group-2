@@ -4,11 +4,11 @@
             <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
         <router-link v-if="!isLoggedIn" to='/Sessions'>View Sessions</router-link>
-        <router-link v-else to='/RegisterSession'>Register for a Session</router-link>
+        <router-link v-else to='/Sessions'>Register for a Session</router-link>
         <router-link v-if="!isLoggedIn" to='/Login'>Login or Sign up</router-link>
         <router-link v-if="isLoggedIn" to='/MyAccount'>My Account</router-link>
         <router-link v-if="isOwner" to='/Owner'>Owner Dashboard</router-link>
-        <router-link v-if="isLoggedIn" to='/' @click.native="logout()">Logout</router-link>
+        <button class="logout" v-if="isLoggedIn" @click="logout()">Logout</button>
     </nav>
 </template>
 
@@ -49,6 +49,7 @@ export default {
             console.log(localStorage.getItem('roleId'));
             this.isLoggedIn = false;
             this.isOwner = false;
+            this.$router.push('/');
         }
     }
 }
@@ -84,5 +85,21 @@ nav a:hover {
 }
 .login-link {
     margin-left: auto;
+}
+button.logout {
+    background-color: #f44336; /* Red */
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+button.logout:hover {
+    background-color: #da190b;
+    color: white;
 }
 </style>
