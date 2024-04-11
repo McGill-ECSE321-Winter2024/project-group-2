@@ -277,6 +277,7 @@ export default {
             console.log(typeof registrationId)
             AXIOS.delete('/sessionRegistrations/'.concat(registrationId))
                 .then(response => {
+                    this.fetchRegistrations();
                     console.log(response.data)
                     this.successMessage = 'Instructor removed successfully'
                     if (response.status != 200) {
@@ -291,9 +292,27 @@ export default {
                     const errorMsg = e.response.data.message
                     console.log(errorMsg)
                 })
+        },
+        fetchRegistrations() {
+            let personId = localStorage.getItem('personId');
+            AXIOS.get('/customers/'.concat(personId)).then(ins => {
+            let customerId = ins.data;
+            this.currentRegistrations = [];
+            AXIOS.get('/sessionRegistrations/customers/'.concat(customerId))
+                .then(response => {
+                for (let i = 0; i < response.data.length; i++) {
+                    this.currentRegistrations.push(new SessionRegistrationDTO(response.data[i].id, response.data[i].session.id, response.data[i].session.length, response.data[i].session.startTime, response.data[i].session.endTime, response.data[i].session.date, response.data[i].session.classType.classType, response.data[i].session.instructor.id));
+                }
+                })
+                .catch(e => {
+                const errorMsg = e.response.data.message;
+                console.log(errorMsg);
+                });
+            });
+        }
         }
     }
-}
+
 </script>
 <style>
 
