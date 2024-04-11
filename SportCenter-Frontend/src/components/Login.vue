@@ -1,5 +1,6 @@
 <template>
     <div class="login-container">
+      <Navbar />
       <div class="login-card">
         <h1>Login</h1>
         <p class="login-subtitle">Stay updated with your training!</p>
@@ -20,9 +21,10 @@
     </div>
   </template>
   
-  <script>
-  import axios, { Axios } from 'axios'
+<script>
+import axios, { Axios } from 'axios'
 import config from "../../config"
+import Navbar from './Navbar.vue'
 
 const frontendUrl = 'http://'+config.dev.host+':'+config.dev.port
 const backendUrl = 'http://'+config.dev.backendHost+':'+config.dev.backendPort
@@ -33,6 +35,9 @@ const AXIOS = axios.create({
 })
 
 export default {
+  components: {
+    Navbar
+  },
     name: 'Login',
     data() {
       return {
@@ -80,7 +85,7 @@ export default {
                 localStorage.setItem('instructorsCustomersId', -1);
               }
               })
-                this.$router.push('/Home');
+                this.$router.push('/');
             }
             else{
               this.$router.push('/Login');

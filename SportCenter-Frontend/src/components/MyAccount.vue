@@ -1,5 +1,6 @@
 <template>
     <div id="sportcenter">
+        <Navbar />
         <div id="yourInfo">
             <h2>Your Information</h2>
             <br>
@@ -159,6 +160,9 @@ function classType(name) {
 
 let customers = [];
 export default {
+    components: {
+        Navbar
+    },
     name: 'eventregistration',
     data() {
         return {
@@ -224,11 +228,12 @@ export default {
               if (whatToLoad == 1){
 
                 AXIOS.get('/sessions').then(sessions => {
-                    for (session in sessions.data){
-                        if (session.instructorId === 0){
-                            this.currentRegistrationsToTeach.push(session);
+                    for (let i = 0; i<sessions.data.length; i++){
+                            console.log(sessions.data[i].instructorId == 0);
+                            if (sessions.data[i].instructorId == 0){
+                                this.currentRegistrationsToTeach.push(new SessionDto(sessions.data[i].id, sessions.data[i].length, sessions.data[i].startTime, sessions.data[i].endTime, sessions.data[i].date, sessions.data[i].classType.classType, sessions.data[i].instructorId));
+                            }
                         }
-                    }
                 })
               }
               else if (whatToLoad == 2){
