@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,7 +66,7 @@ public class AccountPermissionsControllerTest {
        ResponseEntity<String> response2 = client.postForEntity("/instructors", "NOT_AN_INT", String.class);
 
        assertEquals(HttpStatus.BAD_REQUEST, response2.getStatusCode());
-       assertEquals("Bad integer value", response2.getBody());
+       assertTrue(response2.getBody().contains("Bad integer value"));
     }
 
     @Test

@@ -206,16 +206,19 @@ public class AccountControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, response3.getStatusCode());
     }
 
+    @SuppressWarnings("rawtypes")
     @Test
     public void testGetAllPersonsValid(){
+        ResponseEntity<ArrayList> existingData = client.getForEntity("/persons", ArrayList.class);
+        assertEquals(HttpStatus.OK, existingData.getStatusCode());
+        
         PersonDTO person = new PersonDTO(0, "aValidPassword2024", "valid@email.com", "Good Name");
         PersonDTO person2 = new PersonDTO(1, "aValidPassword2024", "another@validEmail.com", "anotherGood Name");
         client.postForEntity("/persons", person, PersonDTO.class);
         client.postForEntity("/persons", person2, PersonDTO.class);
 
-        @SuppressWarnings("rawtypes")
         ResponseEntity<ArrayList> response = client.getForEntity("/persons", ArrayList.class);
-        assertEquals(2,response.getBody().size());
+        assertEquals(2,response.getBody().size()-existingData.getBody().size());
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 

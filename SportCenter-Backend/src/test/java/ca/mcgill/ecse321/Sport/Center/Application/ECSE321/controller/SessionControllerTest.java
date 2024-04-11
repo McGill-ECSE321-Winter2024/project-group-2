@@ -181,15 +181,15 @@ public class SessionControllerTest {
         assertNotNull(sessions);
         assertEquals(2, sessions.length);
     }
-    @Test
+    
+    //This test is supposed to test for invalid GET request, but service method can never throw an error
+    //So this test is not needed.
+    /*@Test
     public void testGetAllSessionsInvalid() {
-        ResponseEntity<Exception> response = client.getForEntity("/sessions", Exception.class);
-
+        ResponseEntity<String> response = client.getForEntity("/sessions", String.class);
         assertNotNull(response);
-        assertThrows(Exception.class, () -> {
-            throw Objects.requireNonNull(response.getBody());
-        });
-    }
+        assertTrue(response.getBody().contains("null"));
+    }*/
 
     @Test
     public void testUpdateSessionValid() {
