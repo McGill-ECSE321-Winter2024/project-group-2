@@ -2,7 +2,7 @@
     <div class="scrollable-content">
         <Navbar />
         <router-link to='/Home'>
-            <img <img src='@/assets/logo.png' alt="Logo" class="logo" />
+            <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
         <div class="description">
             <h3>Montreal based sports center offering a variety of activities</h3>
@@ -143,6 +143,10 @@ export default {
     color: white;
     padding: 50px 10px 10px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.overlay p:hover{
+    color: #85b3c9;
 }
 
 .footer-grid {

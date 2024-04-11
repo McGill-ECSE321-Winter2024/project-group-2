@@ -9,7 +9,7 @@ public class InstructorDTO {
 
     public InstructorDTO() {
     }
-
+  
     public InstructorDTO(int instructorId, List<SessionDTO> sessionDTOs, int associatedPersonId) {
         this.instructorId = instructorId;
         this.personId = associatedPersonId;

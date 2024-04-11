@@ -2,9 +2,12 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto;
 
 import java.util.List;
 
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.ClassType;
+
 public class ClassTypeDTO {
     private String name;
     private List<SessionDTO> sessions;
+    private boolean isApproved;
 
 
     public ClassTypeDTO() {
@@ -12,6 +15,10 @@ public class ClassTypeDTO {
     public ClassTypeDTO(String name, List<SessionDTO> sessions) {
         this.name = name;
         this.sessions = sessions;
+    }
+    public ClassTypeDTO(ClassType classType) {
+        this.name = classType.getClassType();
+        this.isApproved = classType.getIsApproved();
     }
 
     public String getName() {

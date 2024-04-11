@@ -7,8 +7,14 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountService;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
@@ -25,7 +31,9 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;;
  * 
  * @author Behrad, Yuri
  */
-@CrossOrigin(origins = "*")
+
+@CrossOrigin(origins="*")
+
 @RestController
 public class AccountController {
     @Autowired

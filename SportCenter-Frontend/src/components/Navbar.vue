@@ -26,7 +26,7 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: lightgray;
+    background-color: #616160;
     padding: 10px 10px 10px;
     z-index: 1000;
 }
@@ -36,15 +36,16 @@ nav {
     gap: 10px;
 }
 
-.nav-links a {
-    color: white !important;
+nav a {
+    color: #e0e0e0;
 }
 
+nav a:hover {
+    color: #85b3c9;
+}
 .login-link {
     margin-left: auto;
 }
 
-.login-link a {
-    color: white !important;
-}
+
 </style>

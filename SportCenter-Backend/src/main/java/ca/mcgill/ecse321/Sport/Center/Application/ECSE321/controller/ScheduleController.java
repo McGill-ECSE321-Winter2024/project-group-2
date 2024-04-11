@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.controller;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionResponseDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.*;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.SchedulingService;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.ClassTypeDTO;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.SessionDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,14 +133,64 @@ public class ScheduleController {
      * @author Pei Yan
      */
     @GetMapping("/sessions")
-    public List<SessionResponseDTO> findAllSessions() {
-        List<SessionResponseDTO> dtos = new ArrayList<>();
-        for (Session s : service.findAllSessions()) {
-            dtos.add(SessionResponseDTO.create(s));
+    public ResponseEntity<?> findAllSessions() {
+        List<SessionDTO> dtos = new ArrayList<>();
+        try{
+            for (Session s : service.findAllSessions()) {
+                dtos.add(new SessionDTO(s));
+            }
+            return new ResponseEntity<>(dtos, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-        if (dtos.isEmpty()) {
-            throw new IllegalArgumentException("No sessions found");
-        }
-        return dtos;
     }
+
+    @GetMapping("/classTypes/{approval}")
+    public ResponseEntity<?> getAllClassTypes(@PathVariable String approval) {
+        Boolean approvalBoolean = null;
+        try{
+            approvalBoolean = Boolean.valueOf(approval);
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid input: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        List<ClassTypeDTO> classTypes = service.viewClassTypeByApproval(approvalBoolean);
+        return new ResponseEntity<>(classTypes, HttpStatus.OK);
+    }
+
+
+    @PutMapping("/classTypes/{name}")
+    public ResponseEntity<?> suggestClassType(@PathVariable String name){
+        try{
+            service.suggestClassType(name);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+    
+    @PutMapping("/classTypes/{name}/{approval}")
+    public ResponseEntity<?> approveDisapproveClassType(@PathVariable String name, @PathVariable String approval){
+        Boolean approvalBoolean = null;
+        try{
+            approvalBoolean = Boolean.valueOf(approval);
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid input: "+e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        if(approvalBoolean){
+            try{
+                service.approveClassType(name);
+            }catch (Exception e){
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            try{
+                service.rejectClassType(name);
+            }catch (Exception e){
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }  
 }
+

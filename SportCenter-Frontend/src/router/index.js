@@ -6,24 +6,18 @@ import Login from '@/components/Login'
 import MyAccount from '@/components/MyAccount'
 import CreateAccount from '@/components/CreateAccount';
 
+import OwnerPage from '@/components/OwnerPage'
+
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/Login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/Home',
-      name: 'Home',
-      component: Home
-    },
-    {
-      path: '/Sessions',
-      name: 'Sessions',
-      component: Sessions
+      path: '/owner',
+      name: 'OwnerPage',
+      component: OwnerPage
+
     },
     {
       path: '/MyAccount',
@@ -34,6 +28,8 @@ export default new Router({
       path: '/CreateAccount',
       name: 'CreateAccount',
       component: CreateAccount
+
+
     }
   ]
 })

@@ -1,6 +1,7 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,16 @@ public class AccountPermissionsService {
     @Autowired
     OwnerRepository ownerRepository;
 
+
+    @Transactional
+    public Iterable<InstructorDTO> getAllInstructors(){
+        Iterable<Instructor> instructors = instructorRepository.findAll();
+        List<InstructorDTO> instructorDTOs = new ArrayList<>();
+        for(Instructor instructor : instructors){
+            instructorDTOs.add(new InstructorDTO(instructor.getId(), new ArrayList<SessionDTO>(),instructor.getPerson().getId() ));
+        }
+        return instructorDTOs;
+    }
     /**
      * Grants instructor permissions to a person with the given ID.
      * 
@@ -51,8 +62,8 @@ public class AccountPermissionsService {
         newInstructorRole.setPerson(person);
         newInstructorRole = instructorRepository.save(newInstructorRole);
 
-        return new InstructorDTO(newInstructorRole.getId(), new ArrayList<SessionDTO>(),
-                newInstructorRole.getPerson().getId());
+        return new InstructorDTO(newInstructorRole.getId(), new ArrayList<SessionDTO>(), newInstructorRole.getPerson().getId());
+
     }
 
     /**
