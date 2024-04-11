@@ -109,6 +109,7 @@
 <script>
 import axios, { Axios } from 'axios'
 import config from "../../config"
+import Navbar from './Navbar'
 
 
 const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
@@ -221,16 +222,13 @@ export default {
 
               })
               if (whatToLoad == 1){
-                let managerPersonId = localStorage.getItem('personId');
-                AXIOS.get('/instructors/'.concat(managerPersonId)).then(managerAsInstructor =>{
-                    managerAsInstructorId=managerAsInstructor.data;
-                    AXIOS.get('/sessions').then(sessions => {
-                        for (session in sessions.data){
-                            if (session.instructorId === managerAsInstructorId){
-                                this.currentRegistrationsToTeach.push(session);
-                            }
+
+                AXIOS.get('/sessions').then(sessions => {
+                    for (session in sessions.data){
+                        if (session.instructorId === 0){
+                            this.currentRegistrationsToTeach.push(session);
                         }
-                    })
+                    }
                 })
               }
               else if (whatToLoad == 2){

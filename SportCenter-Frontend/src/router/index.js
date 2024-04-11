@@ -14,6 +14,21 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'Home',
+      component: Home
+    },
+    {
+      path:'/sessions',
+      name: 'Sessions',
+      component: Sessions
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
       path: '/owner',
       name: 'OwnerPage',
       component: OwnerPage
