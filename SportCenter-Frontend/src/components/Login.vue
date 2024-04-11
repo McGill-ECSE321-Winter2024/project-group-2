@@ -13,6 +13,7 @@
             <button type="button" class="password-toggle" @click="togglePassword">{{ showPassword ? 'hide' : 'show' }}</button>
           </div>
           <button type="submit" class="btn-login">Login</button>
+          <a class="error" v-if="loginError">Invalid email or password! </a>
         </form>
         <div class="signup-prompt">
             New to Montreal Sport? <a href="#" @click.prevent="goToCreateAccount" class="signup-link">Join now</a>
@@ -46,7 +47,8 @@ export default {
           password: ''
         },
         passwordType: 'password',
-        showPassword: false
+        showPassword: false,
+        loginError: false
       };
     },
     methods: {
@@ -86,12 +88,15 @@ export default {
               }
               })
                 this.$router.push('/');
+                this.loginError = false;
             }
             else{
-              this.$router.push('/Login');
+              this.loginError = true;
+              //this.$router.push('/Login');
             }
             
         }).catch(e =>{
+            this.loginError = true;
             console.log(e)
             console.log(e.response)
             const errorMsg = e.response.data.message
@@ -202,7 +207,15 @@ export default {
   text-align: center;
   margin-top: 2rem;
 }
-
+.error {
+    color: #a94442; /* red color */
+    background-color: #f2dede; /* light red background */
+    border: 1px solid #ebccd1; /* red border */
+    padding: 15px; /* space inside the box */
+    margin-bottom: 20px; /* space below the box */
+    border-radius: 5px; /* rounded corners */
+    text-align: center; /* center the text */
+}
 .signup-link {
   color: #0073b1;
 }

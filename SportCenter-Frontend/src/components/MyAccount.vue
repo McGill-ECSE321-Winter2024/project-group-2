@@ -97,12 +97,6 @@
                   </td>
                 </tr>
             </table>
-            <p>
-                <span v-if="instructorSuccessMessage" style="color:green">{{ instructorSuccessMessage }}</span>
-            </p>
-            <p>
-                <span v-if="instructorErrorMessage" style="color:red">Error: {{ instructorErrorMessage }}</span>
-            </p>
         </div>
     </div>
 </template>
@@ -258,7 +252,6 @@ export default {
                 for (let i = 0; i < response.data.length; i++) {
                     this.currentRegistrations.push(new SessionRegistrationDTO(response.data[i].id, response.data[i].session.id, response.data[i].session.length, response.data[i].session.startTime, response.data[i].session.endTime, response.data[i].session.date, response.data[i].session.classType.classType, localStorage.getItem('roleId')))
                 }
-                this.instructorSuccessMessage = 'Persons loaded successfully'
                 this.currentRegistrationsToTeach=[];
             }).catch(e => {
                 this.instructorErrorMessage = e
@@ -296,7 +289,6 @@ export default {
                 }
                 }).catch(e => {
                     const errorMsg = e.response.data.message
-                    this.instructorErrorMessage = errorMsg
                     console.log(errorMsg)
                 })
         }
@@ -313,12 +305,26 @@ export default {
   .rowName{
     margin-right: 300px;
   }
-  th{
-    padding-right:15px;
+  table{
+    margin: auto;
+    text-align: center;
+    widows: 80%;
+    margin-bottom: 20px;
   }
-  .error{
-    color:red;
+  th, tr{
+    padding-left: 25px;
+    padding-right: 25px;
+    text-align: center;
   }
+  .error {
+    color: #a94442; /* red color */
+    background-color: #f2dede; /* light red background */
+    border: 1px solid #ebccd1; /* red border */
+    padding: 15px; /* space inside the box */
+    margin-bottom: 20px; /* space below the box */
+    border-radius: 5px; /* rounded corners */
+    text-align: center; /* center the text */
+}
   .center{
     margin-left: auto;
     margin-right: auto;

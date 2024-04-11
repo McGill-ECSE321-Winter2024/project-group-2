@@ -3,13 +3,12 @@
         <router-link to='/'>
             <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
-        <router-link to='/Sessions' v-if="!isLoggedIn">View Sessions</router-link>
-        <router-link to='/RegisterSession' v-else>Register for a Session</router-link>
-        <router-link to='/Login' v-if="!isLoggedIn">Login</router-link>
-        <router-link to='/CreateAccount' v-if="!isLoggedIn">Create Account</router-link>
-        <router-link to='/MyAccount' v-if="isLoggedIn">My Account</router-link>
-        <router-link to='/Owner' v-if="isOwner">Owner Dashboard</router-link>
-        <router-link to='/' v-if="isLoggedIn" @click.native="logout">Home</router-link>
+        <router-link v-if="!isLoggedIn" to='/Sessions'>View Sessions</router-link>
+        <router-link v-else to='/RegisterSession'>Register for a Session</router-link>
+        <router-link v-if="!isLoggedIn" to='/Login'>Login or Sign up</router-link>
+        <router-link v-if="isLoggedIn" to='/MyAccount'>My Account</router-link>
+        <router-link v-if="isOwner" to='/Owner'>Owner Dashboard</router-link>
+        <router-link v-if="isLoggedIn" to='/' @click.native="logout()">Logout</router-link>
     </nav>
 </template>
 
@@ -34,9 +33,11 @@ export default {
             this.isOwner = localStorage.getItem('roleId') === '0';
         },
         logout() {
-            localStorage.removeItem('customerVsInstructor');
-            localStorage.removeItem('roleId');
-            this.checkLoginStatus();
+            localStorage.setItem('personId',-1);
+            localStorage.setItem('customerVsInstructor',-1);
+            localStorage.setItem('roleId',-1);
+            this.isLoggedIn = false;
+            this.isOwner = false;
         }
     }
 }
