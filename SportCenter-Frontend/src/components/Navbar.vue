@@ -3,15 +3,42 @@
         <router-link to='/'>
             <img src='@/assets/logo.png' alt="Logo" class="logo" />
         </router-link>
-        <router-link to='/Sessions'>Register for a session</router-link>
-        <router-link to='/MyAccount'>My Account</router-link>
-        <router-link to='/Login'>Login</router-link>
+        <router-link to='/Sessions' v-if="!isLoggedIn">View Sessions</router-link>
+        <router-link to='/RegisterSession' v-else>Register for a Session</router-link>
+        <router-link to='/Login' v-if="!isLoggedIn">Login</router-link>
+        <router-link to='/CreateAccount' v-if="!isLoggedIn">Create Account</router-link>
+        <router-link to='/MyAccount' v-if="isLoggedIn">My Account</router-link>
+        <router-link to='/Owner' v-if="isOwner">Owner Dashboard</router-link>
+        <router-link to='/' v-if="isLoggedIn" @click.native="logout">Home</router-link>
     </nav>
 </template>
 
 <script>
 export default {
-    name: 'Navbar'
+    name: 'Navbar',
+    data() {
+        return {
+            isLoggedIn: false,
+            isOwner: false
+        };
+    },
+    created() {
+        this.checkLoginStatus();
+    },
+    watch: {
+        '$route': 'checkLoginStatus'
+    },
+    methods: {
+        checkLoginStatus() {
+            this.isLoggedIn = !!localStorage.getItem('customerVsInstructor');
+            this.isOwner = localStorage.getItem('roleId') === '0';
+        },
+        logout() {
+            localStorage.removeItem('customerVsInstructor');
+            localStorage.removeItem('roleId');
+            this.checkLoginStatus();
+        }
+    }
 }
 </script>
 
@@ -46,6 +73,4 @@ nav a:hover {
 .login-link {
     margin-left: auto;
 }
-
-
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="createAccount-container">
+    <Navbar />
     <div class="createAccount-card">
       <h1>Create Account</h1>
       <p class="createAccount-subtitle">Join us and stay updated with your training!</p>
@@ -25,8 +26,9 @@
 </template>
 
 <script>
-  import axios, { Axios } from 'axios'
+import axios, { Axios } from 'axios'
 import config from "../../config"
+import Navbar from './Navbar.vue'
 
 const frontendUrl = 'http://'+config.dev.host+':'+config.dev.port
 const backendUrl = 'http://'+config.dev.backendHost+':'+config.dev.backendPort
@@ -37,6 +39,9 @@ const AXIOS = axios.create({
 })
 
 export default {
+  components: {
+    Navbar
+  },
     name: 'CreateAccount',
     data() {
       return {
