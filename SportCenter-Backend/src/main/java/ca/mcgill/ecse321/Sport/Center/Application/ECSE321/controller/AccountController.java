@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,19 +15,25 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.AccountService;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.CustomerDTO;
-import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.PersonDTO;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Customer;
+import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;;
 
 /**
- * The AccountController class is responsible for handling HTTP requests related to account management.
- * It provides endpoints for creating, retrieving, updating, and deleting accounts.
- * This class is annotated with @RestController to indicate that it is a controller class that handles RESTful requests.
+ * The AccountController class is responsible for handling HTTP requests related
+ * to account management.
+ * It provides endpoints for creating, retrieving, updating, and deleting
+ * accounts.
+ * This class is annotated with @RestController to indicate that it is a
+ * controller class that handles RESTful requests.
  * 
  * @author Behrad, Yuri
  */
+
 @CrossOrigin(origins="*")
+
 @RestController
 public class AccountController {
     @Autowired
@@ -36,11 +43,12 @@ public class AccountController {
      * Retrieves a person by their ID.
      * 
      * @param pid the ID of the person to retrieve
-     * @return a ResponseEntity containing the PersonDTO if the person is found, or an error message and HTTP status code if not
+     * @return a ResponseEntity containing the PersonDTO if the person is found, or
+     *         an error message and HTTP status code if not
      * @throws Exception if the ID is not a valid integer
      * @author Behrad, Yuri
      */
-    @GetMapping("/persons/{pid}") 
+    @GetMapping("/persons/{pid}")
     public ResponseEntity<?> findPersonById(@PathVariable String pid) throws Exception {
         int id;
         try {
@@ -71,11 +79,71 @@ public class AccountController {
         return people;
     }
 
+    @GetMapping("/instructors/{pid}")
+    public ResponseEntity<?> findInstructorById(@PathVariable String pid) throws Exception {
+        int id;
+        try {
+            id = Integer.parseInt(pid);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        InstructorDTO instructor;
+        try {
+            instructor = accountService.findInstructorById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(instructor.getInstructorId(), HttpStatus.OK);
+    }
+
+    @GetMapping("/customers/{pid}")
+    public ResponseEntity<?> findCustomerById(@PathVariable String pid) throws Exception {
+        int id;
+        try {
+            id = Integer.parseInt(pid);
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        CustomerDTO customer;
+        try {
+            customer = accountService.findCustomerById(id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(customer.getId(), HttpStatus.OK);
+    }
+
+    /**
+     * Retrieves a person by their email.
+     * 
+     * @param email the email of the person to retrieve
+     * @return a ResponseEntity containing the id of the person if the person is
+     *         found, or
+     *         an error message and HTTP status code if not
+     * @author Sebastian, Alice
+     */
+    @GetMapping("/personslogin/{email}")
+    public ResponseEntity<?> findPersonByEmail(@PathVariable String email) throws Exception {
+        PersonDTO person;
+        try {
+            person = accountService.findPersonByEmail(email);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(person.getPersonId(), HttpStatus.OK);
+    }
+
     /**
      * Creates a customer account.
      * 
      * @param personDTO the PersonDTO object containing the customer's information
-     * @return a ResponseEntity containing the created CustomerDTO if successful, or an error message and HTTP status code if not
+     * @return a ResponseEntity containing the created CustomerDTO if successful, or
+     *         an error message and HTTP status code if not
      * @author Behrad, Yuri
      */
     @PostMapping("/customers")
@@ -96,15 +164,18 @@ public class AccountController {
             return emailValidationResponse;
         }
 
-        CustomerDTO newCustomer=null;
+        CustomerDTO newCustomer = null;
         try {
-            newCustomer = accountService.createCustomerAccount(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
+            newCustomer = accountService.createCustomerAccount(personDTO.getPassword(), personDTO.getEmail(),
+                    personDTO.getName());
         } catch (Exception e) {
-            if(e.getMessage().contains("Customer account already exists")) {
+            if (e.getMessage().contains("Customer account already exists")) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
-            PersonDTO newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
-            newCustomer = accountService.createCustomerAccount(newPerson.getPassword(), newPerson.getEmail(), newPerson.getName());
+            PersonDTO newPerson = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(),
+                    personDTO.getName());
+            newCustomer = accountService.createCustomerAccount(newPerson.getPassword(), newPerson.getEmail(),
+                    newPerson.getName());
         }
         if (newCustomer == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -116,7 +187,8 @@ public class AccountController {
      * Creates a person.
      * 
      * @param personDTO the PersonDTO object containing the person's information
-     * @return a ResponseEntity containing the created PersonDTO if successful, or an error message and HTTP status code if not
+     * @return a ResponseEntity containing the created PersonDTO if successful, or
+     *         an error message and HTTP status code if not
      * @author Behrad, Yuri
      */
     @PostMapping("/persons")
@@ -138,10 +210,11 @@ public class AccountController {
         }
 
         PersonDTO newPersonDTO = null;
-        try{
-            newPersonDTO = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(), personDTO.getName());
-        }catch(IllegalArgumentException e){
-            if(e.getMessage().contains("Account with this email already exists")){
+        try {
+            newPersonDTO = accountService.createPerson(personDTO.getPassword(), personDTO.getEmail(),
+                    personDTO.getName());
+        } catch (IllegalArgumentException e) {
+            if (e.getMessage().contains("Account with this email already exists")) {
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         }
@@ -156,7 +229,8 @@ public class AccountController {
      * Logs in a user with the provided credentials.
      * 
      * @param credentials a map containing the email and password of the user
-     * @return a ResponseEntity containing true if the login is successful, false if not
+     * @return a ResponseEntity containing true if the login is successful, false if
+     *         not
      * @author Behrad, Yuri
      */
     @PostMapping("/login")
@@ -174,18 +248,20 @@ public class AccountController {
             return emailValidationResponse;
         }
 
-        boolean success = accountService.login(email, password);
-        if (success) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
+        int success = accountService.login(email, password);
+        if (success != -1) {
+            return new ResponseEntity<>(success, HttpStatus.OK);
         }
-        return new ResponseEntity<>(false, HttpStatus.I_AM_A_TEAPOT);
+        return new ResponseEntity<>(success, HttpStatus.I_AM_A_TEAPOT);
     }
 
     /**
      * Deletes a customer account.
      * 
      * @param id the ID of the customer account to delete
-     * @return a ResponseEntity containing an error message and HTTP status code if the customer account could not be found, HTTP status code if successful
+     * @return a ResponseEntity containing an error message and HTTP status code if
+     *         the customer account could not be found, HTTP status code if
+     *         successful
      * @author Behrad, Yuri
      */
     @DeleteMapping("/customers/{id}")
@@ -194,7 +270,7 @@ public class AccountController {
         try {
             accountService.deleteCustomerAccount(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -203,7 +279,8 @@ public class AccountController {
      * Deletes a person.
      * 
      * @param pid the ID of the person to delete
-     * @return a ResponseEntity containing an error message and HTTP status code if the person could not be found, HTTP status code if successful
+     * @return a ResponseEntity containing an error message and HTTP status code if
+     *         the person could not be found, HTTP status code if successful
      * @author Behrad, Yuri
      */
     @DeleteMapping("/persons/{pid}")
@@ -211,7 +288,7 @@ public class AccountController {
         try {
             accountService.deletePerson(pid);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -222,7 +299,8 @@ public class AccountController {
      * Checks if the PersonDTO object is null or if any of its fields are null.
      * 
      * @param personDTO the PersonDTO object to check
-     * @return a ResponseEntity containing an error message and HTTP status code if the PersonDTO object or any of its fields are null, null if not
+     * @return a ResponseEntity containing an error message and HTTP status code if
+     *         the PersonDTO object or any of its fields are null, null if not
      * @author Behrad, Yuri
      */
     private ResponseEntity<?> nullCheck(PersonDTO personDTO) {
@@ -245,7 +323,8 @@ public class AccountController {
      * Validates the password.
      * 
      * @param password the password to validate
-     * @return a ResponseEntity containing an error message and HTTP status code if the password is invalid, null if valid
+     * @return a ResponseEntity containing an error message and HTTP status code if
+     *         the password is invalid, null if valid
      * @author Behrad, Yuri
      */
     private ResponseEntity<?> passwordValidation(String password) {
@@ -268,7 +347,8 @@ public class AccountController {
      * Validates the email.
      * 
      * @param email the email to validate
-     * @return a ResponseEntity containing an error message and HTTP status code if the email is invalid, null if valid
+     * @return a ResponseEntity containing an error message and HTTP status code if
+     *         the email is invalid, null if valid
      * @author Behrad, Yuri
      */
     private ResponseEntity<?> emailValidation(String email) {
@@ -280,5 +360,3 @@ public class AccountController {
         return null;
     }
 }
-
-

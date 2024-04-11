@@ -1,5 +1,7 @@
 package ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dao;
 
+import java.util.*;
+
 import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
@@ -19,5 +21,8 @@ public interface SessionRepository extends CrudRepository<Session, Integer> {
      * @return Session with the specified id
      */
     public Session getById(int id);
+
     public Session findById(int id);
+
+    public List<Session> findByinstructorId(int id);
 }

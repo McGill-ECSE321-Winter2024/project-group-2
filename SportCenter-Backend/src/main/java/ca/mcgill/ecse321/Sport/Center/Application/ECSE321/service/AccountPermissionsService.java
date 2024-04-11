@@ -48,13 +48,13 @@ public class AccountPermissionsService {
      * @throws Exception if the person does not exist or is already an instructor
      */
     @Transactional
-    public InstructorDTO grantInstructorPermissions(int id) throws Exception{
-        if(! personRepository.existsById(id)){
+    public InstructorDTO grantInstructorPermissions(int id) throws Exception {
+        if (!personRepository.existsById(id)) {
             throw new Exception("Person does not exist");
         }
 
         Person person = personRepository.findById(id);
-        if (instructorRepository.existsByPersonEmail(person.getEmail())){
+        if (instructorRepository.existsByPersonEmail(person.getEmail())) {
             throw new Exception("Person is already an instructor");
         }
 
@@ -63,6 +63,7 @@ public class AccountPermissionsService {
         newInstructorRole = instructorRepository.save(newInstructorRole);
 
         return new InstructorDTO(newInstructorRole.getId(), new ArrayList<SessionDTO>(), newInstructorRole.getPerson().getId());
+
     }
 
     /**
@@ -72,8 +73,8 @@ public class AccountPermissionsService {
      * @throws Exception if the instructor does not exist
      */
     @Transactional
-    public void revokeInstructorPermissions(int id) throws Exception{
-        if(! instructorRepository.existsById(id)){
+    public void revokeInstructorPermissions(int id) throws Exception {
+        if (!instructorRepository.existsById(id)) {
             throw new Exception("Instructor does not exist");
         }
 

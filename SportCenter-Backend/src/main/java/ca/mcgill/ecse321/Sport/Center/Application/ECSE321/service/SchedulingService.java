@@ -21,10 +21,13 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Instructor;
 import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.model.Session;
 
 /**
- * The SchedulingService class provides methods for creating, updating, and deleting sessions,
+ * The SchedulingService class provides methods for creating, updating, and
+ * deleting sessions,
  * as well as managing class types and instructors.
- * It interacts with the SessionRepository, InstructorRepository, ClassTypeRepository,
- * SessionRegistrationRepository, and PersonRepository to perform these operations.
+ * It interacts with the SessionRepository, InstructorRepository,
+ * ClassTypeRepository,
+ * SessionRegistrationRepository, and PersonRepository to perform these
+ * operations.
  * 
  * @author Pei Yan
  */
@@ -44,24 +47,25 @@ public class SchedulingService {
     @Autowired
     PersonRepository personRepository;
 
-
     /**
      * Creates a new session with the given parameters and saves it to the database.
      * 
-     * @param length The length of the session in minutes
-     * @param startTime The start time of the session
-     * @param endTime The end time of the session
-     * @param date The date of the session
-     * @param isRepeating Indicates if the session is repeating or not
-     * @param maxParticipants The maximum number of participants allowed in the session
-     * @param classType The class type of the session
-     * @param instructorId The ID of the instructor teaching the session
+     * @param length          The length of the session in minutes
+     * @param startTime       The start time of the session
+     * @param endTime         The end time of the session
+     * @param date            The date of the session
+     * @param isRepeating     Indicates if the session is repeating or not
+     * @param maxParticipants The maximum number of participants allowed in the
+     *                        session
+     * @param classType       The class type of the session
+     * @param instructorId    The ID of the instructor teaching the session
      * @return The created session as a SessionDTO object
      * @throws IllegalArgumentException If any of the input parameters are invalid
      * @author Pei Yan
      */
     @Transactional
-    public SessionDTO createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, int instructorId){
+    public SessionDTO createSession(int length, Time startTime, Time endTime, Date date, boolean isRepeating,
+            int maxParticipants, ClassType classType, int instructorId) {
         String error = "";
         if (startTime.after(endTime)) {
             error += "Start time must be before end time";
@@ -75,33 +79,36 @@ public class SchedulingService {
         if (error != "") {
             throw new IllegalArgumentException(error);
         }
-        
+
         // Create session and save to repository
         Instructor instructor = instructorRepository.findById(instructorId);
-        Session session = new Session(length, startTime, endTime, date, isRepeating, maxParticipants, classType, instructor);
+        Session session = new Session(length, startTime, endTime, date, isRepeating, maxParticipants, classType,
+                instructor);
         session = sessionRepository.save(session);
-        
+
         // Return session as SessionDTO object
         return new SessionDTO(session);
     }
 
     /**
-     *Updates an existing session in the database
-
-     * @param sessionId The ID of the session to update
-     * @param length The length of the session in minutes
-     * @param startTime The start time of the session     
-     * @param endTime The end time of the session
-     * @param date The date of the session
-     * @param isRepeating Indicates if the session is repeating or not
-     * @param maxParticipants The maximum number of participants allowed in the session
-     * @param classType The class type of the session
-     * @param instructor The instructor teaching the session
+     * Updates an existing session in the database
+     * 
+     * @param sessionId       The ID of the session to update
+     * @param length          The length of the session in minutes
+     * @param startTime       The start time of the session
+     * @param endTime         The end time of the session
+     * @param date            The date of the session
+     * @param isRepeating     Indicates if the session is repeating or not
+     * @param maxParticipants The maximum number of participants allowed in the
+     *                        session
+     * @param classType       The class type of the session
+     * @param instructor      The instructor teaching the session
      * @author Behrad
      */
     @SuppressWarnings("null")
     @Transactional
-    public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date, boolean isRepeating, int maxParticipants, ClassType classType, int instructorId){ //maybe
+    public SessionDTO updateSession(int sessionId, int length, Time startTime, Time endTime, Date date,
+            boolean isRepeating, int maxParticipants, ClassType classType, int instructorId) { // maybe
         String error = "";
         if (startTime.after(endTime)) {
             error += "Start time must be before end time";
@@ -127,7 +134,7 @@ public class SchedulingService {
         if (error != "") {
             throw new IllegalArgumentException(error);
         }
-        try{
+        try {
             session.setLength(length);
             session.setStartTime(startTime);
             session.setEndTime(endTime);
@@ -137,7 +144,7 @@ public class SchedulingService {
             session.setClassType(classType);
             session.setInstructor(targetInstructor);
             session = sessionRepository.save(session);
-            
+
             // Return updated session as SessionDTO object
             return new SessionDTO(session);
         } catch (Exception e) {
@@ -147,6 +154,7 @@ public class SchedulingService {
 
     /**
      * Deletes a session from the database
+     * 
      * @param sessionId The ID of the session to delete
      * @author Pei Yan
      */
@@ -156,13 +164,14 @@ public class SchedulingService {
             throw new Exception("No session with given ID");
         }
         sessionRegistrationRepository.deleteAllBySessionId(sessionId);
-        
+
         // Delete session from repository
         sessionRepository.deleteById(sessionId);
     }
 
     /**
      * Approves and saves a suggested classtype
+     * 
      * @param classTypeName
      * @author Behrad
      */
@@ -172,13 +181,14 @@ public class SchedulingService {
         if (classType == null) {
             throw new IllegalArgumentException("No class type with given name");
         }
-        
+
         classType.setIsApproved(true);
         classTypeRepository.save(classType);
     }
 
     /**
      * Rejects and deletes a suggested class type
+     * 
      * @param classTypeName
      * @author Behrad
      */
@@ -188,13 +198,14 @@ public class SchedulingService {
         if (classType == null) {
             throw new IllegalArgumentException("No class type with given name");
         }
-        
+
         // Delete class type from repository
         classTypeRepository.delete(classType);
     }
 
     /**
      * Creates a new classtype with approval status false
+     * 
      * @param classTypeName
      * @author Behrad
      */
@@ -204,7 +215,7 @@ public class SchedulingService {
         if (classType != null) {
             throw new IllegalArgumentException("Class type with given name already suggested");
         }
-        
+
         // Create class type with approval status set to false and save to repository
         classType = new ClassType(classTypeName, false);
         classTypeRepository.save(classType);
@@ -212,6 +223,7 @@ public class SchedulingService {
 
     /**
      * Views all class types based on approval status
+     * 
      * @param isApproved
      * @return List<ClassType> targeted classtypes
      * @author Behrad
@@ -228,6 +240,7 @@ public class SchedulingService {
 
     /**
      * Registers an instructor by their person's email to teach a session
+     * 
      * @param instructorEmail
      * @param sessionId
      * @author Behrad
@@ -245,7 +258,7 @@ public class SchedulingService {
         if (targetInstructor == null) {
             throw new IllegalArgumentException("No instructor with given email");
         }
-        
+
         // Register instructor for session and save to repository
         targetSession.setInstructor(targetInstructor);
         sessionRepository.save(targetSession);
@@ -261,6 +274,19 @@ public class SchedulingService {
     @Transactional
     public Session findSessionById(int id) {
         return sessionRepository.findById(id);
+    }
+
+    /**
+     * Finds and retrieves a session with the given ID.
+     * 
+     * @param id The ID of the session to find
+     * @return The session with the specified ID
+     * @author Pei Yan
+     */
+    @Transactional
+    public List<Session> findSessionsByInstructor(int id) {
+
+        return sessionRepository.findByinstructorId(id);
     }
 
     /**

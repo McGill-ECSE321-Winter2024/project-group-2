@@ -15,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class represents the Schedule Controller, which handles the HTTP requests related to sessions.
- * It provides endpoints for creating, updating, deleting, and retrieving sessions.
+ * This class represents the Schedule Controller, which handles the HTTP
+ * requests related to sessions.
+ * It provides endpoints for creating, updating, deleting, and retrieving
+ * sessions.
  *
  * @author Pei Yan
  */
@@ -37,10 +39,12 @@ public class ScheduleController {
     public ResponseEntity<?> createSession(@RequestBody SessionDTO request) {
         SessionDTO newSessionDTO = null;
         try {
-            newSessionDTO = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), request.getInstructorId());
-            //newSessionDTO.setInstructor(request.getInstructor());
+            newSessionDTO = service.createSession(request.getLength(), request.getStartTime(), request.getEndTime(),
+                    request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(),
+                    request.getInstructorId());
+            // newSessionDTO.setInstructor(request.getInstructor());
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(newSessionDTO, HttpStatus.CREATED);
     }
@@ -54,13 +58,15 @@ public class ScheduleController {
      * @author Pei Yan
      */
     @PutMapping("/sessions/{id}")
-    public ResponseEntity<?> updateSession (@PathVariable int id, @RequestBody SessionDTO request) {
+    public ResponseEntity<?> updateSession(@PathVariable int id, @RequestBody SessionDTO request) {
         SessionDTO newSession = null;
         try {
-            newSession = service.updateSession(id, request.getLength(), request.getStartTime(), request.getEndTime(), request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(), request.getInstructorId());
-            return new ResponseEntity<>(newSession,HttpStatus.ACCEPTED);
+            newSession = service.updateSession(id, request.getLength(), request.getStartTime(), request.getEndTime(),
+                    request.getDate(), request.getIsRepeating(), request.getMaxParticipants(), request.getClassType(),
+                    request.getInstructorId());
+            return new ResponseEntity<>(newSession, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -71,13 +77,13 @@ public class ScheduleController {
      * @return the HTTP response status
      * @author Pei Yan
      */
-    @DeleteMapping("/sessions/{id}") 
-    public ResponseEntity<?> deleteSession (@PathVariable int id) {
+    @DeleteMapping("/sessions/{id}")
+    public ResponseEntity<?> deleteSession(@PathVariable int id) {
         try {
             service.deleteSession(id);
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -96,6 +102,28 @@ public class ScheduleController {
         }
         SessionDTO sessionDTO = new SessionDTO(session);
         return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
+    }
+
+    /**
+     * Retrieves the session with the specified ID.
+     *
+     * @param id the ID of the instructor to retrieve sessions from
+     * @return the session DTO if found, or an error message if not found
+     * @author Alice, Seb
+     */
+    @GetMapping("/sessions/instructors/{id}")
+    public ResponseEntity<?> findSessionsByInstructor(@PathVariable int id) {
+        List<Session> sessions = service.findSessionsByInstructor(id);
+        if (sessions.size() == 0) {
+            return new ResponseEntity<>("No sessions found", HttpStatus.NOT_FOUND);
+        }
+        List<SessionDTO> dtos = new ArrayList<SessionDTO>();
+
+        for (Session session : sessions) {
+            SessionDTO sessionDTO = new SessionDTO(session);
+            dtos.add(sessionDTO);
+        }
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     /**
@@ -163,7 +191,6 @@ public class ScheduleController {
         }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 
-    }
-
-    
+    }  
 }
+

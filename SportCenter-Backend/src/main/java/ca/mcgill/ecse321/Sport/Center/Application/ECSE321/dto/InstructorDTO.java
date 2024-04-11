@@ -9,6 +9,7 @@ public class InstructorDTO {
 
     public InstructorDTO() {
     }
+  
     public InstructorDTO(int instructorId, List<SessionDTO> sessionDTOs, int associatedPersonId) {
         this.instructorId = instructorId;
         this.personId = associatedPersonId;
@@ -22,9 +23,11 @@ public class InstructorDTO {
     public int getInstructorId() {
         return instructorId;
     }
+
     public List<SessionDTO> getSessions() {
         return sessions;
     }
+
     public void setSessions(List<SessionDTO> sessions) {
         this.sessions = sessions;
     }

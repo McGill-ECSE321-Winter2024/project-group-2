@@ -4,6 +4,7 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
+
     host:'127.0.0.1',
     port: 8087,
     backendHost: '127.0.0.1',
