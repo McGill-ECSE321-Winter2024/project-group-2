@@ -15,9 +15,18 @@
           <input :type="passwordType" id="password" v-model="accountDetails.password" placeholder="Password" required>
           <button type="button" class="password-toggle" @click="togglePassword">{{ showPassword ? 'hide' : 'show' }}</button>
         </div>
+        <div>
+          <p>Password Requirements</p>
+          <ul>
+            <li>At least 8 characters</li>
+            <li>At least one uppercase letter</li>
+            <li>At least one lowercase letter</li>
+            <li>At least one number</li>
+          </ul>
+        </div>
         <button v-if="accountDetails.email!=='' && accountDetails.name!=='' && accountDetails.password!==''"@click='createAccount()'>Create Account</button>
       </form>
-      <h4 class="error" v-if="error!=''">Must put valid information!</h4>
+      <h5 class="error" v-if="signupErrorMessage!=''">{{ signupErrorMessage }}</h5>
       <div class="signup-prompt">
         Already have an account? <a href="#" @click="goToLogin" class="signup-link">Login</a>
       </div>
@@ -52,7 +61,8 @@ export default {
         },
         error:'',
         passwordType: 'password',
-        showPassword: false
+        showPassword: false,
+        signupErrorMessage: ''
       };
     },
     methods: {
@@ -72,21 +82,17 @@ export default {
         createAccount() {
           const newAccount = this.createPersonDto();
           console.log(newAccount);
-          if (newAccount == null) {
-            this.error = 'not valid';
-            this.$router.push('/CreateAccount')
-          }
-            AXIOS.post('/customers',newAccount).then(response => {
-                if (response.status==201){
-                    this.$router.push('/Login')
-                }
+          AXIOS.post('/customers',newAccount).then(response => {
+            if (response.status==201){
+                this.$router.push('/Login')
+            }
             
         }).catch(e =>{
             console.log(e)
             console.log(e.response)
-            const errorMsg = e.response.data.message
+            const errorMsg = e.response.data
             console.log(errorMsg)
-            this.instructorErrorMessage = errorMsg
+            this.signupErrorMessage = errorMsg
         })
        
       },
@@ -103,6 +109,28 @@ export default {
 
 <style scoped>
   /* Styles */
+  div > p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul > li {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+ul > li:before {
+    content: "• ";
+    color: #360805; /* Red */
+}
   .createAccount-container {
 display: flex;
 justify-content: center;
@@ -218,7 +246,17 @@ color: #0073b1;
   right: 10px;
   top: 10px;
 }
+.error {
+    color: #a94442; /* red color */
+    background-color: #f2dede; /* light red background */
+    border: 1px solid #ebccd1; /* red border */
+    padding: 5px; /* space inside the box */
+    margin-bottom: 10px; /* space below the box */
+    border-radius: 5px; /* rounded corners */
+    text-align: center; /* center the text */
 
+    transition-duration: 0.4s;
+}
 /* Adjust the .btn-login margin if needed */
 .btn-login {
   margin-top: 2rem; /* Add margin on top since the forgot password link is removed */

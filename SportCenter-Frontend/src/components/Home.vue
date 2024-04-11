@@ -6,7 +6,7 @@
             <p>Address | Email | Phone Number</p>
         </div>
         <div class="grid">
-            <router-link to='/Sessions' class="grid-item">
+          <router-link to='/Sessions/Pilates' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/pilatesClass.jpg' alt='Class 1'>
                     <div class="overlay">
@@ -14,7 +14,7 @@
                     </div>
                 </div>
             </router-link>
-            <router-link to='/Sessions' class="grid-item">
+            <router-link to='/Sessions/Resistance training' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/resistanceTrainingClass.jpg' alt='Class 2'>
                     <div class="overlay">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </router-link>
-            <router-link to='/Sessions' class="grid-item">
+            <router-link to='/Sessions/Spin' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/spinClass.png' alt='Class 3'>
                     <div class="overlay">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             </router-link>
-            <router-link to='/Sessions' class="grid-item">
+            <router-link to='/Sessions/Weight training' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/weightTrainingClass.jpg' alt='Class 4'>
                     <div class="overlay">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </router-link>
-            <router-link to='/Sessions' class="grid-item">
+            <router-link to='/Sessions/Goated yoga' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/yogaClass.jpg' alt='Class 5'>
                     <div class="overlay">
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </router-link>
-            <router-link to='/Sessions' class="grid-item">
+            <router-link to='/Sessions/Zumba' class="grid-item">
                 <div class="image-container">
                     <img src='../assets/zumbaClass.jpg' alt='Class 6'>
                     <div class="overlay">
@@ -87,7 +87,6 @@ export default {
 <style scoped>
 .logo {
     width: 400px;
-    height: relative;
 }
 .description {
     background-color: lightslategray;
