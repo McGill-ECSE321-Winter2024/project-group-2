@@ -1,6 +1,6 @@
 # sportcenter-frontend
 
-> Frontend for the sport center app for ECSE321
+> A vue js XDDDDDD
 
 ## Build Setup
 

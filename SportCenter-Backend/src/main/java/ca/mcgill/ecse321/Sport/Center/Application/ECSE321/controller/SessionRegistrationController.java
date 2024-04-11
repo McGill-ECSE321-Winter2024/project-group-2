@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.service.SessionRegistr
  * It provides endpoints for registering sessions, viewing sessions, and
  * managing registrations.
  */
+@CrossOrigin(origins="*")
 @RestController
 public class SessionRegistrationController {
     @Autowired
