@@ -221,8 +221,7 @@ export default {
 
               })
               if (whatToLoad == 1){
-                let managerPersonId = localStorage.getItem('personId');
-                AXIOS.get('/instructors/'.concat(managerPersonId)).then(managerAsInstructor =>{
+                AXIOS.get('/instructors/'.concat(0)).then(managerAsInstructor =>{
                     managerAsInstructorId=managerAsInstructor.data;
                     AXIOS.get('/sessions').then(sessions => {
                         for (session in sessions.data){
