@@ -34,6 +34,7 @@
       </div>
         <div className="Sessions-grid-content" class="session-grid">
           <h2>Sign up for a session</h2>
+          <h5 class='error' v-if="errorMessage">{{ errorMessage }}</h5>
             <table v-if="assignedSessions.length!=0">
               <thead>
                 <tr>
@@ -94,6 +95,7 @@
                 </tr>
               </tbody>
             </table>
+
         </div>
         <Footer />
     </div>
@@ -136,24 +138,24 @@ export default {
       customer: {
         id: '',
         person_id: ''
-      }
+      },
+      errorMessage: '',
     }
   },
   created: function () {
-    console.log('In created...'); // Add this line
+    console.log('In created...');
     this.filters.classType = this.$route.params.classType || '';
-    this.updateFilteredSessions(); // Move this to the top
+    this.updateFilteredSessions();
     const userRole = localStorage.getItem('customerVsInstructor');
     this.loadRegisterToTeach = userRole === '2' || userRole === '1';
     this.checkLoginStatus();
 
     client.get('/sessions')
       .then(response => {
-        console.log('Fetched sessions:', response.data); // Add this line
+        console.log('Fetched sessions:', response.data);
         this.sessions = response.data.sort((a, b) => {
           return new Date(a.date) - new Date(b.date)
         })
-        //this.updateFilteredSessions(); // Call this after fetching the sessions data
         this.uniqueClassTypes = [...new Set(this.sessions.map(session => session.classType.classType))]
       })
       .catch(e => {
@@ -169,10 +171,10 @@ export default {
       this.filters.classType = this.$route.params.classType || '';
     },
     updateFilteredSessions() {
-      console.log('Updating filtered sessions...'); // Add this line
+      console.log('Updating filtered sessions...');
       this.filteredSessions = [];
       for (let session of this.sessions) {
-        if(this.filters.classType && session.classType.classType != this.filters.classType){
+        if(this.filters.classType && session.classType.classType !== this.filters.classType){
             continue;
         }
         if(this.filters.startDate && new Date(session.date) < new Date(this.filters.startDate)){
@@ -188,7 +190,7 @@ export default {
         if (!session.classType) return false; // Add this line
         return session.classType.classType === this.filters.classType;
       });*/
-      console.log('Filtered sessions:', this.filteredSessions); // Add this line
+      console.log('Filtered sessions:', this.filteredSessions);
     },
     getId (customerId) {
       client.get('/customers/'.concat(customerId)).then(result => {
@@ -228,7 +230,13 @@ export default {
         const newSessionRegistration = this.createSessionRegistrationDTO(sessionId);
         console.log(newSessionRegistration);
         client.post('/sessionRegistrations', newSessionRegistration).then(registered => {
-          if (registered.status == 200){
+          console.log('Status:', registered.status); // Add this line
+          console.log('Data:', registered.data); // Add this line
+          if (registered.status === 404 || registered.data === '') {
+            console.log('already registered');
+            this.errorMessage = 'You are already registered for this session.';
+          }
+          else if (registered.status === 200){
             console.log('hello');
           }
         });
@@ -387,6 +395,12 @@ input[type='date']{
     color: white;
     padding: 50px 10px 10px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+  text-align: center;
 }
 
 
