@@ -83,10 +83,14 @@
         </div>
         <h2>Schedule New Session</h2>
         <div>
-            <input type="time" placeholder="Start Time" v-model="newSessionStartTime" />
-            <input type="time" placeholder="End Time" v-model="newSessionEndTime" />
-            <input type="date" placeholder="Date" v-model="newSessionDate" />
-            <input type="checkbox" v-model="newSessionRepeatsWeekly" /> Repeats Weekly
+            <label for="newSeshStartTime">Start Time</label>
+            <input type="time" placeholder="Start Time" v-model="newSessionStartTime" id="newSeshStartTime" />
+            <label for="newSeshEndTime">End Time</label>
+            <input type="time" placeholder="End Time" v-model="newSessionEndTime" id="newSeshEndTime"/>
+            <label for="newSeshDate">Date</label>
+            <input type="date" placeholder="Date" v-model="newSessionDate" id="newSeshDate" />
+            <label for="newSeshRepeatsWeekly">Repeats Weekly</label>
+            <input type="checkbox" v-model="newSessionRepeatsWeekly" id="newSeshRepeatsWeekly" /> 
             <select v-model="newSessionClassType">
                 <option v-for="classType in classTypes" :value="classType">{{ classType.name }}</option>
             </select>
