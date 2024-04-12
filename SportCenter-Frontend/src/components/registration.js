@@ -105,7 +105,7 @@ export default {
         // update session data when page loads
         this.currentView = []
         this.instructors = []
-
+        //this.getInstructors();
         // fetch instructor data
         AXIOS.get('/instructors')
             .then(response => {
@@ -123,13 +123,16 @@ export default {
                     })
                 }
             })
-
+        //this.getInstructors();
         this.customers = []
 
         // fetch customer data 
         AXIOS.get('/persons')
             .then(response => {
                 for (let i = 0; i < response.data.length; i++) {
+                    if(response.data[i].personId==1 || response.data[i].personId==0){
+                        continue;
+                    }
                     this.customers.push(new InstructorDTO('N/A', response.data[i].name, response.data[i].personId))
                 }
                 for (let i = 0; i < this.customers.length; i++) {
@@ -145,7 +148,7 @@ export default {
             }).catch(e => {
                 this.instructorErrorMessage = e
             })
-
+        
         // fetch class type data
         AXIOS.get('/classTypes/false')
             .then(response => {
