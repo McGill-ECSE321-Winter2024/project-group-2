@@ -62,7 +62,7 @@
             </table>
             <h2 v-if="loadSecondTable" class="center">Your Registrations to Teach</h2>
             <br>
-            <h4 v-if="loadSecondTable && currentRegistrationsToTeach.length==0" class="center">No registrations found!</h4>
+            <h4 v-if="loadSecondTable && currentRegistrationsToTeach.length==0" class="center error">No registrations found!</h4>
             <table v-if="loadSecondTable && currentRegistrationsToTeach.length!=0" class="center">
                 <tr>
                     <th>Session Id</th>
@@ -97,6 +97,14 @@
                   </td>
                 </tr>
             </table>
+            <div v-if="loadSecondTable">
+                <h2>Suggest a new class type</h2>
+                <p>Feeling innovative? Suggest a new sport or new type of class to teach. Management will review it before approving!</p>
+                <input class="suggest" type="text" v-model="suggestedClassType" placeholder="Suggest a new class type">
+                <button class="suggest" @click="suggestClassType(suggestedClassType)">Suggest</button>
+                <h5 v-if="typeSuccessMessage!=''" class="success">{{ typeSuccessMessage }}</h5>
+                <h5 v-if="typeErrorMessage!=''" class="error">{{ typeErrorMessage }}</h5>
+            </div>
         </div>
     </div>
 </template>
@@ -169,6 +177,10 @@ export default {
             newInstructor: '',
             instructorErrorMessage: '',
             instructorSuccessMessage: '',
+
+            suggestedClassType: '',
+            typeErrorMessage: '',
+            typeSuccessMessage: '',
 
             user: {
                 id:'',
@@ -293,6 +305,21 @@ export default {
                     console.log(errorMsg)
                 })
         },
+        suggestClassType: function () {
+            AXIOS.put('/classTypes/'.concat(this.suggestedClassType))
+                .then(response => {
+                    this.typeSuccessMessage = 'Class type suggested successfully'
+                    this.typeErrorMessage = ''
+                    this.suggestedClassTypes.push(new classType(this.suggestedClassType))
+                    console.log(response)
+                }).catch(e => {
+                    console.log(e.response.data)
+                    const errorMsg = e.response.data
+                    this.typeSuccessMessage = ''
+                    this.typeErrorMessage = errorMsg
+                    console.log(errorMsg)
+                })
+        },
         fetchRegistrations() {
             let personId = localStorage.getItem('personId');
             AXIOS.get('/customers/'.concat(personId)).then(ins => {
@@ -344,8 +371,34 @@ export default {
     border-radius: 5px; /* rounded corners */
     text-align: center; /* center the text */
 }
+.success{
+    color: #3c763d; /* green color */
+    background-color: #dff0d8; /* light green background */
+    border: 1px solid #d6e9c6; /* green border */
+    padding: 15px; /* space inside the box */
+    margin-bottom: 20px; /* space below the box */
+    border-radius: 5px; /* rounded corners */
+    text-align: center; /* center the text */
+}
   .center{
     margin-left: auto;
     margin-right: auto;
   }
+  button.suggest {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+input.suggest {
+    width: 40%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
 </style>
