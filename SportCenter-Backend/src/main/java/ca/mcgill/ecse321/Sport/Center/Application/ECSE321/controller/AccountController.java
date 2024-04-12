@@ -33,7 +33,6 @@ import ca.mcgill.ecse321.Sport.Center.Application.ECSE321.dto.InstructorDTO;;
  */
 
 @CrossOrigin(origins="*")
-
 @RestController
 public class AccountController {
     @Autowired
