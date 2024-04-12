@@ -13,7 +13,7 @@
         <router-link v-if="!isLoggedIn" to='/Login'>Login or Sign up</router-link>
         <!-- 'My Account' link for logged-in users -->
         <router-link v-if="isLoggedIn" to='/MyAccount'>My Account</router-link>
-        <<!-- Owner Dashboard link visible only to owners -->
+        <!-- Owner Dashboard link visible only to owners -->
         <router-link v-if="isOwner" to='/Owner'>Owner Dashboard</router-link>
         <!-- Logout button for logged-in users -->
         <button class="logout" v-if="isLoggedIn" @click="logout()">Logout</button>
