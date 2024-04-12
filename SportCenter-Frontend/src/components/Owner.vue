@@ -1,8 +1,11 @@
 <template>
     <div id="Owner">
+        <!-- Section header for managing sessions -->
         <h1>Sessions</h1>
+        <!-- Subsection for scheduling new sessions -->
         <h2>Schedule New Session</h2>
         <div>
+            <!-- Form for inputting new session details: time, date, repetition, class type, and max participants -->
             <input type="time" placeholder="Start Time" v-model="newSessionStartTime" />
             <input type="time" placeholder="End Time" v-model="newSessionEndTime" />
             <input type="date" placeholder="Date" v-model="newSessionDate" />
@@ -12,9 +15,11 @@
             </select>
             <input type="text" placeholder="Length" v-model="newSessionLength" />
             <input type="text" placeholder="Max Participants" v-model="newSessionMaxParticipants" />
+            <!-- Remaining form fields for scheduling a session -->
             <button @click="createSession()" :disabled="isCreatebtnDisabled">Create Session</button>
 
         </div>
+        <!-- Section for displaying current sessions -->
         <div>
             <h2>Current Sessions</h2>
             <table>
@@ -24,7 +29,9 @@
                         <th>ClassType</th>
                         <th>MaxParticipants</th>
                     </tr>
+                    <!-- Table headers for session details -->
                     <tr v-for="s in sessions">
+                        <!-- Template for displaying each session with an update option -->
                         <td>{{ s.date }} - {{ s.startTime }} - {{ s.endTime }}</td>
                         <td>{{ s.classType.classType }} ({{ s.classType.isApproved ? 'Approved' : 'Not Approved' }})</td>
                         <td>{{ s.maxParticipants }}</td>
@@ -33,6 +40,7 @@
                 </tbody>
             </table>
         </div>
+        <!-- Modal for updating a session, shown conditionally -->
         <div v-show="isUpdateModalOpen">
             <h2>Update Session</h2>
             <input type="time" v-model="updateSession.startTime" placeholder="Start Time" />
@@ -44,6 +52,7 @@
             </select>
             <input type="text" v-model="updateSession.length" placeholder="Length" />
             <input type="text" v-model="updateSession.maxParticipants" placeholder="Max Participants" />
+            <!-- Form for updating session details -->
             <button @click="updateSessionData()">Update</button>
             <button @click="isUpdateModalOpen = false">Cancel</button>
         </div>
@@ -57,6 +66,7 @@ import config from "../../config";
 const frontendUrl = `http://${config.dev.host}:${config.dev.port}`;
 const backendUrl = `http://${config.dev.backendHost}:${config.dev.backendPort}`;
 
+// Configuration for API requests
 const client = axios.create({
     baseURL: backendUrl,
     headers: { 'Access-Control-Allow-Origin': frontendUrl }
@@ -90,6 +100,7 @@ export default {
         };
     },
     created: async function () {
+        // Fetching sessions and class types upon component creation
         console.log('Fetching sessions...');
         try {
             const response = await client.get("/sessions");
@@ -114,6 +125,7 @@ export default {
 
     methods: {
         createSessionDto () {
+            // Helper function to create a DTO for new sessions
             console.log('Creating session DTO...');
             const date = new Date(this.newSessionDate);
             const formattedDate = date.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
@@ -148,6 +160,7 @@ export default {
             return sessionDto;
         },
         createUpdateSessionDto() {
+            // Helper function to create a DTO for updating sessions
             console.log('Creating update session DTO...');
             const date = new Date(this.updateSession.date);
             const formattedDate = date.toISOString().split('T')[0]; // Format to 'YYYY-MM-DD'
@@ -182,6 +195,7 @@ export default {
             return sessionDto;
         },
         createSession: async function () {
+            // Function to create a new session
             console.log('Creating session...');
             const newSession = this.createSessionDto();
             try {
@@ -195,12 +209,14 @@ export default {
             }
         },
         openUpdateModal(session) {
+            // Opens the update modal with session details for editing
             console.log('Opening update modal for session:', session);
             this.updateSession = Object.assign({}, session);
             this.sessionIdToUpdate = session.id;
             this.isUpdateModalOpen = true;
         },
         updateSessionData: async function () {
+            // Updates the session with new details
             console.log('Updating session...');
             try {
                 const updatedSession = this.createUpdateSessionDto();
@@ -215,6 +231,7 @@ export default {
             }
         },
         clearInputs() {
+            // Clears form inputs after creating/updating a session
             console.log('Clearing inputs...');
             this.newSessionLength = null;
             this.newSessionStartTime = null;
@@ -227,6 +244,7 @@ export default {
     },
     computed: {
         isCreatebtnDisabled() {
+            // Computed property to disable the create button if necessary fields are empty
             const disabled = !this.newSessionLength
             || !this.newSessionStartTime
             || !this.newSessionEndTime

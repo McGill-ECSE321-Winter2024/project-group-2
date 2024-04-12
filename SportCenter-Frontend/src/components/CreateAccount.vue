@@ -1,20 +1,33 @@
 <template>
+  <!-- Container for the create account form -->
   <div class="createAccount-container">
     <Navbar />
+    <!-- Card for the create account form -->
     <div class="createAccount-card">
+       <!-- Form title -->
       <h1>Create Account</h1>
+      <!-- Form subtitle -->
       <p class="createAccount-subtitle">Join us and stay updated with your training!</p>
+      <!-- Form for creating an account. The createAccount method is called when the form is submitted -->
       <form @submit.prevent="createAccount">
+        <!-- Form group for the name input -->
         <div class="form-group">
+          <!-- Name input. The v-model directive binds the input to the name property of the accountDetails object -->
           <input type="text" id="name" v-model="accountDetails.name" placeholder="Name" required>
         </div>
+        <!-- Form group for the email input -->
         <div class="form-group">
+          <!-- Email input. The v-model directive binds the input to the email property of the accountDetails object -->
           <input type="text" id="email" v-model="accountDetails.email" placeholder="Email" required>
         </div>
+        <!-- Form group for the password input -->
         <div class="form-group">
+          <!-- Password input. The v-model directive binds the input to the password property of the accountDetails object -->
           <input :type="passwordType" id="password" v-model="accountDetails.password" placeholder="Password" required>
+          <!-- Button for toggling the visibility of the password -->
           <button type="button" class="password-toggle" @click="togglePassword">{{ showPassword ? 'hide' : 'show' }}</button>
         </div>
+        <!-- Password requirements -->
         <div>
           <p>Password Requirements</p>
           <ul>
@@ -24,9 +37,12 @@
             <li>At least one number</li>
           </ul>
         </div>
+        <!-- Create account button. It's only visible if all the form fields are filled -->
         <button v-if="accountDetails.email!=='' && accountDetails.name!=='' && accountDetails.password!==''"@click='createAccount()'>Create Account</button>
       </form>
+      <!-- Error message for signup -->
       <h5 class="error" v-if="signupErrorMessage!=''">{{ signupErrorMessage }}</h5>
+      <!-- Prompt for users who already have an account -->
       <div class="signup-prompt">
         Already have an account? <a href="#" @click="goToLogin" class="signup-link">Login</a>
       </div>
@@ -35,23 +51,31 @@
 </template>
 
 <script>
-import axios, { Axios } from 'axios'
-import config from "../../config"
-import Navbar from './Navbar.vue'
+// Importing necessary modules and components
+import axios, { Axios } from 'axios' // Axios for making HTTP requests
+import config from "../../config" // Configuration file
+import Navbar from './Navbar.vue' // Navbar component
 
+// Constructing URLs for frontend and backend from config
 const frontendUrl = 'http://'+config.dev.host+':'+config.dev.port
 const backendUrl = 'http://'+config.dev.backendHost+':'+config.dev.backendPort
 
+// Creating an instance of Axios with the backend URL as the base URL
+// and allowing cross-origin requests from the frontend URL
 const AXIOS = axios.create({
     baseURL: backendUrl,
     headers: {'Access-Control-Allow-Origin':frontendUrl}
 })
 
+// Exporting the Vue component
 export default {
+  // Registering the Navbar component
   components: {
     Navbar
   },
+  // Naming the component
     name: 'CreateAccount',
+    // Defining the component's data
     data() {
       return {
         accountDetails: {
@@ -108,7 +132,7 @@ export default {
 </script>
 
 <style scoped>
-  /* Styles */
+   /* Styles for the CreateAccount component */
   div > p {
     font-size: 16px;
     font-weight: bold;
