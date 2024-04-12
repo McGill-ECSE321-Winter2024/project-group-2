@@ -149,7 +149,7 @@
     </div>
 </template>
 
-<script src="./registration.js">
+<script src="./OwnerPageLogic.js">
 
 </script>
 <style>
