@@ -5,8 +5,8 @@
         <h1>Manager Dashboard</h1>
         <div id="grantAccountPermissions">
             <h2>Promote/Demote Instructors</h2>
-            <button @click="getPersons()">View non-instructor accounts</button>
-            <button @click="getInstructors()">View instructors accounts</button>
+            <button class="view" @click="getPersons()">View non-instructor accounts</button>
+            <button class="view" @click="getInstructors()">View instructors accounts</button>
             <br>
             <input v-model="newInstructor" type="number" placeholder="#PersonID">
             <button class="promote" v-bind:disabled="!newInstructor" @click='promoteToInstructor(newInstructor)'>Promote</button>
@@ -265,6 +265,24 @@ button.demote:hover {
     background-color: #da190b;
     color: white;
 }
+button.view{
+    background-color: #4250be;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+button.view:hover {
+    background-color: #27b1b8;
+}
+
 table {
     border-collapse: collapse;
     margin-bottom: 20px;
