@@ -13,12 +13,14 @@
               <select v-model="filters.classType">
                 <option value="">All</option>
                 <option v-for="type in uniqueClassTypes" :value="type">{{ type }}</option>
+
               </select>
             </td>
           </tr>
         </table>
       </div>
         <div className="Sessions-grid-content" class="session-grid">
+          <h2 v-if="loadRegisterToTeach">Register to Participate</h2>
             <table>
               <thead>
                 <tr>
@@ -33,7 +35,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="session in filteredSessions">
+                <tr v-for="session in assignedSessions" :key="session.id">
                   <td>{{ session.id }}</td>
                   <td>{{ session.classType.classType }}</td>
                   <td>{{ session.date }}</td>
@@ -42,10 +44,39 @@
                   <td>{{ session.isRepeating ? 'Yes' : 'No' }}</td>
                   <td>{{ session.maxParticipants }}</td>
                   <td>
-                    <button type="button" @click="register(session.id)">Register</button>
+                    <button v-if="isLoggedIn" type="button" @click="register(session.id)">Register</button>
                   </td>
+                </tr>
+              </tbody>
+            </table>
+            <h2 v-if="loadRegisterToTeach">Register to Teach</h2>
+
+            <table v-if="loadRegisterToTeach">
+              <thead>
+                <tr>
+                  <th>Session ID</th>
+                  <th>Class Type</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Duration</th>
+                  <th>Repeating</th>
+                  <th>Max Capacity</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="session in unassignedSessions" :key="session.id">
+                  <td>{{ session.id }}</td>
+                  <td>{{ session.classType.classType }}</td>
+                  <td>{{ session.date }}</td>
+                  <td>{{ session.startTime }}</td>
+                  <td>{{ session.length }}</td>
+                  <td>{{ session.isRepeating ? 'Yes' : 'No' }}</td>
+                  <td>{{ session.maxParticipants }}</td>
                   <td>
-                    <button v-if="loadRegisterToTeach" class="center" type="button" @click="registerToTeachSession(session.date, session.startTime, session.endTime, session.id, session.length, session.isRepeating, session.maxParticipants, session.classType.classType)">Register To Teach</button>
+                    <button v-if="loadRegisterToTeach" class="center" type="button" @click="registerToTeachSession(session.date, session.startTime, session.endTime, session.id, session.length, session.isRepeating, session.maxParticipants, session.classType.classType)">
+                      Register To Teach
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -88,6 +119,9 @@ export default {
   },
   data () {
     return {
+      isLoggedIn: false,
+      isOwner: false,
+
       sessions: [],
       filters: {
         classType: ''
@@ -105,9 +139,9 @@ export default {
     console.log('In created...'); // Add this line
     this.filters.classType = this.$route.params.classType || '';
     this.updateFilteredSessions(); // Move this to the top
-    if (localStorage.getItem('customerVsInstructor')==2){
-      this.loadRegisterToTeach=true;
-    }
+    const userRole = localStorage.getItem('customerVsInstructor');
+    this.loadRegisterToTeach = userRole === '2' || userRole === '1';
+    this.checkLoginStatus();
     client.get('/sessions')
       .then(response => {
         console.log('Fetched sessions:', response.data); // Add this line
@@ -122,6 +156,10 @@ export default {
       })
   },
   methods: {
+    checkLoginStatus() {
+      this.isLoggedIn = localStorage.getItem('personId') !== '-1';
+      this.isOwner = localStorage.getItem('roleId') === '0';
+    },
     filterSessions () {
       this.filters.classType = this.$route.params.classType || '';
     },
@@ -222,6 +260,14 @@ export default {
                 console.log('Error updating session:', e.message);
             }
         }
+  },
+  computed: {
+    unassignedSessions() {
+      return this.filteredSessions.filter(session => session.instructorId === 1);
+    },
+    assignedSessions() {
+      return this.filteredSessions.filter(session => session.instructorId !== 1);
+    }
   },
   watch: {
     'sessions': function () {
