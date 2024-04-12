@@ -1,11 +1,10 @@
 <template>
 <div class="footer-grid">
     <div class="contact-us">
-        <h3>Contact</h3>
-        <p>Montreal Sports</p>
-        <p>Address</p>
-        <p>Email</p>
-        <p>Phone</p>
+        <h3>Contact Us</h3>
+        <p>Address: 4327 Rue de Charleroi, Montréal, QC H1H 1T4</p>
+        <p>Email: info@montrealsport.ca</p>
+        <p>Phone: (514) 852-1991</p>
     </div>
     <div class="open-hours">
         <h3>Open Hours</h3>

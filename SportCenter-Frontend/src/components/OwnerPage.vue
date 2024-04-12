@@ -2,7 +2,7 @@
 <template>
     <div id="sportcenter">
         <Navbar />
-        <h1>Manager Dashboard</h1>
+        <h1>Owner Dashboard</h1>
         <div id="grantAccountPermissions">
             <h2>Promote/Demote Instructors</h2>
             <button class="view" @click="getPersons()">View non-instructor accounts</button>

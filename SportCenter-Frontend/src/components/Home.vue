@@ -3,7 +3,7 @@
         <Navbar />
         <div class="description">
             <h3 class="white">Montreal based sports center offering a variety of activities</h3>
-            <p class="white">Address | Email | Phone Number</p>
+            <p class="white">4327 Rue de Charleroi, Montréal, QC H1H 1T4 | info@montrealsport.ca | (514) 852-1991</p>
         </div>
         <div class="grid">
           <router-link to='/Sessions/Pilates' class="grid-item">
