@@ -103,12 +103,6 @@ export default {
       }
     }
   },
-  props: {
-    isLoggedIn: {
-      type: Boolean,
-      required: true
-    }
-  },
   created: function () {
     console.log('In created...');
     this.checkLoginStatus();
