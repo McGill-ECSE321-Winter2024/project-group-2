@@ -110,6 +110,9 @@ export default {
         AXIOS.get('/instructors')
             .then(response => {
                 for (let i = 0; i < response.data.length; i++) {
+                    if(response.data[i].personId==1 || response.data[i].personId==0){
+                        continue;
+                    }
                     console.log(response.data)
                     AXIOS.get('/persons/'.concat(response.data[i].personId)).then(person => {
                         // update instructor data

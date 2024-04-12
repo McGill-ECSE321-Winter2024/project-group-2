@@ -79,7 +79,7 @@
             <h2 v-if="loadSecondTable" class="center">Your Registrations to Teach</h2>
             <br>
             <h4 v-if="loadSecondTable && currentRegistrationsToTeach.length==0" class="center error">No registrations found!</h4>
-            <p>To cancel a session you're registered to teach, please contact management</p>
+            <p v-if="loadSecondTable">To cancel a session you're registered to teach, please contact management</p>
             <table v-if="loadSecondTable && currentRegistrationsToTeach.length!=0" class="center">
                 <tr>
                     <th>Session Id</th>
