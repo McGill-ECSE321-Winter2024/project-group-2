@@ -1,13 +1,18 @@
 <template>
+  <!-- Scrollable container for the content -->
     <div class="scrollable-content">
+      <!-- Navigation bar -->
         <Navbar />
+        <!-- Description of the scheduled sessions -->
         <div class="description">
             <h3> Scheduled sessions </h3>
             <h4> We offer a wide range of activities. Use the filter tool to find specific class types! </h4>
         </div>
+        <!-- Filter section for sessions -->
       <div class="filter">
         <h4>Filter results</h4>
         <table>
+          <!-- Dropdown for selecting class type -->
           <tr>
             <td> Select class type:</td>
             <td>
@@ -17,12 +22,13 @@
               </select>
             </td>
           </tr>
+          <!-- Input for filtering sessions by start date -->
           <tr>
             <td>Sessions on or after:</td>
             <td>
               <input type="date" v-model="filters.startDate" placeholder="End date">
             </td>
-
+            <!-- Input for filtering sessions by end date -->
           </tr>
           <tr>
             <td>Sessions on or before:</td>
@@ -34,8 +40,10 @@
       </div>
         <div className="Sessions-grid-content" class="session-grid">
           <h2>Sign up for a session</h2>
+          <!-- Table for sessions that match the filter criteria -->
             <table v-if="assignedSessions.length!=0">
               <thead>
+                <!-- Headers for session details -->
                 <tr>
                   <th>Session ID</th>
                   <th>Class Type</th>
@@ -48,6 +56,8 @@
                 </tr>
               </thead>
               <tbody>
+                <!-- Rows for each session -->
+                <!-- Sign up button for logged-in users -->
                 <tr v-for="session in assignedSessions" :key="session.id">
                   <td>{{ session.id }}</td>
                   <td>{{ session.classType.classType }}</td>
@@ -62,10 +72,14 @@
                 </tr>
               </tbody>
             </table>
+            <!-- Header for instructors to register to teach -->
             <h2 v-if="loadRegisterToTeach">Register to Teach</h2>
+            <!-- Error message if no unassigned sessions are found -->
             <h5 class='error' v-if="loadRegisterToTeach && unassignedSessions.length==0">No unassigned sessions found. Adjust filters or contact management to create new sessions</h5>
+            <!-- Table for sessions available for teaching -->
             <table v-if="loadRegisterToTeach && unassignedSessions.length>0">
               <thead>
+                <!-- Headers for session details -->
                 <tr>
                   <th>Session ID</th>
                   <th>Class Type</th>
@@ -78,6 +92,8 @@
                 </tr>
               </thead>
               <tbody>
+                <!-- Rows for each session available for teaching -->
+                <!-- Register to teach button for instructors -->
                 <tr v-for="session in unassignedSessions" :key="session.id">
                   <td>{{ session.id }}</td>
                   <td>{{ session.classType.classType }}</td>
@@ -95,6 +111,7 @@
               </tbody>
             </table>
         </div>
+        <!-- Footer component -->
         <Footer />
     </div>
 </template>
@@ -124,6 +141,7 @@ export default {
       isLoggedIn: false,
       isOwner: false,
 
+      // Data structure for sessions and filtering criteria
       sessions: [],
       filters: {
         classType: '',
@@ -140,6 +158,7 @@ export default {
     }
   },
   created: function () {
+    // Fetch sessions and determine if the user can register to teach
     console.log('In created...'); // Add this line
     this.filters.classType = this.$route.params.classType || '';
     this.updateFilteredSessions(); // Move this to the top
@@ -162,6 +181,7 @@ export default {
   },
   methods: {
     checkLoginStatus() {
+      // Check if the user is logged in and if they are an owner
       this.isLoggedIn = sessionStorage.getItem('personId') !== '-1';
       this.isOwner = sessionStorage.getItem('roleId') === '0';
     },
@@ -169,6 +189,7 @@ export default {
       this.filters.classType = this.$route.params.classType || '';
     },
     updateFilteredSessions() {
+      // Filter sessions based on user-selected criteria
       console.log('Updating filtered sessions...'); // Add this line
       this.filteredSessions = [];
       for (let session of this.sessions) {
@@ -224,6 +245,7 @@ export default {
 
     },
     register (sessionId) {
+      // Register the user for a selected session
       try {
         const newSessionRegistration = this.createSessionRegistrationDTO(sessionId);
         console.log(newSessionRegistration);
@@ -280,6 +302,7 @@ export default {
         }
   },
   computed: {
+    // Computed properties for filtering sessions
     unassignedSessions() {
       return this.filteredSessions.filter(session => session.instructorId === 1);
     },
@@ -288,6 +311,7 @@ export default {
     }
   },
   watch: {
+    // Watchers to update filtered sessions based on filter criteria changes
     'sessions': function () {
       this.updateFilteredSessions();
     },
@@ -309,6 +333,7 @@ export default {
 
 
 <style scoped>
+/* Styling for the table, description text, filter form, and session grid */
 table{
   margin-right: auto;
 
