@@ -1,16 +1,21 @@
 
 <template>
     <div id="sportcenter">
+        <!-- Navbar component included at the top of the dashboard -->
         <Navbar />
         <h1>Owner Dashboard</h1>
+        <!-- Section for managing instructor roles -->
         <div id="grantAccountPermissions">
             <h2>Promote/Demote Instructors</h2>
+            <!-- Buttons to toggle view between non-instructor and instructor accounts -->
             <button class="view" @click="getPersons()">View non-instructor accounts</button>
             <button class="view" @click="getInstructors()">View instructors accounts</button>
             <br>
+            <!-- Input and button to promote a person to an instructor -->
             <input v-model="newInstructor" type="number" placeholder="#PersonID">
             <button class="promote" v-bind:disabled="!newInstructor" @click='promoteToInstructor(newInstructor)'>Promote</button>
             <br>
+            <!-- Displays error message if no people found -->
             <h4 class="error" v-if="currentView.length==0">No people found!</h4>
             <table v-if="currentView.length!=0" class="center">
                 <tr>
@@ -20,6 +25,7 @@
                     <th>Action</th>
                 </tr>
                 <tr v-for="person in currentView" :key="person.name">
+                    <!-- Table row for each person -->
                     <td>{{ person.name  }}</td>
                     <td>
                         #{{ person.instructorId }}
@@ -34,17 +40,21 @@
                 </tr>
             </table>
             <p>
+                <!-- Success and error messages for instructor operations -->
                 <span class="success" v-if="instructorSuccessMessage" style="color:green">{{ instructorSuccessMessage }}</span> 
             </p>
             <p>
                 <span class="error" v-if="instructorErrorMessage" style="color:red">Error: {{ instructorErrorMessage }}</span>
             </p>
         </div>
+        <!-- Section for suggesting and managing class types -->
         <div class="center">
             <h2>Manage Class Types</h2>
+            <!-- Input for suggesting a new class type -->
             <input class="suggest" v-model="newClassType" type="text" placeholder="New Class Type">
             <button class="suggest" @click="suggestClassType(newClassType)">Suggest New ClassType</button>
             <h4 class="error" v-if="suggestedClassTypes.length==0"> No suggested class types to review!</h4>
+            <!-- Table for reviewing suggested class types -->
             <table v-else class="center">
 
                 <tr>
@@ -52,16 +62,18 @@
                     <th>Approve or Disapprove</th>
                 </tr>
                 <tr v-for="classType in suggestedClassTypes">
+                    <!-- Table row for each suggested class type -->
                     <td>
                         {{ classType.name }}
                     </td>
                     <td>
+                        <!-- Buttons to approve or disapprove suggested class types -->
                         <button class="promote" @click="approveClassType(classType.name)">Approve</button>
                         <button class="demote" @click="rejectClassType(classType.name)">Disapprove</button>
                     </td>
                 </tr>
             </table>
-
+            <!-- Success and error messages for class type operations -->
             <p>
                 <span class="success" v-if="typeSuccessMessage" style="color:green">{{ typeSuccessMessage }}</span>
             </p>
@@ -137,6 +149,7 @@
 
 </script>
 <style>
+/* Styles for headings, errors, success messages, and buttons */
  h1 {
     color: #333;
     text-decoration: underline;
