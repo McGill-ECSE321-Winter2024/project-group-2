@@ -81,6 +81,8 @@
             <input type="text" placeholder="Length" v-model="newSessionLength" />
             <input type="text" placeholder="Max Participants" v-model="newSessionMaxParticipants" />
             <button class="suggest" @click="createSession()" :disabled="isCreatebtnDisabled">Create Session</button>
+            <h5 class="success" v-if="createSessionSuccess!=''">{{ createSessionSuccess }}</h5>
+            <h4 class="error" v-if="createSessionError!=''">{{ createSessionError }}</h4>
         </div>
         <div v-show="isUpdateModalOpen">
             <h2>Update Session</h2>

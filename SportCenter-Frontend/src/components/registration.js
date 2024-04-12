@@ -72,6 +72,8 @@ export default {
             newSessionRepeatsWeekly: false,
             newSessionMaxParticipants: null,
             newSessionClassType: null,
+            createSessionSuccess: '',
+            createSessionError: '',
             // updating session
             updateSession: {
                 length: null,
@@ -449,9 +451,13 @@ export default {
                 this.sessions.push(response.data);
                 this.clearInputs();
                 console.log('Created session:', response.data);
+                this.createSessionSuccess = "Session created successfully!"
+                this.createSessionError = ''
             }
             catch (e) {
-                console.log('Error creating session:', e.message);
+                this.createSessionError = e.response.data;
+                this.createSessionSuccess = ''
+                console.log('Error creating session:', e.response);
             }
         },
         openUpdateModal(session) {

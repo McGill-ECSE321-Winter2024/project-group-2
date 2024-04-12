@@ -31,6 +31,7 @@
                     <th>Date</th>
                     <th>Class Type</th>
                     <th>Instructor</th>
+                    <th>Cancel Registration</th>
                 </tr>
                 <tr v-for="registration in currentRegistrations" :key="registration.registrationId">
                     <td>{{ registration.registrationId }}</td>
@@ -63,6 +64,7 @@
             <h2 v-if="loadSecondTable" class="center">Your Registrations to Teach</h2>
             <br>
             <h4 v-if="loadSecondTable && currentRegistrationsToTeach.length==0" class="center error">No registrations found!</h4>
+            <p>To cancel a session you're registered to teach, please contact management</p>
             <table v-if="loadSecondTable && currentRegistrationsToTeach.length!=0" class="center">
                 <tr>
                     <th>Session Id</th>
@@ -106,6 +108,7 @@
                 <h5 v-if="typeErrorMessage!=''" class="error">{{ typeErrorMessage }}</h5>
             </div>
         </div>
+        <Footer />
     </div>
 </template>
 
@@ -113,7 +116,7 @@
 import axios, { Axios } from 'axios'
 import config from "../../config"
 import Navbar from './Navbar'
-
+import Footer from './Footer'
 
 const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -163,7 +166,8 @@ function classType(name) {
 let customers = [];
 export default {
     components: {
-        Navbar
+        Navbar,
+        Footer
     },
     name: 'eventregistration',
     data() {
@@ -310,6 +314,7 @@ export default {
                 .then(response => {
                     this.typeSuccessMessage = 'Class type suggested successfully'
                     this.typeErrorMessage = ''
+                    this.suggestedClassType = ''
                     this.suggestedClassTypes.push(new classType(this.suggestedClassType))
                     console.log(response)
                 }).catch(e => {

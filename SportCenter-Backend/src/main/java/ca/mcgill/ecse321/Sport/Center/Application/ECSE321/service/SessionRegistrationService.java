@@ -31,7 +31,6 @@ public class SessionRegistrationService {
      * @author Alice, Aurelia
      */
     @Transactional
-
     public SessionRegistration registerForSession(int sessionId, int customerId){
         if(!sessionRepository.existsById(sessionId)){
             throw new IllegalArgumentException("No session with given ID");
@@ -39,6 +38,11 @@ public class SessionRegistrationService {
         if(!customerRepository.existsById(customerId)){
             throw new IllegalArgumentException("No customer with given ID");
         }
+        sessionRegistrationRepository.findAllByCustomerId(customerId).forEach(reg -> {
+            if(reg.getSession().getId() == sessionId){
+                throw new IllegalArgumentException("Already registered for this session");
+            }
+        });
         Session aSession = sessionRepository.findById(sessionId);
         Customer aCustomer = customerRepository.findById(customerId);
 

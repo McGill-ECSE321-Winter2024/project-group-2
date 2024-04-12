@@ -3,25 +3,38 @@
         <Navbar />
         <div class="description">
             <h3> Scheduled sessions </h3>
-            <p> We offer a wide range of activities, use the filter tool to find specific class types! </p>
+            <h4> We offer a wide range of activities. Use the filter tool to find specific class types! </h4>
         </div>
       <div class="filter">
+        <h4>Filter results</h4>
         <table>
           <tr>
             <td> Select class type:</td>
             <td>
               <select v-model="filters.classType">
                 <option value="">All</option>
-                <option v-for="type in uniqueClassTypes" :value="type">{{ type }}</option>
-
+                <option v-for="classType in uniqueClassTypes" :value="classType"> {{ classType }}</option>
               </select>
+            </td>
+          </tr>
+          <tr>
+            <td>Sessions on or after:</td>
+            <td>
+              <input type="date" v-model="filters.startDate" placeholder="End date">
+            </td>
+
+          </tr>
+          <tr>
+            <td>Sessions on or before:</td>
+            <td>
+              <input type="date" v-model="filters.endDate" placeholder="Start date">
             </td>
           </tr>
         </table>
       </div>
         <div className="Sessions-grid-content" class="session-grid">
-          <h2 v-if="loadRegisterToTeach">Register to Participate</h2>
-            <table>
+          <h2>Sign up for a session</h2>
+            <table v-if="assignedSessions.length!=0">
               <thead>
                 <tr>
                   <th>Session ID</th>
@@ -29,9 +42,9 @@
                   <th>Date</th>
                   <th>Time</th>
                   <th>Duration</th>
-                  <th>Repeating</th>
+                  <th>Repeating sessions</th>
                   <th>Max Capacity</th>
-                  <th></th>
+                  <th v-if="isLoggedIn">Sign up</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,15 +56,15 @@
                   <td>{{ session.length }}</td>
                   <td>{{ session.isRepeating ? 'Yes' : 'No' }}</td>
                   <td>{{ session.maxParticipants }}</td>
-                  <td>
-                    <button v-if="isLoggedIn" type="button" @click="register(session.id)">Register</button>
+                  <td v-if="isLoggedIn">
+                    <button class="promote" v-if="isLoggedIn" type="button" @click="register(session.id)">Register</button>
                   </td>
                 </tr>
               </tbody>
             </table>
             <h2 v-if="loadRegisterToTeach">Register to Teach</h2>
-
-            <table v-if="loadRegisterToTeach">
+            <h5 class='error' v-if="loadRegisterToTeach && unassignedSessions.length==0">No unassigned sessions found. Adjust filters or contact management to create new sessions</h5>
+            <table v-if="loadRegisterToTeach && unassignedSessions.length>0">
               <thead>
                 <tr>
                   <th>Session ID</th>
@@ -74,7 +87,7 @@
                   <td>{{ session.isRepeating ? 'Yes' : 'No' }}</td>
                   <td>{{ session.maxParticipants }}</td>
                   <td>
-                    <button v-if="loadRegisterToTeach" class="center" type="button" @click="registerToTeachSession(session.date, session.startTime, session.endTime, session.id, session.length, session.isRepeating, session.maxParticipants, session.classType.classType)">
+                    <button v-if="loadRegisterToTeach" class="promote" type="button" @click="registerToTeachSession(session.date, session.startTime, session.endTime, session.id, session.length, session.isRepeating, session.maxParticipants, session.classType.classType)">
                       Register To Teach
                     </button>
                   </td>
@@ -82,20 +95,7 @@
               </tbody>
             </table>
         </div>
-        <div class="footer-grid">
-                <div class="contact-us">
-                    <h3>Contact</h3>
-                    <p>Montreal Sports</p>
-                    <p>Address</p>
-                    <p>Email</p>
-                    <p>Phone</p>
-                </div>
-                <div class="open-hours">
-                    <h3>Open Hours</h3>
-                    <p>Monday - Friday: 8:00am - 10:00pm</p>
-                    <p>Saturday - Sunday: 9:00am - 11:00pm</p>
-                </div>
-            </div>
+        <Footer />
     </div>
 </template>
 
@@ -103,6 +103,7 @@
 import axios from 'axios'
 var config = require('../../config')
 import Navbar from './Navbar'
+import Footer from './Footer'
 
 const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
@@ -115,7 +116,8 @@ const client = axios.create({
 export default {
   name: 'Sessions',
   components: {
-    Navbar
+    Navbar,
+    Footer
   },
   data () {
     return {
@@ -124,7 +126,9 @@ export default {
 
       sessions: [],
       filters: {
-        classType: ''
+        classType: '',
+        startDate: '',
+        endDate: ''
       },
       loadRegisterToTeach:false,
       filteredSessions: [],
@@ -142,6 +146,7 @@ export default {
     const userRole = localStorage.getItem('customerVsInstructor');
     this.loadRegisterToTeach = userRole === '2' || userRole === '1';
     this.checkLoginStatus();
+
     client.get('/sessions')
       .then(response => {
         console.log('Fetched sessions:', response.data); // Add this line
@@ -165,11 +170,24 @@ export default {
     },
     updateFilteredSessions() {
       console.log('Updating filtered sessions...'); // Add this line
-      this.filteredSessions = this.sessions.filter(session => {
+      this.filteredSessions = [];
+      for (let session of this.sessions) {
+        if(this.filters.classType && session.classType.classType != this.filters.classType){
+            continue;
+        }
+        if(this.filters.startDate && new Date(session.date) < new Date(this.filters.startDate)){
+            continue;
+        }
+        if(this.filters.endDate && new Date(session.date) > new Date(this.filters.endDate)){
+            continue;
+        }
+        this.filteredSessions.push(session);
+      }
+      /*this.filteredSessions = this.sessions.filter(session => {
         if (!this.filters.classType) return true;
         if (!session.classType) return false; // Add this line
         return session.classType.classType === this.filters.classType;
-      });
+      });*/
       console.log('Filtered sessions:', this.filteredSessions); // Add this line
     },
     getId (customerId) {
@@ -278,6 +296,12 @@ export default {
     },
     '$route.params.classType': function () {
       this.filterSessions();
+    },
+    'filters.startDate': function () {
+      this.updateFilteredSessions();
+    },
+    'filters.endDate': function () {
+      this.updateFilteredSessions();
     }
   }
 }
@@ -285,6 +309,10 @@ export default {
 
 
 <style scoped>
+table{
+  margin-right: auto;
+
+}
 .logo {
     width: 400px;
 }
@@ -320,6 +348,9 @@ export default {
     height: 33%;
     background-color: rgb(33, 33, 33);
     z-index: -1;
+}
+input[type='date']{
+  width: 100%;
 }
 
 .grid-item img {
@@ -358,28 +389,5 @@ export default {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.footer-grid {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    background-color: rgb(33, 33, 33);
-    color: white;
-}
 
-.contact-us, .open-hours {
-    padding: 20px;
-}
-
-.contact-us h3, .open-hours h3 {
-    padding: 0px 10px 0px;
-    text-align: left;
-    color: darkcyan;
-}
-
-.contact-us p, .open-hours p {
-    padding: 0px 10px 0px;
-    text-align: left;
-    color: white;
-}
 </style>

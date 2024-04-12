@@ -2,8 +2,8 @@
     <div class="scrollable-content">
         <Navbar />
         <div class="description">
-            <h3>Montreal based sports center offering a variety of activities</h3>
-            <p>Address | Email | Phone Number</p>
+            <h3 class="white">Montreal based sports center offering a variety of activities</h3>
+            <p class="white">Address | Email | Phone Number</p>
         </div>
         <div class="grid">
           <router-link to='/Sessions/Pilates' class="grid-item">
@@ -55,36 +55,29 @@
                 </div>
             </router-link>
         </div>
-        <div class="footer-grid">
-                <div class="contact-us">
-                    <h3>Contact</h3>
-                    <p>Montreal Sports</p>
-                    <p>Address</p>
-                    <p>Email</p>
-                    <p>Phone</p>
-                </div>
-                <div class="open-hours">
-                    <h3>Open Hours</h3>
-                    <p>Monday - Friday: 8:00am - 10:00pm</p>
-                    <p>Saturday - Sunday: 9:00am - 11:00pm</p>
-                </div>
-            </div>
+        <Footer/>
     </div>
 </template>
 
 <script>
 import Navbar from './Navbar'
+import Footer from './Footer'
 
 export default {
     name: 'Home',
     components: {
-        Navbar
+        Navbar,
+        Footer
     }
 }
 </script>
 
 
 <style scoped>
+.white{
+    color: #ffffffc7;
+
+}
 .logo {
     width: 400px;
 }
