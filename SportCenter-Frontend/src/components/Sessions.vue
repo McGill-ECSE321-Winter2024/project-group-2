@@ -258,9 +258,11 @@ export default {
           if (registered.status === 404 || registered.data === '') {
             console.log('already registered');
             this.errorMessage = 'You are already registered for this session.';
+            this.successMessage = '';
           }
           else if (registered.status === 200){
             this.successMessage = 'Success.';
+            this.errorMessage = '';
             console.log('hello');
           }
         });
@@ -280,6 +282,7 @@ export default {
     console.log(parseInt(maxParticipants));
     console.log(classType);
     console.log(parseInt(sessionStorage.getItem('roleId')));
+    console.log("^^^^")
     const sessionDto = {
                 id: id,
                 length: parseInt(length),
@@ -292,7 +295,7 @@ export default {
                     classType: classType,
                     isApproved: true // Assuming all classes are approved by default
                 },
-                instructorId: parseInt(localStorage.getItem('roleId')) // Assuming the instructor ID is 1
+                instructorId: parseInt(sessionStorage.getItem('roleId')) // Assuming the instructor ID is 1
             };
             return sessionDto;
   },
@@ -301,13 +304,14 @@ export default {
             try {
                 const updatedSession = this.createUpdateSessionDto(sessionDate, startTime, endTime, id, length, isRepeating, maxParticipants, classType);
                 console.log('Created update session DTO:', updatedSession);
+                console.log(id)
                 const response = await client.put(`/sessions/${id}`, updatedSession);
                 console.log(response.status);
                 const index = this.sessions.findIndex(s => s.id == id);
                 this.sessions.splice(index, 1, response.data); // Replace the old session with the updated one
             }
             catch (e) {
-                console.log('Error updating session:', e.message);
+                console.log('Error updating session:', e.response);
             }
         }
   },

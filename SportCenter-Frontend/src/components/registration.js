@@ -113,6 +113,7 @@ export default {
                     console.log(response.data)
                     AXIOS.get('/persons/'.concat(response.data[i].personId)).then(person => {
                         // update instructor data
+                        
                         this.instructors.push(new InstructorDTO(response.data[i].instructorId, person.data.name, person.data.personId))
                         for (let j = 0; j < this.customers.length; j++) {
                             if (this.customers[j].personId == person.data.personId) {
@@ -130,6 +131,9 @@ export default {
         AXIOS.get('/persons')
             .then(response => {
                 for (let i = 0; i < response.data.length; i++) {
+                    if(response.data[i].personId==0 || response.data[i].personId==1){
+                        continue;
+                    }
                     this.customers.push(new InstructorDTO('N/A', response.data[i].name, response.data[i].personId))
                 }
                 for (let i = 0; i < this.customers.length; i++) {
@@ -207,6 +211,9 @@ export default {
             AXIOS.get('/persons')
                 .then(response => {
                     for (let i = 0; i < response.data.length; i++) {
+                        if(response.data[i].personId==0 || response.data[i].personId==1){
+                            continue;
+                        }
                         this.customers.push(new InstructorDTO('N/A', response.data[i].name, response.data[i].personId))
                     }
                     for (let i = 0; i < this.customers.length; i++) {
@@ -230,6 +237,9 @@ export default {
             AXIOS.get('/instructors')
                 .then(response => {
                     for (let i = 0; i < response.data.length; i++) {
+                        if(response.data[i].instructorId==0 || response.data[i].instructorId==1){
+                            continue;
+                        }
                         console.log(response.data)
                         AXIOS.get('/persons/'.concat(response.data[i].personId)).then(person => {
                             // create a new InstructorDTO object and push it to the instructors array
@@ -541,7 +551,7 @@ export default {
                 console.log('Updated session:', response.data);
             }
             catch (e) {
-                console.log('Error updating session:', e.message);
+                console.log('Error updating session:', e.response);
             }
         },
 
