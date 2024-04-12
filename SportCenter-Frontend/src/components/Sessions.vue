@@ -42,6 +42,7 @@
           <h2>Sign up for a session</h2>
           <!-- Table for sessions that match the filter criteria -->
           <h5 class='error' v-if="errorMessage">{{ errorMessage }}</h5>
+          <h5 class='success' v-if="successMessage">{{ successMessage }}</h5>
             <table v-if="assignedSessions.length!=0">
               <thead>
                 <!-- Headers for session details -->
@@ -157,6 +158,7 @@ export default {
         person_id: ''
       },
       errorMessage: '',
+      successMessage: '',
     }
   },
   created: function () {
@@ -251,13 +253,14 @@ export default {
         const newSessionRegistration = this.createSessionRegistrationDTO(sessionId);
         console.log(newSessionRegistration);
         client.post('/sessionRegistrations', newSessionRegistration).then(registered => {
-          console.log('Status:', registered.status); // Add this line
-          console.log('Data:', registered.data); // Add this line
+          console.log('Status:', registered.status);
+          console.log('Data:', registered.data);
           if (registered.status === 404 || registered.data === '') {
             console.log('already registered');
             this.errorMessage = 'You are already registered for this session.';
           }
           else if (registered.status === 200){
+            this.successMessage = 'Success.';
             console.log('hello');
           }
         });
@@ -427,5 +430,10 @@ input[type='date']{
   text-align: center;
 }
 
+.success {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}
 
 </style>
