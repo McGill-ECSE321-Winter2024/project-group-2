@@ -42,7 +42,7 @@
                   <td>{{ session.isRepeating ? 'Yes' : 'No' }}</td>
                   <td>{{ session.maxParticipants }}</td>
                   <td>
-                    <button type="button" @click="register(session.id)">Register</button>
+                    <button type="button" @click="register(session.id)" v-if="isLoggedIn">Register</button>
                   </td>
                   <td>
                     <button v-if="loadRegisterToTeach" class="center" type="button" @click="registerToTeachSession(session.date, session.startTime, session.endTime, session.id, session.length, session.isRepeating, session.maxParticipants, session.classType.classType)">Register To Teach</button>
@@ -88,6 +88,8 @@ export default {
   },
   data () {
     return {
+      isLoggedIn: false,
+      isOwner: false,
       sessions: [],
       filters: {
         classType: ''
@@ -101,20 +103,26 @@ export default {
       }
     }
   },
+  props: {
+    isLoggedIn: {
+      type: Boolean,
+      required: true
+    }
+  },
   created: function () {
-    console.log('In created...'); // Add this line
+    console.log('In created...');
+    this.checkLoginStatus();
     this.filters.classType = this.$route.params.classType || '';
-    this.updateFilteredSessions(); // Move this to the top
+    this.updateFilteredSessions();
     if (localStorage.getItem('customerVsInstructor')==2){
       this.loadRegisterToTeach=true;
     }
     client.get('/sessions')
       .then(response => {
-        console.log('Fetched sessions:', response.data); // Add this line
+        console.log('Fetched sessions:', response.data);
         this.sessions = response.data.sort((a, b) => {
           return new Date(a.date) - new Date(b.date)
         })
-        //this.updateFilteredSessions(); // Call this after fetching the sessions data
         this.uniqueClassTypes = [...new Set(this.sessions.map(session => session.classType.classType))]
       })
       .catch(e => {
@@ -122,17 +130,21 @@ export default {
       })
   },
   methods: {
+    checkLoginStatus() {
+      this.isLoggedIn = localStorage.getItem('personId')!=-1;
+      this.isOwner = localStorage.getItem('roleId') === '0';
+    },
     filterSessions () {
       this.filters.classType = this.$route.params.classType || '';
     },
     updateFilteredSessions() {
-      console.log('Updating filtered sessions...'); // Add this line
+      console.log('Updating filtered sessions...');
       this.filteredSessions = this.sessions.filter(session => {
         if (!this.filters.classType) return true;
-        if (!session.classType) return false; // Add this line
+        if (!session.classType) return false;
         return session.classType.classType === this.filters.classType;
       });
-      console.log('Filtered sessions:', this.filteredSessions); // Add this line
+      console.log('Filtered sessions:', this.filteredSessions);
     },
     getId (customerId) {
       client.get('/customers/'.concat(customerId)).then(result => {
@@ -232,6 +244,11 @@ export default {
     },
     '$route.params.classType': function () {
       this.filterSessions();
+    }
+  },
+  computed: {
+    isUserAuthenticated() {
+      return !!localStorage.getItem('token');
     }
   }
 }
