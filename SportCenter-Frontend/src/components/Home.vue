@@ -1,6 +1,8 @@
 <template>
+    <!-- Main container for the Home page -->
     <div class="scrollable-content">
         <Navbar />
+        <!-- Navbar component -->
         <div class="description">
             <h3 class="white">Montreal based sports center offering a variety of activities</h3>
             <p class="white">4327 Rue de Charleroi, Montréal, QC H1H 1T4 | info@montrealsport.ca | (514) 852-1991</p>
@@ -60,11 +62,15 @@
 </template>
 
 <script>
+// Importing the Navbar and Footer components
 import Navbar from './Navbar'
 import Footer from './Footer'
 
+// Exporting the Home component
 export default {
+    //  Naming the component
     name: 'Home',
+    // Registering the components used in this component
     components: {
         Navbar,
         Footer
@@ -74,6 +80,7 @@ export default {
 
 
 <style scoped>
+ /* Styles for the Home component */
 .white{
     color: #ffffffc7;
 

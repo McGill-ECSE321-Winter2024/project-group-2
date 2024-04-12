@@ -1,20 +1,34 @@
 <template>
+   <!-- Main container for the Login page -->
     <div class="login-container">
+      <!-- Navbar component -->
       <Navbar />
+      <!-- Card for the login form -->
       <div class="login-card">
+        <!-- Form title -->
         <h1>Login</h1>
+        <!-- Form subtitle -->
         <p class="login-subtitle">Stay updated with your training!</p>
+        <!-- Form for logging in. The login method is called when the form is submitted -->
         <form @submit.prevent="login" >
+          <!-- Form group for the email input -->
           <div class="form-group">
+            <!-- Email input. The v-model directive binds the input to the email property of the credentials object -->
             <input type="text" id="email" v-model="credentials.email" placeholder="Email" required>
           </div>
+          <!-- Form group for the password input -->
           <div class="form-group">
+            <!-- Password input. The v-model directive binds the input to the password property of the credentials object -->
             <input :type="passwordType" id="password" v-model="credentials.password" placeholder="Password" required>
+            <!-- Button for toggling the visibility of the password -->
             <button type="button" class="password-toggle" @click="togglePassword">{{ showPassword ? 'hide' : 'show' }}</button>
           </div>
+          <!-- Login button -->
           <button type="submit" class="btn-login">Login</button>
+           <!-- Error message for login -->
           <a class="error" v-if="loginError">Invalid email or password! </a>
         </form>
+        <!-- Prompt for users who don't have an account -->
         <div class="signup-prompt">
             New to Montreal Sport? <a href="#" @click.prevent="goToCreateAccount" class="signup-link">Join now</a>
         </div>
@@ -23,11 +37,13 @@
   </template>
   
 <script>
-import axios, { Axios } from 'axios'
-import config from "../../config"
-import Navbar from './Navbar.vue'
-import Footer from './Footer.vue'
+// Importing the Navbar and Footer components
+import axios, { Axios } from 'axios' // Axios for making HTTP requests
+import config from "../../config" // Configuration file
+import Navbar from './Navbar.vue' // Navbar component
+import Footer from './Footer.vue' // Footer component
 
+// Constructing URLs for frontend and backend from config
 const frontendUrl = 'http://'+config.dev.host+':'+config.dev.port
 const backendUrl = 'http://'+config.dev.backendHost+':'+config.dev.backendPort
 
@@ -121,7 +137,7 @@ export default {
   </script>
   
   <style scoped>
-  /* Styles */
+   /* Styles for the forgot password link */
   .login-container {
   display: flex;
   justify-content: center;

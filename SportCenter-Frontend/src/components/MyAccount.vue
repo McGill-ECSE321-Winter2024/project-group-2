@@ -1,27 +1,42 @@
 <template>
+    <!-- Main container for the MyAccount page -->
     <div id="sportcenter">
+        <!-- Navbar component -->
         <Navbar />
+        <!-- Container for the user's information -->
         <div id="yourInfo">
+            <!-- Section title -->
             <h2>Your Information</h2>
+            <!-- Table for displaying the user's information -->
             <br>
             <table class="center">
+                <!-- Table header -->
                 <tr>
                     <th>Role Id</th>
                     <th>Name</th>
                     <th>Email</th>
                 </tr>
+                <!-- Table row for displaying the user's information -->
                 <tr>
+                    <!-- The user's role id -->
                     <td>{{ user.id }}</td>
+                    <!-- The user's name -->
                     <td>{{ user.name }}</td>
+                    <!-- The user's email -->
                     <td>{{ user.email }}</td>
                 </tr>
             </table>
         </div>
+        <!-- Container for the user's registrations -->
         <div id="grantAccountPermissions">
+            <!-- Section title -->
             <h2>Your Registrations</h2>
+            <!-- Error message if the user has no registrations -->
             <br>
             <h4 class="error" v-if="currentRegistrations.length==0">No registrations found!</h4>
+            <!-- Table for displaying the user's registrations -->
             <table v-if="currentRegistrations.length!=0" class="center">
+                <!-- Table header -->
                 <tr>
                     <th class="rowName">Registration Id</th>
                     <th>Session Id</th>
@@ -113,31 +128,37 @@
 </template>
 
 <script>
-import axios, { Axios } from 'axios'
-import config from "../../config"
-import Navbar from './Navbar'
-import Footer from './Footer'
+// Importing the Navbar and Footer components
+import axios, { Axios } from 'axios' // Axios for making HTTP requests
+import config from "../../config" // Configuration file
+import Navbar from './Navbar' // Navbar component
+import Footer from './Footer' // Footer component
 
+// Constructing URLs for frontend and backend from config
 const frontendUrl = 'http://' + config.dev.host + ':' + config.dev.port
 const backendUrl = 'http://' + config.dev.backendHost + ':' + config.dev.backendPort
 
+// Creating an  instance of axios with custom configuration
 const AXIOS = axios.create({
-    baseURL: backendUrl,
-    headers: { 'Access-Control-Allow-Origin': frontendUrl }
+    baseURL: backendUrl, // Base URL for the backend
+    headers: { 'Access-Control-Allow-Origin': frontendUrl } // CORS header
 })
 
+// Constructor function for creating a new PersonDTO object
 function PersonDTO(name) {
     this.name = name;
     this.events = [],
         this.personId;
 }
 
+// Constructor function for creating a new InstructorDTO object
 function InstructorDTO(instructorId, personName, personId) {
     this.name = personName;
     this.instructorId = instructorId;
     this.personId = personId;
 }
 
+// Constructor function for creating a new SessionDTO object
 function SessionDto(sessionId, length, startTime, endTime, date, classType, instructor){
     this.sessionId = sessionId;
     this.length = length;
@@ -148,6 +169,7 @@ function SessionDto(sessionId, length, startTime, endTime, date, classType, inst
     this.instructor = instructor;
 }
 
+// Constructor function for creating a new SessionRegistrationDTO object
 function SessionRegistrationDTO(registrationId, sessionId, length, startTime, endTime, date, classType, instructor) {
     this.registrationId = registrationId;
     this.sessionId = sessionId;
@@ -159,10 +181,12 @@ function SessionRegistrationDTO(registrationId, sessionId, length, startTime, en
     this.instructor = instructor;
 }
 
+// Constructor function for creating a new classType object
 function classType(name) {
     this.name = name;
 }
 
+// Vue component definition
 let customers = [];
 export default {
     components: {
@@ -171,6 +195,7 @@ export default {
     },
     name: 'eventregistration',
     data() {
+        // Reactive data properties for this component
         return {
             customers: [],
             instructors: [],
@@ -202,6 +227,7 @@ export default {
         }
     },
     created: function () {
+        // Lifecycle hook for initialization logic
         let whatToLoad = localStorage.getItem('customerVsInstructor');
         if (whatToLoad == 3){
             this.loadSecondTable = false;
@@ -290,6 +316,7 @@ export default {
     },
     methods: {
         CancelRegistration: function (registrationId) {
+            // Method to cancel a registration
             console.log(typeof registrationId)
             AXIOS.delete('/sessionRegistrations/'.concat(registrationId))
                 .then(response => {
@@ -310,6 +337,7 @@ export default {
                 })
         },
         suggestClassType: function () {
+            // Method to suggest a new class type
             AXIOS.put('/classTypes/'.concat(this.suggestedClassType))
                 .then(response => {
                     this.typeSuccessMessage = 'Class type suggested successfully'
@@ -326,6 +354,7 @@ export default {
                 })
         },
         fetchRegistrations() {
+            // Method to fetch and update current registrations
             let personId = localStorage.getItem('personId');
             AXIOS.get('/customers/'.concat(personId)).then(ins => {
             let customerId = ins.data;
