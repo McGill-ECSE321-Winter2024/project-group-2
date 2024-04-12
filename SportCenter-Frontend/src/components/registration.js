@@ -266,6 +266,20 @@ export default {
                 console.log(errorMsg)
             })
         },
+        getClassTypes: function () {
+            this.classTypes = []
+            AXIOS.get('/classTypes/true')
+            .then(response => {
+                for(let i=0; i<response.data.length; i++){
+                    this.classTypes.push(response.data[i])
+                }
+            })
+            .catch(e => {
+                const errorMsg = e.response.data.message
+                this.typeErrorMessage = errorMsg
+                console.log(errorMsg)
+            })
+        },
         
         approveClassType: function (classTypeName){
             AXIOS.put('/classTypes/'.concat(classTypeName).concat('/true'))
@@ -279,6 +293,7 @@ export default {
                 }
                 this.typeSuccessMessage = 'Class type approved successfully'
                 this.typeErrorMessage = ''
+                this.getClassTypes();
             })
             .catch(e => {
                 const errorMsg = e.response.data.message

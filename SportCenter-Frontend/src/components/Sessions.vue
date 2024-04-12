@@ -1,9 +1,6 @@
 <template>
     <div class="scrollable-content">
         <Navbar />
-        <router-link to='/'>
-            <img src='@/assets/logo.png' alt="Logo" class="logo" />
-        </router-link>
         <div class="description">
             <h3> Scheduled sessions </h3>
             <p> We offer a wide range of activities, use the filter tool to find specific class types! </p>
