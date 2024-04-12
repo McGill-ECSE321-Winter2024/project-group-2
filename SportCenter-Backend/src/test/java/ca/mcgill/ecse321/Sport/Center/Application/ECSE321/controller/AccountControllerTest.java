@@ -160,7 +160,7 @@ public class AccountControllerTest {
         credentials.put("email", person.getEmail());
         credentials.put("password", "wrongPassword2024");
         ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
-        assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
         assertTrue(response.getBody().toString().contains("-1"));
     }
 
@@ -173,7 +173,7 @@ public class AccountControllerTest {
         credentials.put("email", "wrong@email.com");
         credentials.put("password", person.getPassword());
         ResponseEntity<?> response = client.postForEntity("/login", credentials, String.class);
-        assertEquals(HttpStatus.I_AM_A_TEAPOT, response.getStatusCode());
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
         assertTrue(response.getBody().toString().contains("-1"));
     }
 
