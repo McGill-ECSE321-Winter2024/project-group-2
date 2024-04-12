@@ -143,7 +143,7 @@ export default {
     console.log('In created...'); // Add this line
     this.filters.classType = this.$route.params.classType || '';
     this.updateFilteredSessions(); // Move this to the top
-    const userRole = localStorage.getItem('customerVsInstructor');
+    const userRole = sessionStorage.getItem('customerVsInstructor');
     this.loadRegisterToTeach = userRole === '2' || userRole === '1';
     this.checkLoginStatus();
 
@@ -162,8 +162,8 @@ export default {
   },
   methods: {
     checkLoginStatus() {
-      this.isLoggedIn = localStorage.getItem('personId') !== '-1';
-      this.isOwner = localStorage.getItem('roleId') === '0';
+      this.isLoggedIn = sessionStorage.getItem('personId') !== '-1';
+      this.isOwner = sessionStorage.getItem('roleId') === '0';
     },
     filterSessions () {
       this.filters.classType = this.$route.params.classType || '';
@@ -197,24 +197,24 @@ export default {
         })
     },
     createSessionRegistrationDTO (sessionId) {
-      if (localStorage.getItem('customerVsInstructor')==3){
+      if (sessionStorage.getItem('customerVsInstructor')==3){
         console.log('entering customer');
-        let customerId = localStorage.getItem('roleId');
+        let customerId = sessionStorage.getItem('roleId');
       const sessionRegistrationDTO = {
         sessionId: sessionId,
-        customerId: Number(localStorage.getItem('roleId'))
+        customerId: Number(sessionStorage.getItem('roleId'))
       }
       return sessionRegistrationDTO;
     }
-      else if (localStorage.getItem('customerVsInstructor')==2){
+      else if (sessionStorage.getItem('customerVsInstructor')==2){
         const sessionRegistrationDTO = {
         sessionId: sessionId,
-        customerId: localStorage.getItem('instructorsCustomersId')
+        customerId: sessionStorage.getItem('instructorsCustomersId')
       }
       return sessionRegistrationDTO;
       }
 
-      else if (localStorage.getItem('customerVsInstructor')==1){
+      else if (sessionStorage.getItem('customerVsInstructor')==1){
       const sessionRegistrationDTO = {
         sessionId: sessionId,
         customerId: 0
@@ -247,7 +247,7 @@ export default {
     console.log(isRepeating);
     console.log(parseInt(maxParticipants));
     console.log(classType);
-    console.log(parseInt(localStorage.getItem('roleId')));
+    console.log(parseInt(sessionStorage.getItem('roleId')));
     const sessionDto = {
                 id: id,
                 length: parseInt(length),
@@ -260,7 +260,7 @@ export default {
                     classType: classType,
                     isApproved: true // Assuming all classes are approved by default
                 },
-                instructorId: parseInt(localStorage.getItem('roleId')) // Assuming the instructor ID is 1
+                instructorId: parseInt(sessionStorage.getItem('roleId')) // Assuming the instructor ID is 1
             };
             return sessionDto;
   },

@@ -228,17 +228,17 @@ export default {
     },
     created: function () {
         // Lifecycle hook for initialization logic
-        let whatToLoad = localStorage.getItem('customerVsInstructor');
+        let whatToLoad = sessionStorage.getItem('customerVsInstructor');
         if (whatToLoad == 3){
             this.loadSecondTable = false;
         }
         console.log(this.loadSecondTable);
         console.log(whatToLoad);
-        console.log(localStorage.getItem('personId'));
+        console.log(sessionStorage.getItem('personId'));
         if (whatToLoad === null || whatToLoad == -1 || whatToLoad == 0){this.$router.push('/');}
 
         if (whatToLoad ==2 || whatToLoad == 1){
-            let personId = localStorage.getItem('personId');
+            let personId = sessionStorage.getItem('personId');
             console.log(personId);
             AXIOS.get('/customers/'.concat(personId)).then(ins => {
                 let customerId = ins.data;
@@ -275,11 +275,11 @@ export default {
               else if (whatToLoad == 2){
                 AXIOS.get('/sessions').then(sessions => {
                     console.log('hello');
-                    console.log(localStorage.getItem('roleId'));
+                    console.log(sessionStorage.getItem('roleId'));
                     console.log(sessions.data.length);
                         for (let i = 0; i<sessions.data.length; i++){
-                            console.log(sessions.data[i].instructorId == localStorage.getItem('roleId'));
-                            if (sessions.data[i].instructorId == localStorage.getItem('roleId')){
+                            console.log(sessions.data[i].instructorId == sessionStorage.getItem('roleId'));
+                            if (sessions.data[i].instructorId == sessionStorage.getItem('roleId')){
                                 this.currentRegistrationsToTeach.push(new SessionDto(sessions.data[i].id, sessions.data[i].length, sessions.data[i].startTime, sessions.data[i].endTime, sessions.data[i].date, sessions.data[i].classType.classType, sessions.data[i].instructorId));
                             }
                         }
@@ -289,10 +289,10 @@ export default {
         }
         else{
         this.currentRegistrations = []
-        AXIOS.get('/sessionRegistrations/customers/'.concat(localStorage.getItem('roleId')))
+        AXIOS.get('/sessionRegistrations/customers/'.concat(sessionStorage.getItem('roleId')))
             .then(response => {
                 for (let i = 0; i < response.data.length; i++) {
-                    this.currentRegistrations.push(new SessionRegistrationDTO(response.data[i].id, response.data[i].session.id, response.data[i].session.length, response.data[i].session.startTime, response.data[i].session.endTime, response.data[i].session.date, response.data[i].session.classType.classType, localStorage.getItem('roleId')))
+                    this.currentRegistrations.push(new SessionRegistrationDTO(response.data[i].id, response.data[i].session.id, response.data[i].session.length, response.data[i].session.startTime, response.data[i].session.endTime, response.data[i].session.date, response.data[i].session.classType.classType, sessionStorage.getItem('roleId')))
                 }
                 this.currentRegistrationsToTeach=[];
             }).catch(e => {
@@ -304,12 +304,12 @@ export default {
                 console.log(errorMsg)
             })}
 
-            AXIOS.get('/persons/'.concat(localStorage.getItem('personId'))).then(person => {
+            AXIOS.get('/persons/'.concat(sessionStorage.getItem('personId'))).then(person => {
                 let retrievedPerson = person.data;
                 console.log(retrievedPerson);
                 this.user.email = retrievedPerson.email;
                 this.user.name = retrievedPerson.name;
-                this.user.id = localStorage.getItem('roleId');
+                this.user.id = sessionStorage.getItem('roleId');
                 console.log(this.user.email);
             })
 
@@ -355,7 +355,7 @@ export default {
         },
         fetchRegistrations() {
             // Method to fetch and update current registrations
-            let personId = localStorage.getItem('personId');
+            let personId = sessionStorage.getItem('personId');
             AXIOS.get('/customers/'.concat(personId)).then(ins => {
             let customerId = ins.data;
             this.currentRegistrations = [];

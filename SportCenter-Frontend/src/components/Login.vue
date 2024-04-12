@@ -80,29 +80,29 @@ export default {
             this.credentials.email = '';
         this.credentials.password = '';
             if (response.data !== -1 && response.status===200){
-              localStorage.setItem('customerVsInstructor', response.data)
+              sessionStorage.setItem('customerVsInstructor', response.data)
               AXIOS.get('/personslogin/'.concat(myMap.get('email'))).then(person =>{
                 let id = person.data;
-                localStorage.setItem('personId',id);
+                sessionStorage.setItem('personId',id);
                 console.log(id);
                 if (response.data == 2 ){
                 AXIOS.get('/instructors/'.concat(id)).then(ins => {
-                  localStorage.setItem('roleId',ins.data);
+                  sessionStorage.setItem('roleId',ins.data);
                 })
                 AXIOS.get('/customers/'.concat(id)).then(response => {
-                  localStorage.setItem('instructorsCustomersId', response.data);
+                  sessionStorage.setItem('instructorsCustomersId', response.data);
                 })
               }
               else if (response.data==3){
                 AXIOS.get('/customers/'.concat(id)).then(cust => {
                   
-                  localStorage.setItem('roleId',cust.data);
+                  sessionStorage.setItem('roleId',cust.data);
                 })
-                localStorage.setItem('instructorsCustomersId', -1);
+                sessionStorage.setItem('instructorsCustomersId', -1);
               }
               else if (response.data == 1){
-                localStorage.setItem('roleId',0);
-                localStorage.setItem('instructorsCustomersId', -1);
+                sessionStorage.setItem('roleId',0);
+                sessionStorage.setItem('instructorsCustomersId', -1);
               }
               this.$router.push('/');
               })

@@ -43,24 +43,30 @@ export default {
     },
     methods: {
         checkLoginStatus() {
-            // Updates isLoggedIn and isOwner based on localStorage values
-            this.isLoggedIn = localStorage.getItem('personId')!=-1;
-            this.isOwner = localStorage.getItem('roleId') === '0';
+            // Updates isLoggedIn and isOwner based on sessionStorage values
+            let personId = sessionStorage.getItem('personId');
+            if (personId === null) {
+                this.loggedIn = false;
+            }
+            else {
+            this.isLoggedIn = sessionStorage.getItem('personId')!== '-1';
+            }
+            this.isOwner = sessionStorage.getItem('roleId') === '0';
         },
         logout() {
             console.log("BEFORE")
-            console.log(localStorage.getItem('personId'));
-            console.log(localStorage.getItem('customerVsInstructor'));
-            console.log(localStorage.getItem('roleId'));
-            // Clears localStorage items related to user status and navigates to home page
-            localStorage.setItem('personId',-1);
-            localStorage.setItem('customerVsInstructor',-1);
-            localStorage.setItem('roleId',-1);
+            console.log(sessionStorage.getItem('personId'));
+            console.log(sessionStorage.getItem('customerVsInstructor'));
+            console.log(sessionStorage.getItem('roleId'));
+            // Clears sessionStorage items related to user status and navigates to home page
+            sessionStorage.setItem('personId',-1);
+            sessionStorage.setItem('customerVsInstructor',-1);
+            sessionStorage.setItem('roleId',-1);
             // Update component data to reflect logged-out status
             console.log("AFTER")
-            console.log(localStorage.getItem('personId'));
-            console.log(localStorage.getItem('customerVsInstructor'));
-            console.log(localStorage.getItem('roleId'));
+            console.log(sessionStorage.getItem('personId'));
+            console.log(sessionStorage.getItem('customerVsInstructor'));
+            console.log(sessionStorage.getItem('roleId'));
             this.isLoggedIn = false;
             this.isOwner = false;
             // Redirect to home page
