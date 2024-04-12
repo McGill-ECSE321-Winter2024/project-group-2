@@ -79,21 +79,21 @@ Each part was divided into certain sections in which the team divided into group
 ## Deliverable 3
 | Name                | Individual efforts |
 | ------------------- | -------------------| 
-| Aurelia Bouliane    |                    |
-| Pei Yan Geng        |                    | 
-| Alice Godbout       |                    | 
-| Behrad Rezaie       |                    | 
-| Sebastian Reinhardt |                    |
-| Yuri Sorice         |                    |
+| Aurelia Bouliane    |        37          |
+| Pei Yan Geng        |        38          | 
+| Alice Godbout       |        38          | 
+| Behrad Rezaie       |        40          | 
+| Sebastian Reinhardt |        40          |
+| Yuri Sorice         |        40          |
 
 
 Clicking this [link](https://github.com/McGill-ECSE321-Winter2024/project-group-2/wiki/Deliverable-3) will bring you to the report for deliverable 3.
 
 ### Detailed view of individual roles of the team for deliverable 3:
 
-* **Aurelia**: Write here.
-* **Pei Yan**: Write here.
-* **Alice**: Write here.
-* **Behrad**: Write here.
-* **Sebastian**: Write here.
-* **Yuri**: Write here.
+* **Aurelia**: Backend Revisions, App Design, Frontend GUI, Testing, Documentation.
+* **Pei Yan**: Backend Revisions, App Design, Frontend GUI, Testing, Documentation.
+* **Alice**: Backend Revisions, App Design, Frontend GUI, Testing, Documentation.
+* **Behrad**: Backend Revisions, App Design, Frontend GUI, Testing, Documentation.
+* **Sebastian**: Backend Revisions, App Design, Frontend GUI, Testing, Documentation.
+* **Yuri**: Backend Revisions, App Design, Frontend GUI, Testing, Documentation.
